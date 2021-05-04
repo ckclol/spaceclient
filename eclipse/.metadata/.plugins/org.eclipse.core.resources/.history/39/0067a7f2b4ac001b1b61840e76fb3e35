@@ -1,9 +1,0 @@
-package net.minecraft.client.gui;
-
-public class GuiMods extends GuiScreen {
-
-	public GuiMods(GuiMainMenu guiMainMenu) {
-		// yas
-	}
-
-}
