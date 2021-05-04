@@ -1294,16 +1294,4 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     {
         return null;
     }
-
-	@Override
-	public void sendMessage(String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendMessage(String[] messages) {
-		// TODO Auto-generated method stub
-		
-	}
 }

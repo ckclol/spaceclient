@@ -172,16 +172,4 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
     {
         return new BlockPos(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);
     }
-
-	@Override
-	public void sendMessage(String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendMessage(String[] messages) {
-		// TODO Auto-generated method stub
-		
-	}
 }

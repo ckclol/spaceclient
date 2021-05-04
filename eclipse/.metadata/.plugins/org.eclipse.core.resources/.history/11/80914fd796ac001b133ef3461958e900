@@ -1,0 +1,36 @@
+package client.mod;
+
+import client.mod.hud.HUDManager;
+import client.mod.impl.*;
+
+public class ModInstances {
+	
+	private static ModArmorStatus modArmorStatus;
+
+	
+	public static void register(HUDManager api) {
+		
+		modArmorStatus = new ModArmorStatus();
+		api.register(modArmorStatus);
+		
+		modKeystrokes = new ModKeystrokes();
+		api.register(modKeystrokes);
+		
+		
+		modCPS = new ModCPS();
+		api.register(modCPS);
+		
+		modPerspective = new ModPerspective();
+		api.register(modPerspective);
+
+		glintColor = new ModGlintColor();
+		
+		api.register(new ModTier3Sub());
+		
+	}
+	
+	public static ModExample getModExample() {
+		return modexample;
+	}
+	
+}

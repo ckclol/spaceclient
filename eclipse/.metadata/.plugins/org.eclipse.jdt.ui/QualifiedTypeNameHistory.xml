@@ -1,2 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="client.event.EventTarget"/>
+    <fullyQualifiedTypeName name="net.minecraft.command.CommandBase"/>
+    <fullyQualifiedTypeName name="client.discord.DiscordRP"/>
+    <fullyQualifiedTypeName name="client.event.events.ClientTickEvent"/>
+    <fullyQualifiedTypeName name="net.minecraft.util.ResourceLocation"/>
+    <fullyQualifiedTypeName name="net.minecraft.client.gui.Gui"/>
+    <fullyQualifiedTypeName name="client.cmd.Command"/>
+    <fullyQualifiedTypeName name="client.cmd.CommandManager"/>
+    <fullyQualifiedTypeName name="net.minecraft.client.Minecraft"/>
+    <fullyQualifiedTypeName name="net.minecraft.client.gui.FontRenderer"/>
+    <fullyQualifiedTypeName name="client.ClientMain"/>
+    <fullyQualifiedTypeName name="client.event.EventManager"/>
+    <fullyQualifiedTypeName name="client.util.FileManager"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="com.google.gson.annotations.Expose"/>
+    <fullyQualifiedTypeName name="client.mod.ScreenPosition"/>
+    <fullyQualifiedTypeName name="client.mod.IRenderer"/>
+    <fullyQualifiedTypeName name="client.mod.hud.HUDManager"/>
+    <fullyQualifiedTypeName name="client.mod.ModDraggable"/>
+</qualifiedTypeNameHistroy>

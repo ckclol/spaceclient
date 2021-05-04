@@ -1,0 +1,5 @@
+package client.cmd;
+
+public class CommandManager {
+
+}

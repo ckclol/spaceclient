@@ -1,0 +1,10 @@
+package client;
+
+public class ClientMain {
+
+	public static Object getInstance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

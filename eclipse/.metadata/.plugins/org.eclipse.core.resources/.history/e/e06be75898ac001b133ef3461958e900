@@ -1,0 +1,39 @@
+package client.util;
+
+public enum AlphabletUtil {
+	q(Row.first),
+	w(Row.first),
+	e(Row.first),
+	r(Row.first),
+	t(Row.first),
+	y(Row.first),
+	u(Row.first),
+	i(Row.first),
+	o(Row.first),
+	p(Row.first),
+	a(Row.first),
+	s(Row.first),
+	d(Row.first),
+	f(Row.first),
+	g(Row.first),
+	h(Row.first),
+	j(Row.first),
+	k(Row.first),
+	l(Row.first),
+	z(Row.first),
+	x(Row.first),
+	c(Row.first),
+	v(Row.first),
+	b(Row.first),
+	n(Row.first),
+	m(Row.first);
+
+	public Row row;
+	AlphabletUtil(Row row) {
+		this.row = row;
+	}
+	public Row getRow() {
+		return row;
+		
+	}
+}

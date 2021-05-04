@@ -1,0 +1,10 @@
+package client.util;
+
+public enum Row {
+	f,
+	s,
+	t,
+	f,
+	fi,
+	sixth
+}

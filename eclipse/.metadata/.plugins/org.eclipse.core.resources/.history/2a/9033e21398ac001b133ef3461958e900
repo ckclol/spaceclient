@@ -1,0 +1,34 @@
+package client.util;
+
+public enum AlphabletUtil {
+	q(Row.first),
+	w(Row.first),
+	e(Row.first),
+	r(Row.first),
+	t,
+	y,
+	u,
+	i,
+	o,
+	p,
+	a,
+	s,
+	d,
+	f,
+	g,
+	h,
+	j,
+	k,
+	l,
+	z,
+	x,
+	c,
+	v,
+	b,
+	n,
+	m,;
+
+	AlphabletUtil(Row first) {
+		// TODO Auto-generated constructor stub
+	}
+}

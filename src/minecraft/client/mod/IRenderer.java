@@ -2,21 +2,18 @@ package client.mod;
 
 import client.mod.ScreenPosition;
 
-public interface IRenderer {
-
-
-	int getHeight();
+public interface IRenderer extends IRenderConfig {
 
 	int getWidth();
-
-	void render(ScreenPosition position);
-
-	void renderDummy(ScreenPosition position);
-
-	public default boolean isEnabled(){
-		return true;
+	int getHeight();
+	
+	void render(ScreenPosition pos);
+	
+	default void renderDummy(ScreenPosition pos) {
+		render(pos);
 	}
-	public default void absolutelyuseless() {
-		
+	
+	public default boolean isEnabled() {
+		return true;
 	}
 }

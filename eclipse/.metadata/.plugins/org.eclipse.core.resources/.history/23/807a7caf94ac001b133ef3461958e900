@@ -1,0 +1,93 @@
+package client.cmd;
+
+import client.cmd.impl.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.command.CommandBase;
+import client.ClientMain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CommandManager {
+
+	private static final String PREFIX = "/";
+	
+	private static CommandManager instance;
+	
+	private List<Command> commands = new ArrayList<Command>();
+	
+	public static CommandManager getInstance() {
+		if(instance == null) {
+			instance = new CommandManager();
+		}
+		return instance;
+	}
+	
+	public CommandManager() {
+		register(new Example());
+		commands.add(new Example());
+	}
+	
+	public void register(Command cmd) {
+		commands.add(cmd);
+	}
+	
+	public boolean tryExecute(String in) {
+		
+		for(Command c : commands) {
+			if(in.split(" ")[0].equalsIgnoreCase(PREFIX + c.getName())) {
+				c.execute(Minecraft.getMinecraft().thePlayer, getArgs(in));
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private List<String> getArgs(String text) {
+        
+        final List<String> args = new ArrayList<>();
+
+        final String[] split = text.substring(1).split(" ");
+
+        int beginIndex = 1;
+
+        for (int i = beginIndex; i < split.length; i++){
+            final String arg = split[i];
+
+            if (arg == null)
+                continue;
+
+            args.add(arg);
+        }
+
+        return args;
+    }
+
+	public void onTab(String s, List<String> list) {
+		
+		for(Command cmd : commands) {
+			if (CommandBase.doesStringStartWith(s, cmd.getName()))
+	        {
+	            list.add(cmd.getName());
+	        }
+		}
+		
+		
+	}
+	
+	public static Command findCommand(String text) {
+        final String[] split = seperatePrefix(text).split(" ");
+
+        if (split.length <= 0)
+            return null;
+
+
+        return commands.stream()
+                .filter(cmd -> cmd.getName().equalsIgnoreCase(split[0]))
+                .findFirst()
+                .orElse(null);
+    }
+
+
+}

@@ -1,26 +1,39 @@
 package client.mod;
 
+import client.ClientMain;
+import client.event.EventManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+
 public abstract class Mod {
-   private String name;
-   private boolean eord;
-   private double version;
-   private int prior;
-   public Mod(String name, boolean eord, double version, int prior) {
-   this.name = name;
-   this.eord = eord;
-   this.version = version;
-   this.prior = prior;
-   }
-   public int getPrior() {
-      return this.prior;
-      }
-   public double getVersion() {
-      return this.version;
-      }
-   public boolean getEord() {
-      return this.eord;
-      }
-   public String getName() {
-      return this.name;
-      }
+		private boolean isEnabled = true;
+		
+		protected final Minecraft mc;
+		protected final FontRenderer font;
+		protected final ClientMain client;
+		
+		public Mod() {
+			this.mc = Minecraft.getMinecraft();
+			this.font = this.mc.fontRendererObj;
+			this.client = ClientMain.getInstance();
+			
+			setEnabled(isEnabled);
+		}
+		
+		public void setEnabled(boolean isEnabled) {
+			this.isEnabled = isEnabled;
+			
+			if(isEnabled) {
+				EventManager.register(this);
+			}
+			else {
+				EventManager.unregister(this);
+			}
+			
+		}
+		
+		public boolean isEnabled() {
+			return isEnabled;
+		}
+		
 }

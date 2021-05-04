@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 
-import client.event.events.RenderEvent;
+import client.event.impl.RenderEvent;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;

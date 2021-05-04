@@ -1,0 +1,7 @@
+package client.mod.impl;
+
+import client.mod.ModDraggable;
+
+public class ModExample extends ModDraggable{
+
+}

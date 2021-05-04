@@ -1,0 +1,26 @@
+package client.mod;
+
+import client.mod.hud.HUDManager;
+import client.mod.impl.*;
+
+public class ModInstances {
+	
+	private static ModExample example;
+
+	
+	public static void register(HUDManager api) {
+
+		example = new ModExample();
+		api.register(ex);
+
+		glintColor = new ModGlintColor();
+		
+		api.register(new ModTier3Sub());
+		
+	}
+	
+	public static ModExample getModExample() {
+		return modexample;
+	}
+	
+}

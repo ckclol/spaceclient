@@ -1,5 +1,7 @@
 package net.minecraft.client.entity;
 
+import client.cmd.Command;
+import client.cmd.CommandManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -293,9 +295,15 @@ public class EntityPlayerSP extends AbstractClientPlayer
     /**
      * Sends a chat message from the player. Args: chatMessage
      */
-    public void sendChatMessage(String message)
-    {
-        this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
+    public void sendChatMessage(String message) {
+ 	   if (CommandManager.isCommand(message)) {
+ 		   final Command cmd = CommandManager.findCommand(message);
+ 		   if (cmd.getExecutor() != null){
+ 			   cmd.getExecutor().execute(this, CommandManager.getArgs(message));
+ 		   }
+ 	   } else {
+ 		   this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
+ 	   }
     }
 
     /**
@@ -907,16 +915,5 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.sendPlayerAbilities();
         }
     }
-
-	@Override
-	public void sendMessage(String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendMessage(String[] messages) {
-		// TODO Auto-generated method stub
-		
-	}
 }
+

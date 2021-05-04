@@ -1,0 +1,8 @@
+package client.util;
+
+public enum Row {
+	first,
+	second,
+	third,
+	
+}
