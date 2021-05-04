@@ -1,8 +1,0 @@
-src/minecraft/net/minecraft/world/gen/structure/StructureMineshaftPieces.java:611: error: cannot find symbol
-            for (lvt_5_1_ = 0; k < this.boundingBox.getXSize(); k = k + 4)
-                 ^
-  symbol:   variable lvt_5_1_
-  location: class Room
-Note: Some input files use unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-1 error
