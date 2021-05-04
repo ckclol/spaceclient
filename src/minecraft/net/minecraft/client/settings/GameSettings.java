@@ -65,10 +65,10 @@ public class GameSettings
     public float mouseSensitivity = 0.5F;
     public boolean invertMouse;
     public int renderDistanceChunks = -1;
-    public boolean viewBobbing = true;
+    public boolean viewBobbing = false;
     public boolean anaglyph;
     public boolean fboEnable = true;
-    public int limitFramerate = 120;
+    public int limitFramerate = 10000;
 
     /** Clouds flag */
     public int clouds = 2;
@@ -82,7 +82,7 @@ public class GameSettings
     public boolean chatColours = true;
     public boolean chatLinks = true;
     public boolean chatLinksPrompt = true;
-    public float chatOpacity = 1.0F;
+    public float chatOpacity = 0.0F;
     public boolean snooperEnabled = true;
     public boolean fullScreen;
     public boolean enableVsync = true;
@@ -186,7 +186,7 @@ public class GameSettings
         this.keyBindings = (KeyBinding[])ArrayUtils.addAll(new KeyBinding[] {this.keyBindAttack, this.keyBindUseItem, this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight, this.keyBindJump, this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory, this.keyBindChat, this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand, this.keyBindScreenshot, this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindStreamStartStop, this.keyBindStreamPauseUnpause, this.keyBindStreamCommercials, this.keyBindStreamToggleMic, this.keyBindFullscreen, this.keyBindSpectatorOutlines}, this.keyBindsHotbar);
         this.difficulty = EnumDifficulty.NORMAL;
         this.lastServer = "";
-        this.fovSetting = 70.0F;
+        this.fovSetting = 90.0F;
         this.language = "en_US";
         this.forceUnicodeFont = false;
         this.mc = mcIn;
@@ -267,7 +267,7 @@ public class GameSettings
 
         if (settingsOption == GameSettings.Options.GAMMA)
         {
-            this.gammaSetting = value;
+            this.gammaSetting = 100;
         }
 
         if (settingsOption == GameSettings.Options.FRAMERATE_LIMIT)

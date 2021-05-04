@@ -37,8 +37,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ResourceLocation;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -374,11 +372,6 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     /**
      * Sets the text of the chat
      */
-    public void drawDefaultBackground() {
-    	ScaledResolution scaleRes = new ScaledResolution(this.mc);
-        this.mc.getTextureManager().bindTexture(new ResourceLocation("client/bg.png"));
-        Gui.drawScaledCustomSizeModalRect(0, 0, 0.0F, 0.0F, scaleRes.getScaledWidth(), scaleRes.getScaledHeight(), scaleRes.getScaledWidth(), scaleRes.getScaledHeight(), scaleRes.getScaledWidth(), scaleRes.getScaledHeight());
-    }
     protected void setText(String newChatText, boolean shouldOverwrite)
     {
     }
@@ -668,6 +661,50 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     public void onGuiClosed()
     {
     }
+
+    /**
+     * Draws either a gradient over the background screen (when it exists) or a flat gradient over background.png
+     */
+    public void drawDefaultBackground()
+    {
+        this.drawWorldBackground(0);
+    }
+
+    public void drawWorldBackground(int tint)
+    {
+        if (this.mc.theWorld != null)
+        {
+            this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
+        }
+        else
+        {
+            this.drawBackground(tint);
+        }
+    }
+
+    /**
+     * Draws the background (i is always 0 as of 1.2.2)
+     */
+    public void drawBackground(int tint)
+    {
+        GlStateManager.disableLighting();
+        GlStateManager.disableFog();
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        this.mc.getTextureManager().bindTexture(optionsBackground);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        float f = 32.0F;
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+        worldrenderer.pos(0.0D, (double)this.height, 0.0D).tex(0.0D, (double)((float)this.height / 32.0F + (float)tint)).color(64, 64, 64, 255).endVertex();
+        worldrenderer.pos((double)this.width, (double)this.height, 0.0D).tex((double)((float)this.width / 32.0F), (double)((float)this.height / 32.0F + (float)tint)).color(64, 64, 64, 255).endVertex();
+        worldrenderer.pos((double)this.width, 0.0D, 0.0D).tex((double)((float)this.width / 32.0F), (double)tint).color(64, 64, 64, 255).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, (double)tint).color(64, 64, 64, 255).endVertex();
+        tessellator.draw();
+    }
+
+    /**
+     * Returns true if this GUI should pause the game when it is displayed in single-player
+     */
     public boolean doesGuiPauseGame()
     {
         return true;

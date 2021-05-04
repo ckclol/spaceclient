@@ -6,11 +6,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -30,6 +33,7 @@ import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.io.Charsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.plugins.ResolverUtil.Test;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
@@ -115,7 +119,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         int i = 24;
         int j = this.height / 4 + 48;
         
-        this.addSingleplayerMultiplayerButtons(j, 24);
+        this.addbtns(j, 24);
         this.buttonList.add(new GuiButton(0, this.width / 2 - 200,this.height / 2 + 30, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(4, this.width / 2 - 200, this.height / 2 + 55, 98, 20, I18n.format("menu.quit", new Object[0])));
 
@@ -144,36 +148,38 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         }
     }
 
-    private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_)
+    private void addbtns(int p_73969_1_, int p_73969_2_)
     {
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 200, this.height / 2 - 20, 98, 20, I18n.format("menu.singleplayer", new Object[0])));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 200, this.height / 2 + 5, 98, 20, I18n.format("menu.multiplayer", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 200, this.height / 2 - 20, 96, 20, I18n.format("menu.singleplayer", new Object[0])));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 200, this.height / 2 + 5, 96, 20, I18n.format("menu.multiplayer", new Object[0])));
+        this.buttonList.add(new GuiButton(3, this.width / 2 - 100, this.height / 2 - 20, 96, 20, "Mods"));
+        this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 2 + 5, 96, 20, "Shop"));
     }
     
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        if (button.id == 0)
-        {
-            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
-        }
-
-        if (button.id == 1)
-        {
-            this.mc.displayGuiScreen(new GuiSelectWorld(this));
-        }
-
-        if (button.id == 2)
-        {
-            this.mc.displayGuiScreen(new GuiMultiplayer(this));
-        }
-
-        if (button.id == 4)
-        {
-            this.mc.shutdown();
-        }
-    }
-
-    
+    	int btn = button.id;
+    	switch(btn) {
+    	case 0:
+    		this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+    		break;
+    	case 1:
+    		this.mc.displayGuiScreen(new GuiSelectWorld(this));
+    		break;
+    	case 2:
+    		this.mc.displayGuiScreen(new GuiMultiplayer(this));
+    		break;
+    	case 3:
+    		this.mc.displayGuiScreen(new GuiMods(this));
+    		break;
+    	case 4:
+    		this.mc.shutdown();
+    		break;
+    	case 5:
+    		String url_open ="https://spmc.ml";
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url_open));
+    	}
+    }   
    
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {

@@ -1,22 +1,33 @@
-[18:32:00] [Client thread/INFO]: Setting user: Player988
-[18:32:00] [Client thread/INFO]: (Session ID is token:0:Player988)
-[18:32:03] [Client thread/INFO]: LWJGL Version: 2.9.2
-[18:32:03] [Client thread/INFO]: Reloading ResourceManager: Default
-[18:32:04] [Sound Library Loader/INFO]: Starting up SoundSystem...
-[18:32:04] [Thread-4/INFO]: Initializing LWJGL OpenAL
-[18:32:04] [Thread-4/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[18:32:04] [Thread-4/INFO]: OpenAL initialized.
-[18:32:05] [Sound Library Loader/INFO]: Sound engine started
-[18:32:09] [Client thread/INFO]: Created: 512x512 textures-atlas
-[18:32:34] [Client thread/INFO]: Reloading ResourceManager: Default
-[18:32:35] [Client thread/INFO]: SoundSystem shutting down...
-[18:32:35] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
-[18:32:35] [Sound Library Loader/INFO]: Starting up SoundSystem...
-[18:32:35] [Thread-6/INFO]: Initializing LWJGL OpenAL
-[18:32:35] [Thread-6/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[18:32:35] [Thread-6/INFO]: OpenAL initialized.
-[18:32:35] [Sound Library Loader/INFO]: Sound engine started
-[18:32:36] [Client thread/INFO]: Created: 512x512 textures-atlas
-[18:32:37] [Client thread/INFO]: Stopping!
-[18:32:37] [Client thread/INFO]: SoundSystem shutting down...
-[18:32:37] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+[17:09:52] [Client thread/INFO]: Setting user: Player715
+[17:09:52] [Client thread/INFO]: (Session ID is token:0:Player715)
+[17:09:53] [Client thread/INFO]: LWJGL Version: 2.9.2
+[17:09:53] [Client thread/INFO]: Reloading ResourceManager: Default
+[17:09:54] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[17:09:54] [Thread-6/INFO]: Initializing LWJGL OpenAL
+[17:09:54] [Thread-6/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[17:09:54] [Thread-6/INFO]: OpenAL initialized.
+[17:09:54] [Sound Library Loader/INFO]: Sound engine started
+[17:09:55] [Client thread/INFO]: Created: 512x512 textures-atlas
+[17:10:58] [Server thread/INFO]: Starting integrated minecraft server version 1.8.9
+[17:10:58] [Server thread/INFO]: Generating keypair
+[17:10:58] [Server thread/INFO]: Preparing start region for level 0
+[17:10:59] [Server thread/INFO]: Changing view distance to 16, from 10
+[17:10:59] [Server thread/INFO]: Player715[local:E:064ee41f] logged in with entity id 264 at (466.7737460690811, 70.37798836699763, 170.8864946275314)
+[17:10:59] [Server thread/INFO]: Player715 joined the game
+[17:11:08] [Server thread/INFO]: Saving and pausing game...
+[17:11:08] [Server thread/INFO]: Saving chunks for level 'mcpworld'/Overworld
+[17:11:08] [Server thread/INFO]: Saving chunks for level 'mcpworld'/Nether
+[17:11:08] [Server thread/INFO]: Saving chunks for level 'mcpworld'/The End
+[17:11:19] [Server thread/INFO]: Saving and pausing game...
+[17:11:19] [Server thread/INFO]: Saving chunks for level 'mcpworld'/Overworld
+[17:11:19] [Server thread/INFO]: Saving chunks for level 'mcpworld'/Nether
+[17:11:19] [Server thread/INFO]: Saving chunks for level 'mcpworld'/The End
+[17:11:20] [Server thread/INFO]: Stopping server
+[17:11:20] [Server thread/INFO]: Saving players
+[17:11:20] [Server thread/INFO]: Saving worlds
+[17:11:20] [Server thread/INFO]: Saving chunks for level 'mcpworld'/Overworld
+[17:11:20] [Server thread/INFO]: Saving chunks for level 'mcpworld'/Nether
+[17:11:20] [Server thread/INFO]: Saving chunks for level 'mcpworld'/The End
+[17:11:22] [Client thread/INFO]: Stopping!
+[17:11:22] [Client thread/INFO]: SoundSystem shutting down...
+[17:11:22] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com

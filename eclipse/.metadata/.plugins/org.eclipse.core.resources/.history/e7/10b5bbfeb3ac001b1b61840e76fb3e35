@@ -1,0 +1,9 @@
+package net.minecraft.client.gui;
+
+public class GuiMods extends GuiScreen {
+
+	public GuiMods(GuiMainMenu guiMainMenu) {
+		// TODO Auto-generated constructor stub
+	}
+
+}
