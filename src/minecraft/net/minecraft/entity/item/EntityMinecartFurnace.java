@@ -25,9 +25,9 @@ public class EntityMinecartFurnace extends EntityMinecart
         super(worldIn);
     }
 
-    public EntityMinecartFurnace(World worldIn, double x, double y, double z)
+    public EntityMinecartFurnace(World worldIn, double p_i1719_2_, double p_i1719_4_, double p_i1719_6_)
     {
-        super(worldIn, x, y, z);
+        super(worldIn, p_i1719_2_, p_i1719_4_, p_i1719_6_);
     }
 
     public EntityMinecart.EnumMinecartType getMinecartType()
@@ -74,11 +74,11 @@ public class EntityMinecartFurnace extends EntityMinecart
         return 0.2D;
     }
 
-    public void killMinecart(DamageSource source)
+    public void killMinecart(DamageSource p_94095_1_)
     {
-        super.killMinecart(source);
+        super.killMinecart(p_94095_1_);
 
-        if (!source.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (!p_94095_1_.isExplosion() && this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
         {
             this.entityDropItem(new ItemStack(Blocks.furnace, 1), 0.0F);
         }

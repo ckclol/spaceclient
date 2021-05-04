@@ -15,7 +15,7 @@ public class BuiltInModel implements IBakedModel
         this.cameraTransforms = p_i46086_1_;
     }
 
-    public List<BakedQuad> getFaceQuads(EnumFacing facing)
+    public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_)
     {
         return null;
     }
@@ -40,7 +40,7 @@ public class BuiltInModel implements IBakedModel
         return true;
     }
 
-    public TextureAtlasSprite getParticleTexture()
+    public TextureAtlasSprite getTexture()
     {
         return null;
     }

@@ -190,12 +190,8 @@ public class EntityOcelot extends EntityTameable
 
     /**
      * Drop 0-2 items of this living's type
-     *  
-     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
-     * or tameable)
-     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
     }
 
@@ -323,7 +319,7 @@ public class EntityOcelot extends EntityTameable
         {
             BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
 
-            if (blockpos.getY() < this.worldObj.getSeaLevel())
+            if (blockpos.getY() < this.worldObj.func_181545_F())
             {
                 return false;
             }
@@ -340,11 +336,11 @@ public class EntityOcelot extends EntityTameable
     }
 
     /**
-     * Get the name of this object. For players this returns their username
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
      */
-    public String getName()
+    public String getCommandSenderName()
     {
-        return this.hasCustomName() ? this.getCustomNameTag() : (this.isTamed() ? StatCollector.translateToLocal("entity.Cat.name") : super.getName());
+        return this.hasCustomName() ? this.getCustomNameTag() : (this.isTamed() ? StatCollector.translateToLocal("entity.Cat.name") : super.getCommandSenderName());
     }
 
     public void setTamed(boolean tamed)

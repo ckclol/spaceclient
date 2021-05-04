@@ -98,7 +98,7 @@ public class GuiButtonRealmsProxy extends GuiButton
         return super.getHoverState(p_154312_1_);
     }
 
-    public int getHeight()
+    public int func_175232_g()
     {
         return this.height;
     }

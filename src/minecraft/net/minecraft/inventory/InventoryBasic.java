@@ -13,7 +13,7 @@ public class InventoryBasic implements IInventory
     private String inventoryTitle;
     private int slotsCount;
     private ItemStack[] inventoryContents;
-    private List<IInvBasic> changeListeners;
+    private List<IInvBasic> field_70480_d;
     private boolean hasCustomName;
 
     public InventoryBasic(String title, boolean customName, int slotCount)
@@ -29,33 +29,25 @@ public class InventoryBasic implements IInventory
         this(title.getUnformattedText(), true, slotCount);
     }
 
-    /**
-     * Add a listener that will be notified when any item in this inventory is modified.
-     *  
-     * @param listener the listener to add
-     */
-    public void addInventoryChangeListener(IInvBasic listener)
+    public void func_110134_a(IInvBasic p_110134_1_)
     {
-        if (this.changeListeners == null)
+        if (this.field_70480_d == null)
         {
-            this.changeListeners = Lists.<IInvBasic>newArrayList();
+            this.field_70480_d = Lists.<IInvBasic>newArrayList();
         }
 
-        this.changeListeners.add(listener);
+        this.field_70480_d.add(p_110134_1_);
     }
 
-    /**
-     * removes the specified IInvBasic from receiving further change notices
-     *  
-     * @param listener the listener to remove
-     */
-    public void removeInventoryChangeListener(IInvBasic listener)
+    public void func_110132_b(IInvBasic p_110132_1_)
     {
-        this.changeListeners.remove(listener);
+        this.field_70480_d.remove(p_110132_1_);
     }
 
     /**
      * Returns the stack in the given slot.
+     *  
+     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -64,6 +56,9 @@ public class InventoryBasic implements IInventory
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
+     *  
+     * @param index The slot to remove from.
+     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -139,8 +134,10 @@ public class InventoryBasic implements IInventory
 
     /**
      * Removes a stack from the given slot and returns it.
+     *  
+     * @param index The slot to remove a stack from.
      */
-    public ItemStack removeStackFromSlot(int index)
+    public ItemStack getStackInSlotOnClosing(int index)
     {
         if (this.inventoryContents[index] != null)
         {
@@ -178,9 +175,9 @@ public class InventoryBasic implements IInventory
     }
 
     /**
-     * Get the name of this object. For players this returns their username
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
      */
-    public String getName()
+    public String getCommandSenderName()
     {
         return this.inventoryTitle;
     }
@@ -207,7 +204,7 @@ public class InventoryBasic implements IInventory
      */
     public IChatComponent getDisplayName()
     {
-        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
+        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]));
     }
 
     /**
@@ -224,11 +221,11 @@ public class InventoryBasic implements IInventory
      */
     public void markDirty()
     {
-        if (this.changeListeners != null)
+        if (this.field_70480_d != null)
         {
-            for (int i = 0; i < this.changeListeners.size(); ++i)
+            for (int i = 0; i < this.field_70480_d.size(); ++i)
             {
-                ((IInvBasic)this.changeListeners.get(i)).onInventoryChanged(this);
+                ((IInvBasic)this.field_70480_d.get(i)).onInventoryChanged(this);
             }
         }
     }

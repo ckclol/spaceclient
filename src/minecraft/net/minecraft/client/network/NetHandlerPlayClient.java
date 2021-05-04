@@ -303,7 +303,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
         if (packetIn.getType() == 10)
         {
-            entity = EntityMinecart.getMinecart(this.clientWorldController, d0, d1, d2, EntityMinecart.EnumMinecartType.byNetworkID(packetIn.func_149009_m()));
+            entity = EntityMinecart.func_180458_a(this.clientWorldController, d0, d1, d2, EntityMinecart.EnumMinecartType.byNetworkID(packetIn.func_149009_m()));
         }
         else if (packetIn.getType() == 90)
         {
@@ -760,7 +760,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
         this.clientWorldController.invalidateBlockReceiveRegion(packetIn.getChunkX() << 4, 0, packetIn.getChunkZ() << 4, (packetIn.getChunkX() << 4) + 15, 256, (packetIn.getChunkZ() << 4) + 15);
         Chunk chunk = this.clientWorldController.getChunkFromChunkCoords(packetIn.getChunkX(), packetIn.getChunkZ());
-        chunk.fillChunk(packetIn.getExtractedDataBytes(), packetIn.getExtractedSize(), packetIn.func_149274_i());
+        chunk.fillChunk(packetIn.func_149272_d(), packetIn.getExtractedSize(), packetIn.func_149274_i());
         this.clientWorldController.markBlockRangeForRenderUpdate(packetIn.getChunkX() << 4, 0, packetIn.getChunkZ() << 4, (packetIn.getChunkX() << 4) + 15, 256, (packetIn.getChunkZ() << 4) + 15);
 
         if (!packetIn.func_149274_i() || !(this.clientWorldController.provider instanceof WorldProviderSurface))
@@ -786,6 +786,21 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.netManager.closeChannel(packetIn.getReason());
     }
 
+    /**
+     * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
+     */
+    public void onDisconnect(IChatComponent reason)
+    {
+        this.gameController.loadWorld((WorldClient)null);
+
+        if (this.guiScreenServer != null)
+        {
+        }
+        else
+        {
+            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", reason));
+        }
+    }
 
     public void addToSendQueue(Packet p_147297_1_)
     {
@@ -1010,7 +1025,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             }
             else
             {
-                entity.handleStatusUpdate(packetIn.getOpCode());
+                entity.handleHealthUpdate(packetIn.getOpCode());
             }
         }
     }
@@ -1558,7 +1573,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
             case RESET:
                 this.gameController.ingameGUI.displayTitle("", "", -1, -1, -1);
-                this.gameController.ingameGUI.setDefaultTitlesTimes();
+                this.gameController.ingameGUI.func_175177_a();
                 return;
         }
 
@@ -1569,7 +1584,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         if (!this.netManager.isLocalChannel())
         {
-            this.netManager.setCompressionTreshold(packetIn.getThreshold());
+            this.netManager.setCompressionTreshold(packetIn.func_179760_a());
         }
     }
 
@@ -1595,9 +1610,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
 
-        for (S38PacketPlayerListItem.AddPlayerData s38packetplayerlistitem$addplayerdata : packetIn.getEntries())
+        for (S38PacketPlayerListItem.AddPlayerData s38packetplayerlistitem$addplayerdata : packetIn.func_179767_a())
         {
-            if (packetIn.getAction() == S38PacketPlayerListItem.Action.REMOVE_PLAYER)
+            if (packetIn.func_179768_b() == S38PacketPlayerListItem.Action.REMOVE_PLAYER)
             {
                 this.playerInfoMap.remove(s38packetplayerlistitem$addplayerdata.getProfile().getId());
             }
@@ -1605,7 +1620,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             {
                 NetworkPlayerInfo networkplayerinfo = (NetworkPlayerInfo)this.playerInfoMap.get(s38packetplayerlistitem$addplayerdata.getProfile().getId());
 
-                if (packetIn.getAction() == S38PacketPlayerListItem.Action.ADD_PLAYER)
+                if (packetIn.func_179768_b() == S38PacketPlayerListItem.Action.ADD_PLAYER)
                 {
                     networkplayerinfo = new NetworkPlayerInfo(s38packetplayerlistitem$addplayerdata);
                     this.playerInfoMap.put(networkplayerinfo.getGameProfile().getId(), networkplayerinfo);
@@ -1613,7 +1628,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
                 if (networkplayerinfo != null)
                 {
-                    switch (packetIn.getAction())
+                    switch (packetIn.func_179768_b())
                     {
                         case ADD_PLAYER:
                             networkplayerinfo.setGameType(s38packetplayerlistitem$addplayerdata.getGameMode());
@@ -1926,23 +1941,23 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         Scoreboard scoreboard = this.clientWorldController.getScoreboard();
         ScorePlayerTeam scoreplayerteam;
 
-        if (packetIn.getAction() == 0)
+        if (packetIn.func_149307_h() == 0)
         {
-            scoreplayerteam = scoreboard.createTeam(packetIn.getName());
+            scoreplayerteam = scoreboard.createTeam(packetIn.func_149312_c());
         }
         else
         {
-            scoreplayerteam = scoreboard.getTeam(packetIn.getName());
+            scoreplayerteam = scoreboard.getTeam(packetIn.func_149312_c());
         }
 
-        if (packetIn.getAction() == 0 || packetIn.getAction() == 2)
+        if (packetIn.func_149307_h() == 0 || packetIn.func_149307_h() == 2)
         {
-            scoreplayerteam.setTeamName(packetIn.getDisplayName());
-            scoreplayerteam.setNamePrefix(packetIn.getPrefix());
-            scoreplayerteam.setNameSuffix(packetIn.getSuffix());
-            scoreplayerteam.setChatFormat(EnumChatFormatting.func_175744_a(packetIn.getColor()));
-            scoreplayerteam.func_98298_a(packetIn.getFriendlyFlags());
-            Team.EnumVisible team$enumvisible = Team.EnumVisible.func_178824_a(packetIn.getNameTagVisibility());
+            scoreplayerteam.setTeamName(packetIn.func_149306_d());
+            scoreplayerteam.setNamePrefix(packetIn.func_149311_e());
+            scoreplayerteam.setNameSuffix(packetIn.func_149309_f());
+            scoreplayerteam.setChatFormat(EnumChatFormatting.func_175744_a(packetIn.func_179813_h()));
+            scoreplayerteam.func_98298_a(packetIn.func_149308_i());
+            Team.EnumVisible team$enumvisible = Team.EnumVisible.func_178824_a(packetIn.func_179814_i());
 
             if (team$enumvisible != null)
             {
@@ -1950,23 +1965,23 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             }
         }
 
-        if (packetIn.getAction() == 0 || packetIn.getAction() == 3)
+        if (packetIn.func_149307_h() == 0 || packetIn.func_149307_h() == 3)
         {
-            for (String s : packetIn.getPlayers())
+            for (String s : packetIn.func_149310_g())
             {
-                scoreboard.addPlayerToTeam(s, packetIn.getName());
+                scoreboard.addPlayerToTeam(s, packetIn.func_149312_c());
             }
         }
 
-        if (packetIn.getAction() == 4)
+        if (packetIn.func_149307_h() == 4)
         {
-            for (String s1 : packetIn.getPlayers())
+            for (String s1 : packetIn.func_149310_g())
             {
                 scoreboard.removePlayerFromTeam(s1, scoreplayerteam);
             }
         }
 
-        if (packetIn.getAction() == 1)
+        if (packetIn.func_149307_h() == 1)
         {
             scoreboard.removeTeam(scoreplayerteam);
         }
@@ -2098,10 +2113,4 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         return this.profile;
     }
-
-	@Override
-	public void onDisconnect(IChatComponent reason) {
-		// TODO Auto-generated method stub
-		
-	}
 }

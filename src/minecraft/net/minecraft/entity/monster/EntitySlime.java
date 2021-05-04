@@ -403,9 +403,9 @@ public class EntitySlime extends EntityLiving implements IMob
         private EntitySlime slime;
         private int field_179465_b;
 
-        public AISlimeAttack(EntitySlime slimeIn)
+        public AISlimeAttack(EntitySlime p_i45824_1_)
         {
-            this.slime = slimeIn;
+            this.slime = p_i45824_1_;
             this.setMutexBits(2);
         }
 
@@ -440,9 +440,9 @@ public class EntitySlime extends EntityLiving implements IMob
         private float field_179459_b;
         private int field_179460_c;
 
-        public AISlimeFaceRandom(EntitySlime slimeIn)
+        public AISlimeFaceRandom(EntitySlime p_i45820_1_)
         {
-            this.slime = slimeIn;
+            this.slime = p_i45820_1_;
             this.setMutexBits(2);
         }
 
@@ -467,11 +467,11 @@ public class EntitySlime extends EntityLiving implements IMob
     {
         private EntitySlime slime;
 
-        public AISlimeFloat(EntitySlime slimeIn)
+        public AISlimeFloat(EntitySlime p_i45823_1_)
         {
-            this.slime = slimeIn;
+            this.slime = p_i45823_1_;
             this.setMutexBits(5);
-            ((PathNavigateGround)slimeIn.getNavigator()).setCanSwim(true);
+            ((PathNavigateGround)p_i45823_1_.getNavigator()).setCanSwim(true);
         }
 
         public boolean shouldExecute()
@@ -494,9 +494,9 @@ public class EntitySlime extends EntityLiving implements IMob
     {
         private EntitySlime slime;
 
-        public AISlimeHop(EntitySlime slimeIn)
+        public AISlimeHop(EntitySlime p_i45822_1_)
         {
-            this.slime = slimeIn;
+            this.slime = p_i45822_1_;
             this.setMutexBits(5);
         }
 
@@ -518,10 +518,10 @@ public class EntitySlime extends EntityLiving implements IMob
         private EntitySlime slime;
         private boolean field_179923_j;
 
-        public SlimeMoveHelper(EntitySlime slimeIn)
+        public SlimeMoveHelper(EntitySlime p_i45821_1_)
         {
-            super(slimeIn);
-            this.slime = slimeIn;
+            super(p_i45821_1_);
+            this.slime = p_i45821_1_;
         }
 
         public void func_179920_a(float p_179920_1_, boolean p_179920_2_)

@@ -142,7 +142,7 @@ public class ItemMap extends ItemMapBase
                                                     while (true)
                                                     {
                                                         --k4;
-                                                        iblockstate = chunk.getBlockState(blockpos$mutableblockpos.set(i4 + i3, k4, j4 + j3));
+                                                        iblockstate = chunk.getBlockState(blockpos$mutableblockpos.func_181079_c(i4 + i3, k4, j4 + j3));
 
                                                         if (iblockstate.getBlock().getMapColor(iblockstate) != MapColor.airColor || k4 <= 0)
                                                         {
@@ -282,6 +282,9 @@ public class ItemMap extends ItemMapBase
 
     /**
      * allows items to add custom lines of information to the mouseover description
+     *  
+     * @param tooltip All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
      */
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
     {

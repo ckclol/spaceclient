@@ -29,6 +29,8 @@ public class CommandCompare extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -37,6 +39,9 @@ public class CommandCompare extends CommandBase
 
     /**
      * Callback when the command is invoked
+     *  
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -82,8 +87,8 @@ public class CommandCompare extends CommandBase
                         {
                             for (int l = structureboundingbox.minX; l <= structureboundingbox.maxX; ++l)
                             {
-                                blockpos$mutableblockpos.set(l, k, j);
-                                blockpos$mutableblockpos1.set(l + blockpos3.getX(), k + blockpos3.getY(), j + blockpos3.getZ());
+                                blockpos$mutableblockpos.func_181079_c(l, k, j);
+                                blockpos$mutableblockpos1.func_181079_c(l + blockpos3.getX(), k + blockpos3.getY(), j + blockpos3.getZ());
                                 boolean flag1 = false;
                                 IBlockState iblockstate = world.getBlockState(blockpos$mutableblockpos);
 

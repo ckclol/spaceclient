@@ -26,23 +26,25 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         super(worldIn);
     }
 
-    public EntityMinecartContainer(World worldIn, double x, double y, double z)
+    public EntityMinecartContainer(World worldIn, double p_i1717_2_, double p_i1717_4_, double p_i1717_6_)
     {
-        super(worldIn, x, y, z);
+        super(worldIn, p_i1717_2_, p_i1717_4_, p_i1717_6_);
     }
 
-    public void killMinecart(DamageSource source)
+    public void killMinecart(DamageSource p_94095_1_)
     {
-        super.killMinecart(source);
+        super.killMinecart(p_94095_1_);
 
-        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
         {
-            InventoryHelper.dropInventoryItems(this.worldObj, this, this);
+            InventoryHelper.func_180176_a(this.worldObj, this, this);
         }
     }
 
     /**
      * Returns the stack in the given slot.
+     *  
+     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -51,6 +53,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
+     *  
+     * @param index The slot to remove from.
+     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -82,8 +87,10 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     /**
      * Removes a stack from the given slot and returns it.
+     *  
+     * @param index The slot to remove a stack from.
      */
-    public ItemStack removeStackFromSlot(int index)
+    public ItemStack getStackInSlotOnClosing(int index)
     {
         if (this.minecartContainerItems[index] != null)
         {
@@ -143,9 +150,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     }
 
     /**
-     * Get the name of this object. For players this returns their username
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
      */
-    public String getName()
+    public String getCommandSenderName()
     {
         return this.hasCustomName() ? this.getCustomNameTag() : "container.minecart";
     }
@@ -174,7 +181,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         if (this.dropContentsWhenDead)
         {
-            InventoryHelper.dropInventoryItems(this.worldObj, this, this);
+            InventoryHelper.func_180176_a(this.worldObj, this, this);
         }
 
         super.setDead();

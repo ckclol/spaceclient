@@ -133,7 +133,7 @@ public class EntityBoat extends Entity
                         this.riddenByEntity.mountEntity(this);
                     }
 
-                    if (!flag && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+                    if (!flag && this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
                     {
                         this.dropItemWithOffset(Items.boat, 1, 0.0F);
                     }
@@ -413,7 +413,7 @@ public class EntityBoat extends Entity
                 {
                     this.setDead();
 
-                    if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+                    if (this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
                     {
                         for (int j1 = 0; j1 < 3; ++j1)
                         {
@@ -441,7 +441,7 @@ public class EntityBoat extends Entity
 
             if (d18 * d18 + d21 * d21 > 0.001D)
             {
-                d15 = (double)((float)(MathHelper.atan2(d21, d18) * 180.0D / Math.PI));
+                d15 = (double)((float)(MathHelper.func_181159_b(d21, d18) * 180.0D / Math.PI));
             }
 
             double d23 = MathHelper.wrapAngleTo180_double(d15 - (double)this.rotationYaw);
@@ -540,7 +540,7 @@ public class EntityBoat extends Entity
                 {
                     this.setDead();
 
-                    if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+                    if (this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
                     {
                         for (int i = 0; i < 3; ++i)
                         {

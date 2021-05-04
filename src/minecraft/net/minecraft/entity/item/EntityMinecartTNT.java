@@ -22,9 +22,9 @@ public class EntityMinecartTNT extends EntityMinecart
         super(worldIn);
     }
 
-    public EntityMinecartTNT(World worldIn, double x, double y, double z)
+    public EntityMinecartTNT(World worldIn, double p_i1728_2_, double p_i1728_4_, double p_i1728_6_)
     {
-        super(worldIn, x, y, z);
+        super(worldIn, p_i1728_2_, p_i1728_4_, p_i1728_6_);
     }
 
     public EntityMinecart.EnumMinecartType getMinecartType()
@@ -85,17 +85,17 @@ public class EntityMinecartTNT extends EntityMinecart
         return super.attackEntityFrom(source, amount);
     }
 
-    public void killMinecart(DamageSource source)
+    public void killMinecart(DamageSource p_94095_1_)
     {
-        super.killMinecart(source);
+        super.killMinecart(p_94095_1_);
         double d0 = this.motionX * this.motionX + this.motionZ * this.motionZ;
 
-        if (!source.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (!p_94095_1_.isExplosion() && this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
         {
             this.entityDropItem(new ItemStack(Blocks.tnt, 1), 0.0F);
         }
 
-        if (source.isFireDamage() || source.isExplosion() || d0 >= 0.009999999776482582D)
+        if (p_94095_1_.isFireDamage() || p_94095_1_.isExplosion() || d0 >= 0.009999999776482582D)
         {
             this.explodeCart(d0);
         }
@@ -142,7 +142,7 @@ public class EntityMinecartTNT extends EntityMinecart
         }
     }
 
-    public void handleStatusUpdate(byte id)
+    public void handleHealthUpdate(byte id)
     {
         if (id == 10)
         {
@@ -150,7 +150,7 @@ public class EntityMinecartTNT extends EntityMinecart
         }
         else
         {
-            super.handleStatusUpdate(id);
+            super.handleHealthUpdate(id);
         }
     }
 

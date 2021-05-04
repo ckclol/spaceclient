@@ -38,6 +38,8 @@ public abstract class CommandBase implements ICommand
 
     /**
      * Returns true if the given command sender is allowed to use this command.
+     *  
+     * @param sender The CommandSender
      */
     public boolean canCommandSenderUseCommand(ICommandSender sender)
     {
@@ -229,7 +231,7 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    public static Entity getEntity(ICommandSender p_175768_0_, String p_175768_1_) throws EntityNotFoundException
+    public static Entity func_175768_b(ICommandSender p_175768_0_, String p_175768_1_) throws EntityNotFoundException
     {
         return getEntity(p_175768_0_, p_175768_1_, Entity.class);
     }
@@ -274,14 +276,14 @@ public abstract class CommandBase implements ICommand
 
     public static List<Entity> func_175763_c(ICommandSender p_175763_0_, String p_175763_1_) throws EntityNotFoundException
     {
-        return (List<Entity>)(PlayerSelector.hasArguments(p_175763_1_) ? PlayerSelector.matchEntities(p_175763_0_, p_175763_1_, Entity.class) : Lists.newArrayList(new Entity[] {getEntity(p_175763_0_, p_175763_1_)}));
+        return (List<Entity>)(PlayerSelector.hasArguments(p_175763_1_) ? PlayerSelector.matchEntities(p_175763_0_, p_175763_1_, Entity.class) : Lists.newArrayList(new Entity[] {func_175768_b(p_175763_0_, p_175763_1_)}));
     }
 
     public static String getPlayerName(ICommandSender sender, String query) throws PlayerNotFoundException
     {
         try
         {
-            return getPlayer(sender, query).getName();
+            return getPlayer(sender, query).getCommandSenderName();
         }
         catch (PlayerNotFoundException playernotfoundexception)
         {
@@ -304,13 +306,13 @@ public abstract class CommandBase implements ICommand
     {
         try
         {
-            return getPlayer(p_175758_0_, p_175758_1_).getName();
+            return getPlayer(p_175758_0_, p_175758_1_).getCommandSenderName();
         }
         catch (PlayerNotFoundException var5)
         {
             try
             {
-                return getEntity(p_175758_0_, p_175758_1_).getUniqueID().toString();
+                return func_175768_b(p_175758_0_, p_175758_1_).getUniqueID().toString();
             }
             catch (EntityNotFoundException entitynotfoundexception)
             {
@@ -709,6 +711,9 @@ public abstract class CommandBase implements ICommand
 
     /**
      * Return whether the specified command parameter index is a username parameter.
+     *  
+     * @param args The arguments that were given
+     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

@@ -39,7 +39,7 @@ public class ContainerBrewingStand extends Container
     public void onCraftGuiOpened(ICrafting listener)
     {
         super.onCraftGuiOpened(listener);
-        listener.sendAllWindowProperties(this, this.tileBrewingStand);
+        listener.func_175173_a(this, this.tileBrewingStand);
     }
 
     /**

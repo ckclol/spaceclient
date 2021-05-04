@@ -930,9 +930,9 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             return null;
         }
 
-        public boolean canMergeSlot(ItemStack stack, Slot slotIn)
+        public boolean canMergeSlot(ItemStack stack, Slot p_94530_2_)
         {
-            return slotIn.yDisplayPosition > 90;
+            return p_94530_2_.yDisplayPosition > 90;
         }
 
         public boolean canDragIntoSlot(Slot p_94531_1_)

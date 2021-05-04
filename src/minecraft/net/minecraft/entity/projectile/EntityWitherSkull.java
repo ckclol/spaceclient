@@ -57,7 +57,7 @@ public class EntityWitherSkull extends EntityFireball
         float f = super.getExplosionResistance(explosionIn, worldIn, pos, blockStateIn);
         Block block = blockStateIn.getBlock();
 
-        if (this.isInvulnerable() && EntityWither.canDestroyBlock(block))
+        if (this.isInvulnerable() && EntityWither.func_181033_a(block))
         {
             f = Math.min(0.8F, f);
         }
@@ -113,7 +113,7 @@ public class EntityWitherSkull extends EntityFireball
                 }
             }
 
-            this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, 1.0F, false, this.worldObj.getGameRules().getBoolean("mobGriefing"));
+            this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, 1.0F, false, this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
             this.setDead();
         }
     }

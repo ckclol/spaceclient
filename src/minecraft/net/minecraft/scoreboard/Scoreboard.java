@@ -24,6 +24,8 @@ public class Scoreboard
 
     /**
      * Returns a ScoreObjective for the objective name
+     *  
+     * @param name The objective name
      */
     public ScoreObjective getObjective(String name)
     {
@@ -32,6 +34,9 @@ public class Scoreboard
 
     /**
      * Create and returns the score objective for the given name and ScoreCriteria
+     *  
+     * @param name The ScoreObjective Name
+     * @param criteria The ScoreObjective Criteria
      */
     public ScoreObjective addScoreObjective(String name, IScoreObjectiveCriteria criteria)
     {
@@ -74,6 +79,8 @@ public class Scoreboard
 
     /**
      * Returns if the entity has the given ScoreObjective
+     *  
+     * @param name The Entity name
      */
     public boolean entityHasObjective(String name, ScoreObjective p_178819_2_)
     {
@@ -92,6 +99,9 @@ public class Scoreboard
 
     /**
      * Returns the value of the given objective for the given entity name
+     *  
+     * @param name The entity name
+     * @param objective The ScoreObjective to get the value from
      */
     public Score getValueFromObjective(String name, ScoreObjective objective)
     {
@@ -151,6 +161,9 @@ public class Scoreboard
 
     /**
      * Remove the given ScoreObjective for the given Entity name.
+     *  
+     * @param name The entity Name
+     * @param objective The ScoreObjective
      */
     public void removeObjectiveFromEntity(String name, ScoreObjective objective)
     {
@@ -237,7 +250,7 @@ public class Scoreboard
             map.remove(p_96519_1_);
         }
 
-        this.onScoreObjectiveRemoved(p_96519_1_);
+        this.func_96533_c(p_96519_1_);
     }
 
     /**
@@ -264,24 +277,24 @@ public class Scoreboard
         return (ScorePlayerTeam)this.teams.get(p_96508_1_);
     }
 
-    public ScorePlayerTeam createTeam(String name)
+    public ScorePlayerTeam createTeam(String p_96527_1_)
     {
-        if (name.length() > 16)
+        if (p_96527_1_.length() > 16)
         {
-            throw new IllegalArgumentException("The team name \'" + name + "\' is too long!");
+            throw new IllegalArgumentException("The team name \'" + p_96527_1_ + "\' is too long!");
         }
         else
         {
-            ScorePlayerTeam scoreplayerteam = this.getTeam(name);
+            ScorePlayerTeam scoreplayerteam = this.getTeam(p_96527_1_);
 
             if (scoreplayerteam != null)
             {
-                throw new IllegalArgumentException("A team with the name \'" + name + "\' already exists!");
+                throw new IllegalArgumentException("A team with the name \'" + p_96527_1_ + "\' already exists!");
             }
             else
             {
-                scoreplayerteam = new ScorePlayerTeam(this, name);
-                this.teams.put(name, scoreplayerteam);
+                scoreplayerteam = new ScorePlayerTeam(this, p_96527_1_);
+                this.teams.put(p_96527_1_, scoreplayerteam);
                 this.broadcastTeamCreated(scoreplayerteam);
                 return scoreplayerteam;
             }
@@ -305,6 +318,9 @@ public class Scoreboard
 
     /**
      * Adds a player to the given team
+     *  
+     * @param player The name of the player to add
+     * @param newTeam The name of the team
      */
     public boolean addPlayerToTeam(String player, String newTeam)
     {
@@ -388,11 +404,11 @@ public class Scoreboard
     {
     }
 
-    public void onObjectiveDisplayNameChanged(ScoreObjective p_96532_1_)
+    public void func_96532_b(ScoreObjective p_96532_1_)
     {
     }
 
-    public void onScoreObjectiveRemoved(ScoreObjective p_96533_1_)
+    public void func_96533_c(ScoreObjective p_96533_1_)
     {
     }
 

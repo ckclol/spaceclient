@@ -12,12 +12,12 @@ import net.minecraft.world.World;
 
 public class EntityAIOcelotSit extends EntityAIMoveToBlock
 {
-    private final EntityOcelot ocelot;
+    private final EntityOcelot field_151493_a;
 
-    public EntityAIOcelotSit(EntityOcelot ocelotIn, double p_i45315_2_)
+    public EntityAIOcelotSit(EntityOcelot p_i45315_1_, double p_i45315_2_)
     {
-        super(ocelotIn, p_i45315_2_, 8);
-        this.ocelot = ocelotIn;
+        super(p_i45315_1_, p_i45315_2_, 8);
+        this.field_151493_a = p_i45315_1_;
     }
 
     /**
@@ -25,7 +25,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
      */
     public boolean shouldExecute()
     {
-        return this.ocelot.isTamed() && !this.ocelot.isSitting() && super.shouldExecute();
+        return this.field_151493_a.isTamed() && !this.field_151493_a.isSitting() && super.shouldExecute();
     }
 
     /**
@@ -42,7 +42,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
     public void startExecuting()
     {
         super.startExecuting();
-        this.ocelot.getAISit().setSitting(false);
+        this.field_151493_a.getAISit().setSitting(false);
     }
 
     /**
@@ -51,7 +51,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
     public void resetTask()
     {
         super.resetTask();
-        this.ocelot.setSitting(false);
+        this.field_151493_a.setSitting(false);
     }
 
     /**
@@ -60,15 +60,15 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
     public void updateTask()
     {
         super.updateTask();
-        this.ocelot.getAISit().setSitting(false);
+        this.field_151493_a.getAISit().setSitting(false);
 
         if (!this.getIsAboveDestination())
         {
-            this.ocelot.setSitting(false);
+            this.field_151493_a.setSitting(false);
         }
-        else if (!this.ocelot.isSitting())
+        else if (!this.field_151493_a.isSitting())
         {
-            this.ocelot.setSitting(true);
+            this.field_151493_a.setSitting(true);
         }
     }
 

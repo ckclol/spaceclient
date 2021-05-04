@@ -7,14 +7,14 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S46PacketSetCompressionLevel implements Packet<INetHandlerPlayClient>
 {
-    private int threshold;
+    private int field_179761_a;
 
     /**
      * Reads the raw packet data from the data stream.
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.threshold = buf.readVarIntFromBuffer();
+        this.field_179761_a = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -22,7 +22,7 @@ public class S46PacketSetCompressionLevel implements Packet<INetHandlerPlayClien
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.threshold);
+        buf.writeVarIntToBuffer(this.field_179761_a);
     }
 
     /**
@@ -33,8 +33,8 @@ public class S46PacketSetCompressionLevel implements Packet<INetHandlerPlayClien
         handler.handleSetCompressionLevel(this);
     }
 
-    public int getThreshold()
+    public int func_179760_a()
     {
-        return this.threshold;
+        return this.field_179761_a;
     }
 }

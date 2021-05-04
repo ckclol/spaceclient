@@ -384,6 +384,8 @@ public final class ItemStack
 
     /**
      * Called when a Block is destroyed using this ItemStack
+     *  
+     * @param blockIn The block being destroyed
      */
     public void onBlockDestroyed(World worldIn, Block blockIn, BlockPos pos, EntityPlayer playerIn)
     {
@@ -516,6 +518,8 @@ public final class ItemStack
 
     /**
      * Called when the player releases the use item button. Args: world, entityplayer, itemInUseCount
+     *  
+     * @param timeLeft The amount of ticks left before the using would have been complete
      */
     public void onPlayerStoppedUsing(World worldIn, EntityPlayer playerIn, int timeLeft)
     {
@@ -540,6 +544,9 @@ public final class ItemStack
 
     /**
      * Get an NBTTagCompound from this stack's NBT data.
+     *  
+     * @param key The NBTTagCompound to get
+     * @param create Whether a new, empty compound should be created if none is present yet
      */
     public NBTTagCompound getSubCompound(String key, boolean create)
     {
@@ -757,7 +764,7 @@ public final class ItemStack
 
                 if (attributemodifier.getID() == Item.itemModifierUUID)
                 {
-                    d0 += (double)EnchantmentHelper.getModifierForCreature(this, EnumCreatureAttribute.UNDEFINED);
+                    d0 += (double)EnchantmentHelper.func_152377_a(this, EnumCreatureAttribute.UNDEFINED);
                 }
 
                 double d1;

@@ -2596,7 +2596,8 @@ public class Shaders
         }
     }
 
-    private static int createVertShader(Program program, String filename)
+    @SuppressWarnings("resource")
+	private static int createVertShader(Program program, String filename)
     {
         int i = ARBShaderObjects.glCreateShaderObjectARB(ARBVertexShader.GL_VERTEX_SHADER_ARB);
 
@@ -2700,7 +2701,8 @@ public class Shaders
         }
     }
 
-    private static int createGeomShader(Program program, String filename)
+    @SuppressWarnings("resource")
+	private static int createGeomShader(Program program, String filename)
     {
         int i = ARBShaderObjects.glCreateShaderObjectARB(36313);
 
@@ -2799,7 +2801,8 @@ public class Shaders
         }
     }
 
-    private static int createFragShader(Program program, String filename)
+    @SuppressWarnings("resource")
+	private static int createFragShader(Program program, String filename)
     {
         int i = ARBShaderObjects.glCreateShaderObjectARB(ARBFragmentShader.GL_FRAGMENT_SHADER_ARB);
 

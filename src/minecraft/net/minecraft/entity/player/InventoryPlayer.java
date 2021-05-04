@@ -73,11 +73,11 @@ public class InventoryPlayer implements IInventory
         return -1;
     }
 
-    private int getInventorySlotContainItemAndDamage(Item itemIn, int metadataIn)
+    private int getInventorySlotContainItemAndDamage(Item itemIn, int p_146024_2_)
     {
         for (int i = 0; i < this.mainInventory.length; ++i)
         {
-            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() == itemIn && this.mainInventory[i].getMetadata() == metadataIn)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() == itemIn && this.mainInventory[i].getMetadata() == p_146024_2_)
             {
                 return i;
             }
@@ -118,10 +118,10 @@ public class InventoryPlayer implements IInventory
         return -1;
     }
 
-    public void setCurrentItem(Item itemIn, int metadataIn, boolean isMetaSpecific, boolean p_146030_4_)
+    public void setCurrentItem(Item itemIn, int p_146030_2_, boolean p_146030_3_, boolean p_146030_4_)
     {
         ItemStack itemstack = this.getCurrentItem();
-        int i = isMetaSpecific ? this.getInventorySlotContainItemAndDamage(itemIn, metadataIn) : this.getInventorySlotContainItem(itemIn);
+        int i = p_146030_3_ ? this.getInventorySlotContainItemAndDamage(itemIn, p_146030_2_) : this.getInventorySlotContainItem(itemIn);
 
         if (i >= 0 && i < 9)
         {
@@ -138,7 +138,7 @@ public class InventoryPlayer implements IInventory
 
             if (itemstack == null || !itemstack.isItemEnchantable() || this.getInventorySlotContainItemAndDamage(itemstack.getItem(), itemstack.getItemDamage()) != this.currentItem)
             {
-                int k = this.getInventorySlotContainItemAndDamage(itemIn, metadataIn);
+                int k = this.getInventorySlotContainItemAndDamage(itemIn, p_146030_2_);
                 int l;
 
                 if (k >= 0)
@@ -151,30 +151,27 @@ public class InventoryPlayer implements IInventory
                     l = 1;
                 }
 
-                this.mainInventory[this.currentItem] = new ItemStack(itemIn, l, metadataIn);
+                this.mainInventory[this.currentItem] = new ItemStack(itemIn, l, p_146030_2_);
             }
         }
     }
 
     /**
      * Switch the current item to the next one or the previous one
-     *  
-     * @param direction Direction to switch (1, 0, -1). 1 (any > 0) to select item left of current (decreasing
-     * currentItem index), -1 (any < 0) to select item right of current (increasing currentItem index). 0 has no effect.
      */
-    public void changeCurrentItem(int direction)
+    public void changeCurrentItem(int p_70453_1_)
     {
-        if (direction > 0)
+        if (p_70453_1_ > 0)
         {
-            direction = 1;
+            p_70453_1_ = 1;
         }
 
-        if (direction < 0)
+        if (p_70453_1_ < 0)
         {
-            direction = -1;
+            p_70453_1_ = -1;
         }
 
-        for (this.currentItem -= direction; this.currentItem < 0; this.currentItem += 9)
+        for (this.currentItem -= p_70453_1_; this.currentItem < 0; this.currentItem += 9)
         {
             ;
         }
@@ -471,6 +468,9 @@ public class InventoryPlayer implements IInventory
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
+     *  
+     * @param index The slot to remove from.
+     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -510,8 +510,10 @@ public class InventoryPlayer implements IInventory
 
     /**
      * Removes a stack from the given slot and returns it.
+     *  
+     * @param index The slot to remove a stack from.
      */
-    public ItemStack removeStackFromSlot(int index)
+    public ItemStack getStackInSlotOnClosing(int index)
     {
         ItemStack[] aitemstack = this.mainInventory;
 
@@ -564,10 +566,8 @@ public class InventoryPlayer implements IInventory
     /**
      * Writes the inventory out as a list of compound tags. This is where the slot indices are used (+100 for armor, +80
      * for crafting).
-     *  
-     * @param nbtTagListIn List to append tags to
      */
-    public NBTTagList writeToNBT(NBTTagList nbtTagListIn)
+    public NBTTagList writeToNBT(NBTTagList p_70442_1_)
     {
         for (int i = 0; i < this.mainInventory.length; ++i)
         {
@@ -576,7 +576,7 @@ public class InventoryPlayer implements IInventory
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte)i);
                 this.mainInventory[i].writeToNBT(nbttagcompound);
-                nbtTagListIn.appendTag(nbttagcompound);
+                p_70442_1_.appendTag(nbttagcompound);
             }
         }
 
@@ -587,26 +587,24 @@ public class InventoryPlayer implements IInventory
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setByte("Slot", (byte)(j + 100));
                 this.armorInventory[j].writeToNBT(nbttagcompound1);
-                nbtTagListIn.appendTag(nbttagcompound1);
+                p_70442_1_.appendTag(nbttagcompound1);
             }
         }
 
-        return nbtTagListIn;
+        return p_70442_1_;
     }
 
     /**
      * Reads from the given tag list and fills the slots in the inventory with the correct items.
-     *  
-     * @param nbtTagListIn tagList to read from
      */
-    public void readFromNBT(NBTTagList nbtTagListIn)
+    public void readFromNBT(NBTTagList p_70443_1_)
     {
         this.mainInventory = new ItemStack[36];
         this.armorInventory = new ItemStack[4];
 
-        for (int i = 0; i < nbtTagListIn.tagCount(); ++i)
+        for (int i = 0; i < p_70443_1_.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound = nbtTagListIn.getCompoundTagAt(i);
+            NBTTagCompound nbttagcompound = p_70443_1_.getCompoundTagAt(i);
             int j = nbttagcompound.getByte("Slot") & 255;
             ItemStack itemstack = ItemStack.loadItemStackFromNBT(nbttagcompound);
 
@@ -635,6 +633,8 @@ public class InventoryPlayer implements IInventory
 
     /**
      * Returns the stack in the given slot.
+     *  
+     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -650,9 +650,9 @@ public class InventoryPlayer implements IInventory
     }
 
     /**
-     * Get the name of this object. For players this returns their username
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
      */
-    public String getName()
+    public String getCommandSenderName()
     {
         return "container.inventory";
     }
@@ -670,7 +670,7 @@ public class InventoryPlayer implements IInventory
      */
     public IChatComponent getDisplayName()
     {
-        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
+        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]));
     }
 
     /**
@@ -696,12 +696,10 @@ public class InventoryPlayer implements IInventory
 
     /**
      * returns a player armor item (as itemstack) contained in specified armor slot.
-     *  
-     * @param slotIn the slot index requested
      */
-    public ItemStack armorItemInSlot(int slotIn)
+    public ItemStack armorItemInSlot(int p_70440_1_)
     {
-        return this.armorInventory[slotIn];
+        return this.armorInventory[p_70440_1_];
     }
 
     /**

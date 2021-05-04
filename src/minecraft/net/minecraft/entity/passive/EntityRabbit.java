@@ -214,7 +214,7 @@ public class EntityRabbit extends EntityAnimal
 
     private void calculateRotationYaw(double x, double z)
     {
-        this.rotationYaw = (float)(MathHelper.atan2(z - this.posZ, x - this.posX) * 180.0D / Math.PI) - 90.0F;
+        this.rotationYaw = (float)(MathHelper.func_181159_b(z - this.posZ, x - this.posX) * 180.0D / Math.PI) - 90.0F;
     }
 
     private void func_175518_cr()
@@ -357,14 +357,10 @@ public class EntityRabbit extends EntityAnimal
 
     /**
      * Drop 0-2 items of this living's type
-     *  
-     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
-     * or tameable)
-     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
-        int i = this.rand.nextInt(2) + this.rand.nextInt(1 + lootingModifier);
+        int i = this.rand.nextInt(2) + this.rand.nextInt(1 + p_70628_2_);
 
         for (int j = 0; j < i; ++j)
         {
@@ -488,7 +484,7 @@ public class EntityRabbit extends EntityAnimal
         this.carrotTicks = 100;
     }
 
-    public void handleStatusUpdate(byte id)
+    public void handleHealthUpdate(byte id)
     {
         if (id == 1)
         {
@@ -498,7 +494,7 @@ public class EntityRabbit extends EntityAnimal
         }
         else
         {
-            super.handleStatusUpdate(id);
+            super.handleHealthUpdate(id);
         }
     }
 
@@ -506,10 +502,10 @@ public class EntityRabbit extends EntityAnimal
     {
         private EntityRabbit entityInstance;
 
-        public AIAvoidEntity(EntityRabbit rabbit, Class<T> p_i46403_2_, float p_i46403_3_, double p_i46403_4_, double p_i46403_6_)
+        public AIAvoidEntity(EntityRabbit p_i46403_1_, Class<T> p_i46403_2_, float p_i46403_3_, double p_i46403_4_, double p_i46403_6_)
         {
-            super(rabbit, p_i46403_2_, p_i46403_3_, p_i46403_4_, p_i46403_6_);
-            this.entityInstance = rabbit;
+            super(p_i46403_1_, p_i46403_2_, p_i46403_3_, p_i46403_4_, p_i46403_6_);
+            this.entityInstance = p_i46403_1_;
         }
 
         public void updateTask()
@@ -520,9 +516,9 @@ public class EntityRabbit extends EntityAnimal
 
     static class AIEvilAttack extends EntityAIAttackOnCollide
     {
-        public AIEvilAttack(EntityRabbit rabbit)
+        public AIEvilAttack(EntityRabbit p_i45867_1_)
         {
-            super(rabbit, EntityLivingBase.class, 1.4D, true);
+            super(p_i45867_1_, EntityLivingBase.class, 1.4D, true);
         }
 
         protected double func_179512_a(EntityLivingBase attackTarget)
@@ -535,10 +531,10 @@ public class EntityRabbit extends EntityAnimal
     {
         private EntityRabbit theEntity;
 
-        public AIPanic(EntityRabbit rabbit, double speedIn)
+        public AIPanic(EntityRabbit p_i45861_1_, double speedIn)
         {
-            super(rabbit, speedIn);
-            this.theEntity = rabbit;
+            super(p_i45861_1_, speedIn);
+            this.theEntity = p_i45861_1_;
         }
 
         public void updateTask()
@@ -550,27 +546,27 @@ public class EntityRabbit extends EntityAnimal
 
     static class AIRaidFarm extends EntityAIMoveToBlock
     {
-        private final EntityRabbit rabbit;
+        private final EntityRabbit field_179500_c;
         private boolean field_179498_d;
         private boolean field_179499_e = false;
 
-        public AIRaidFarm(EntityRabbit rabbitIn)
+        public AIRaidFarm(EntityRabbit p_i45860_1_)
         {
-            super(rabbitIn, 0.699999988079071D, 16);
-            this.rabbit = rabbitIn;
+            super(p_i45860_1_, 0.699999988079071D, 16);
+            this.field_179500_c = p_i45860_1_;
         }
 
         public boolean shouldExecute()
         {
             if (this.runDelay <= 0)
             {
-                if (!this.rabbit.worldObj.getGameRules().getBoolean("mobGriefing"))
+                if (!this.field_179500_c.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
                 {
                     return false;
                 }
 
                 this.field_179499_e = false;
-                this.field_179498_d = this.rabbit.isCarrotEaten();
+                this.field_179498_d = this.field_179500_c.isCarrotEaten();
             }
 
             return super.shouldExecute();
@@ -594,11 +590,11 @@ public class EntityRabbit extends EntityAnimal
         public void updateTask()
         {
             super.updateTask();
-            this.rabbit.getLookHelper().setLookPosition((double)this.destinationBlock.getX() + 0.5D, (double)(this.destinationBlock.getY() + 1), (double)this.destinationBlock.getZ() + 0.5D, 10.0F, (float)this.rabbit.getVerticalFaceSpeed());
+            this.field_179500_c.getLookHelper().setLookPosition((double)this.destinationBlock.getX() + 0.5D, (double)(this.destinationBlock.getY() + 1), (double)this.destinationBlock.getZ() + 0.5D, 10.0F, (float)this.field_179500_c.getVerticalFaceSpeed());
 
             if (this.getIsAboveDestination())
             {
-                World world = this.rabbit.worldObj;
+                World world = this.field_179500_c.worldObj;
                 BlockPos blockpos = this.destinationBlock.up();
                 IBlockState iblockstate = world.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
@@ -607,7 +603,7 @@ public class EntityRabbit extends EntityAnimal
                 {
                     world.setBlockState(blockpos, Blocks.air.getDefaultState(), 2);
                     world.destroyBlock(blockpos, true);
-                    this.rabbit.createEatingParticles();
+                    this.field_179500_c.createEatingParticles();
                 }
 
                 this.field_179499_e = false;
@@ -718,10 +714,10 @@ public class EntityRabbit extends EntityAnimal
     {
         private EntityRabbit theEntity;
 
-        public RabbitMoveHelper(EntityRabbit rabbit)
+        public RabbitMoveHelper(EntityRabbit p_i45862_1_)
         {
-            super(rabbit);
-            this.theEntity = rabbit;
+            super(p_i45862_1_);
+            this.theEntity = p_i45862_1_;
         }
 
         public void onUpdateMoveHelper()
