@@ -28,7 +28,6 @@ import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.GuiScreenDemo;
-import net.minecraft.client.gui.GuiScreenRealmsProxy;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -787,29 +786,6 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.netManager.closeChannel(packetIn.getReason());
     }
 
-    /**
-     * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
-     */
-    public void onDisconnect(IChatComponent reason)
-    {
-        this.gameController.loadWorld((WorldClient)null);
-
-        if (this.guiScreenServer != null)
-        {
-            if (this.guiScreenServer instanceof GuiScreenRealmsProxy)
-            {
-                this.gameController.displayGuiScreen((new DisconnectedRealmsScreen(((GuiScreenRealmsProxy)this.guiScreenServer).func_154321_a(), "disconnect.lost", reason)).getProxy());
-            }
-            else
-            {
-                this.gameController.displayGuiScreen(new GuiDisconnected(this.guiScreenServer, "disconnect.lost", reason));
-            }
-        }
-        else
-        {
-            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", reason));
-        }
-    }
 
     public void addToSendQueue(Packet p_147297_1_)
     {
@@ -2122,4 +2098,10 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         return this.profile;
     }
+
+	@Override
+	public void onDisconnect(IChatComponent reason) {
+		// TODO Auto-generated method stub
+		
+	}
 }

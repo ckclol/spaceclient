@@ -907,4 +907,16 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.sendPlayerAbilities();
         }
     }
+
+	@Override
+	public void sendMessage(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendMessage(String[] messages) {
+		// TODO Auto-generated method stub
+		
+	}
 }

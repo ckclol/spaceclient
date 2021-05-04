@@ -74,10 +74,13 @@ import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import client.command.CommandSender;
 
 @SuppressWarnings("incomplete-switch")
-public abstract class EntityPlayer extends EntityLivingBase
-{
+public abstract class EntityPlayer extends EntityLivingBase implements CommandSender{
+    public void sendRawMessage(String message) {
+	}
+    
     /** Inventory of the player */
     public InventoryPlayer inventory = new InventoryPlayer(this);
     private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
@@ -202,9 +205,6 @@ public abstract class EntityPlayer extends EntityLivingBase
         this.dataWatcher.addObject(10, Byte.valueOf((byte)0));
     }
 
-    /**
-     * returns the ItemStack containing the itemInUse
-     */
     public ItemStack getItemInUse()
     {
         return this.itemInUse;

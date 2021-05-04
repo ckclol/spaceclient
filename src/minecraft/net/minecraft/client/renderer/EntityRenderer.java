@@ -3,6 +3,9 @@ package net.minecraft.client.renderer;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+
+import client.event.events.RenderEvent;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.List;
@@ -1223,6 +1226,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     public void renderStreamIndicator(float partialTicks)
     {
+        new RenderEvent().call();
         this.setupOverlayRendering();
         this.mc.ingameGUI.renderStreamIndicator(new ScaledResolution(this.mc));
     }
@@ -1415,7 +1419,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 GlStateManager.enableAlpha();
             }
         }
-
+        
+        new RenderEvent().call();
         GlStateManager.matrixMode(5888);
         GlStateManager.popMatrix();
 

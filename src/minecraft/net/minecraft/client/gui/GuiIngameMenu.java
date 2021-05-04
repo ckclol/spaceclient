@@ -62,8 +62,6 @@ public class GuiIngameMenu extends GuiScreen
                 }
                 else if (flag1)
                 {
-                    RealmsBridge realmsbridge = new RealmsBridge();
-                    realmsbridge.switchToRealms(new GuiMainMenu());
                 }
                 else
                 {
