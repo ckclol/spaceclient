@@ -10,6 +10,8 @@ import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -367,8 +369,10 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+    	ScaledResolution scaleRes = new ScaledResolution(this.mc);
+        this.mc.getTextureManager().bindTexture(new ResourceLocation("client/bg.png"));
+        Gui.drawScaledCustomSizeModalRect(0, 0, 0.0F, 0.0F, scaleRes.getScaledWidth(), scaleRes.getScaledHeight(), scaleRes.getScaledWidth(), scaleRes.getScaledHeight(), scaleRes.getScaledWidth(), scaleRes.getScaledHeight());
         this.hoveringText = null;
-        this.drawDefaultBackground();
         this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title", new Object[0]), this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
