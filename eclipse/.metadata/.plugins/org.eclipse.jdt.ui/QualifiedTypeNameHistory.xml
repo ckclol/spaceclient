@@ -19,4 +19,8 @@
     <fullyQualifiedTypeName name="client.mod.IRenderer"/>
     <fullyQualifiedTypeName name="client.mod.hud.HUDManager"/>
     <fullyQualifiedTypeName name="client.mod.ModDraggable"/>
+    <fullyQualifiedTypeName name="java.util.logging.Level"/>
+    <fullyQualifiedTypeName name="org.apache.logging.log4j.core.config.plugins.ResolverUtil.Test"/>
+    <fullyQualifiedTypeName name="net.minecraft.util.Matrix4f"/>
+    <fullyQualifiedTypeName name="net.minecraft.client.renderer.GLAllocation"/>
 </qualifiedTypeNameHistroy>
