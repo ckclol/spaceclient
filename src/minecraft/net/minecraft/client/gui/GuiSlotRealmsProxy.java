@@ -44,17 +44,17 @@ public class GuiSlotRealmsProxy extends GuiSlot
         this.selectionList.renderItem(entryID, p_180791_2_, p_180791_3_, p_180791_4_, mouseXIn, mouseYIn);
     }
 
-    public int getWidth()
+    public int func_154338_k()
     {
         return super.width;
     }
 
-    public int getMouseY()
+    public int func_154339_l()
     {
         return super.mouseY;
     }
 
-    public int getMouseX()
+    public int func_154337_m()
     {
         return super.mouseX;
     }

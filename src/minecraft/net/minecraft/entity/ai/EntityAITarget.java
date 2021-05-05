@@ -135,6 +135,12 @@ public abstract class EntityAITarget extends EntityAIBase
 
     /**
      * A static method used to see if an entity is a suitable target through a number of checks.
+     *  
+     * @param attacker entity which is attacking
+     * @param target attack target
+     * @param includeInvincibles should ignore {@link net.minecraft.entity.player.EntityPlayer#capabilities
+     * EntityPlayer.capabilities}.{@link net.minecraft.entity.player.PlayerCapabilities#disableDamage disableDamage}
+     * @param checkSight should check if attacker can see target
      */
     public static boolean isSuitableTarget(EntityLiving attacker, EntityLivingBase target, boolean includeInvincibles, boolean checkSight)
     {
@@ -227,13 +233,11 @@ public abstract class EntityAITarget extends EntityAIBase
 
     /**
      * Checks to see if this entity can find a short path to the given target.
-     *  
-     * @param target the entity to find a path to
      */
-    private boolean canEasilyReach(EntityLivingBase target)
+    private boolean canEasilyReach(EntityLivingBase p_75295_1_)
     {
         this.targetSearchDelay = 10 + this.taskOwner.getRNG().nextInt(5);
-        PathEntity pathentity = this.taskOwner.getNavigator().getPathToEntityLiving(target);
+        PathEntity pathentity = this.taskOwner.getNavigator().getPathToEntityLiving(p_75295_1_);
 
         if (pathentity == null)
         {
@@ -249,8 +253,8 @@ public abstract class EntityAITarget extends EntityAIBase
             }
             else
             {
-                int i = pathpoint.xCoord - MathHelper.floor_double(target.posX);
-                int j = pathpoint.zCoord - MathHelper.floor_double(target.posZ);
+                int i = pathpoint.xCoord - MathHelper.floor_double(p_75295_1_.posX);
+                int j = pathpoint.zCoord - MathHelper.floor_double(p_75295_1_.posZ);
                 return (double)(i * i + j * j) <= 2.25D;
             }
         }

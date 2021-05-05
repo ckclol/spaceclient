@@ -46,12 +46,12 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
     private GameProfile loginGameProfile;
     private String serverId = "";
     private SecretKey secretKey;
-    private EntityPlayerMP player;
+    private EntityPlayerMP field_181025_l;
 
-    public NetHandlerLoginServer(MinecraftServer serverIn, NetworkManager networkManagerIn)
+    public NetHandlerLoginServer(MinecraftServer p_i45298_1_, NetworkManager p_i45298_2_)
     {
-        this.server = serverIn;
-        this.networkManager = networkManagerIn;
+        this.server = p_i45298_1_;
+        this.networkManager = p_i45298_2_;
         RANDOM.nextBytes(this.verifyToken);
     }
 
@@ -71,8 +71,8 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
             if (entityplayermp == null)
             {
                 this.currentLoginState = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
-                this.server.getConfigurationManager().initializeConnectionToPlayer(this.networkManager, this.player);
-                this.player = null;
+                this.server.getConfigurationManager().initializeConnectionToPlayer(this.networkManager, this.field_181025_l);
+                this.field_181025_l = null;
             }
         }
 
@@ -131,7 +131,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
             if (entityplayermp != null)
             {
                 this.currentLoginState = NetHandlerLoginServer.LoginState.DELAY_ACCEPT;
-                this.player = this.server.getConfigurationManager().createPlayerForUser(this.loginGameProfile);
+                this.field_181025_l = this.server.getConfigurationManager().createPlayerForUser(this.loginGameProfile);
             }
             else
             {

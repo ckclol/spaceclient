@@ -169,36 +169,36 @@ public class EntitySilverfish extends EntityMob
 
     static class AIHideInStone extends EntityAIWander
     {
-        private final EntitySilverfish silverfish;
+        private final EntitySilverfish field_179485_a;
         private EnumFacing facing;
         private boolean field_179484_c;
 
-        public AIHideInStone(EntitySilverfish silverfishIn)
+        public AIHideInStone(EntitySilverfish p_i45827_1_)
         {
-            super(silverfishIn, 1.0D, 10);
-            this.silverfish = silverfishIn;
+            super(p_i45827_1_, 1.0D, 10);
+            this.field_179485_a = p_i45827_1_;
             this.setMutexBits(1);
         }
 
         public boolean shouldExecute()
         {
-            if (this.silverfish.getAttackTarget() != null)
+            if (this.field_179485_a.getAttackTarget() != null)
             {
                 return false;
             }
-            else if (!this.silverfish.getNavigator().noPath())
+            else if (!this.field_179485_a.getNavigator().noPath())
             {
                 return false;
             }
             else
             {
-                Random random = this.silverfish.getRNG();
+                Random random = this.field_179485_a.getRNG();
 
                 if (random.nextInt(10) == 0)
                 {
                     this.facing = EnumFacing.random(random);
-                    BlockPos blockpos = (new BlockPos(this.silverfish.posX, this.silverfish.posY + 0.5D, this.silverfish.posZ)).offset(this.facing);
-                    IBlockState iblockstate = this.silverfish.worldObj.getBlockState(blockpos);
+                    BlockPos blockpos = (new BlockPos(this.field_179485_a.posX, this.field_179485_a.posY + 0.5D, this.field_179485_a.posZ)).offset(this.facing);
+                    IBlockState iblockstate = this.field_179485_a.worldObj.getBlockState(blockpos);
 
                     if (BlockSilverfish.canContainSilverfish(iblockstate))
                     {
@@ -225,15 +225,15 @@ public class EntitySilverfish extends EntityMob
             }
             else
             {
-                World world = this.silverfish.worldObj;
-                BlockPos blockpos = (new BlockPos(this.silverfish.posX, this.silverfish.posY + 0.5D, this.silverfish.posZ)).offset(this.facing);
+                World world = this.field_179485_a.worldObj;
+                BlockPos blockpos = (new BlockPos(this.field_179485_a.posX, this.field_179485_a.posY + 0.5D, this.field_179485_a.posZ)).offset(this.facing);
                 IBlockState iblockstate = world.getBlockState(blockpos);
 
                 if (BlockSilverfish.canContainSilverfish(iblockstate))
                 {
                     world.setBlockState(blockpos, Blocks.monster_egg.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.forModelBlock(iblockstate)), 3);
-                    this.silverfish.spawnExplosionParticle();
-                    this.silverfish.setDead();
+                    this.field_179485_a.spawnExplosionParticle();
+                    this.field_179485_a.setDead();
                 }
             }
         }
@@ -244,9 +244,9 @@ public class EntitySilverfish extends EntityMob
         private EntitySilverfish silverfish;
         private int field_179463_b;
 
-        public AISummonSilverfish(EntitySilverfish silverfishIn)
+        public AISummonSilverfish(EntitySilverfish p_i45826_1_)
         {
-            this.silverfish = silverfishIn;
+            this.silverfish = p_i45826_1_;
         }
 
         public void func_179462_f()
@@ -283,7 +283,7 @@ public class EntitySilverfish extends EntityMob
 
                             if (iblockstate.getBlock() == Blocks.monster_egg)
                             {
-                                if (world.getGameRules().getBoolean("mobGriefing"))
+                                if (world.getGameRules().getGameRuleBooleanValue("mobGriefing"))
                                 {
                                     world.destroyBlock(blockpos1, true);
                                 }

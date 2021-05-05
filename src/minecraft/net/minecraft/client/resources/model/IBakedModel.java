@@ -8,7 +8,7 @@ import net.minecraft.util.EnumFacing;
 
 public interface IBakedModel
 {
-    List<BakedQuad> getFaceQuads(EnumFacing facing);
+    List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_);
 
     List<BakedQuad> getGeneralQuads();
 
@@ -18,7 +18,7 @@ public interface IBakedModel
 
     boolean isBuiltInRenderer();
 
-    TextureAtlasSprite getParticleTexture();
+    TextureAtlasSprite getTexture();
 
     ItemCameraTransforms getItemCameraTransforms();
 }

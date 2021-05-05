@@ -81,25 +81,25 @@ public class ServerList
     /**
      * Gets the ServerData instance stored for the given index in the list.
      */
-    public ServerData getServerData(int index)
+    public ServerData getServerData(int p_78850_1_)
     {
-        return (ServerData)this.servers.get(index);
+        return (ServerData)this.servers.get(p_78850_1_);
     }
 
     /**
      * Removes the ServerData instance stored for the given index in the list.
      */
-    public void removeServerData(int index)
+    public void removeServerData(int p_78851_1_)
     {
-        this.servers.remove(index);
+        this.servers.remove(p_78851_1_);
     }
 
     /**
      * Adds the given ServerData instance to the list.
      */
-    public void addServerData(ServerData server)
+    public void addServerData(ServerData p_78849_1_)
     {
-        this.servers.add(server);
+        this.servers.add(p_78849_1_);
     }
 
     /**
@@ -121,9 +121,9 @@ public class ServerList
         this.saveServerList();
     }
 
-    public void func_147413_a(int index, ServerData server)
+    public void func_147413_a(int p_147413_1_, ServerData p_147413_2_)
     {
-        this.servers.set(index, server);
+        this.servers.set(p_147413_1_, p_147413_2_);
     }
 
     public static void func_147414_b(ServerData p_147414_0_)

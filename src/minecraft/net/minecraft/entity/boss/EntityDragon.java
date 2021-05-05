@@ -246,7 +246,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
                     d12 = MathHelper.clamp_double(d12, (double)(-f17), (double)f17);
                     this.motionY += d12 * 0.10000000149011612D;
                     this.rotationYaw = MathHelper.wrapAngleTo180_float(this.rotationYaw);
-                    double d4 = 180.0D - MathHelper.atan2(d11, d13) * 180.0D / Math.PI;
+                    double d4 = 180.0D - MathHelper.func_181159_b(d11, d13) * 180.0D / Math.PI;
                     double d6 = MathHelper.wrapAngleTo180_double(d4 - (double)this.rotationYaw);
 
                     if (d6 > 50.0D)
@@ -535,7 +535,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 
                     if (block.getMaterial() != Material.air)
                     {
-                        if (block != Blocks.barrier && block != Blocks.obsidian && block != Blocks.end_stone && block != Blocks.bedrock && block != Blocks.command_block && this.worldObj.getGameRules().getBoolean("mobGriefing"))
+                        if (block != Blocks.barrier && block != Blocks.obsidian && block != Blocks.end_stone && block != Blocks.bedrock && block != Blocks.command_block && this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
                         {
                             flag1 = this.worldObj.setBlockToAir(blockpos) || flag1;
                         }
@@ -626,7 +626,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
             this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX + (double)f, this.posY + 2.0D + (double)f1, this.posZ + (double)f2, 0.0D, 0.0D, 0.0D, new int[0]);
         }
 
-        boolean flag = this.worldObj.getGameRules().getBoolean("doMobLoot");
+        boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot");
 
         if (!this.worldObj.isRemote)
         {
@@ -672,6 +672,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 
     /**
      * Generate the portal when the dragon dies
+     *  
+     * @param pos Position to generate the portal at
      */
     private void generatePortal(BlockPos pos)
     {

@@ -55,7 +55,7 @@ public class EntitySheep extends EntityAnimal
     private int sheepTimer;
     private EntityAIEatGrass entityAIEatGrass = new EntityAIEatGrass(this);
 
-    public static float[] getDyeRgb(EnumDyeColor dyeColor)
+    public static float[] func_175513_a(EnumDyeColor dyeColor)
     {
         return (float[])DYE_TO_RGB.get(dyeColor);
     }
@@ -113,19 +113,15 @@ public class EntitySheep extends EntityAnimal
 
     /**
      * Drop 0-2 items of this living's type
-     *  
-     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
-     * or tameable)
-     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
         if (!this.getSheared())
         {
             this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor().getMetadata()), 0.0F);
         }
 
-        int i = this.rand.nextInt(2) + 1 + this.rand.nextInt(1 + lootingModifier);
+        int i = this.rand.nextInt(2) + 1 + this.rand.nextInt(1 + p_70628_2_);
 
         for (int j = 0; j < i; ++j)
         {
@@ -145,7 +141,7 @@ public class EntitySheep extends EntityAnimal
         return Item.getItemFromBlock(Blocks.wool);
     }
 
-    public void handleStatusUpdate(byte id)
+    public void handleHealthUpdate(byte id)
     {
         if (id == 10)
         {
@@ -153,7 +149,7 @@ public class EntitySheep extends EntityAnimal
         }
         else
         {
-            super.handleStatusUpdate(id);
+            super.handleHealthUpdate(id);
         }
     }
 
@@ -264,6 +260,8 @@ public class EntitySheep extends EntityAnimal
 
     /**
      * Sets the wool color of this sheep
+     *  
+     * @param color The color to make the wool
      */
     public void setFleeceColor(EnumDyeColor color)
     {
@@ -340,6 +338,9 @@ public class EntitySheep extends EntityAnimal
 
     /**
      * Attempts to mix both parent sheep to come up with a mixed dye color.
+     *  
+     * @param father The father sheep
+     * @param mother The mother sheep
      */
     private EnumDyeColor getDyeColorMixFromParents(EntityAnimal father, EntityAnimal mother)
     {

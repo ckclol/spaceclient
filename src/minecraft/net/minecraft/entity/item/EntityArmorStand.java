@@ -188,9 +188,9 @@ public class EntityArmorStand extends EntityLivingBase
         tagCompound.setBoolean("NoGravity", this.hasNoGravity());
         tagCompound.setBoolean("NoBasePlate", this.hasNoBasePlate());
 
-        if (this.hasMarker())
+        if (this.func_181026_s())
         {
-            tagCompound.setBoolean("Marker", this.hasMarker());
+            tagCompound.setBoolean("Marker", this.func_181026_s());
         }
 
         tagCompound.setTag("Pose", this.readPoseFromNBT());
@@ -219,8 +219,8 @@ public class EntityArmorStand extends EntityLivingBase
         this.disabledSlots = tagCompund.getInteger("DisabledSlots");
         this.setNoGravity(tagCompund.getBoolean("NoGravity"));
         this.setNoBasePlate(tagCompund.getBoolean("NoBasePlate"));
-        this.setMarker(tagCompund.getBoolean("Marker"));
-        this.field_181028_bj = !this.hasMarker();
+        this.func_181027_m(tagCompund.getBoolean("Marker"));
+        this.field_181028_bj = !this.func_181026_s();
         this.noClip = this.hasNoGravity();
         NBTTagCompound nbttagcompound = tagCompund.getCompoundTag("Pose");
         this.writePoseToNBT(nbttagcompound);
@@ -228,6 +228,8 @@ public class EntityArmorStand extends EntityLivingBase
 
     /**
      * Saves the pose to an NBTTagCompound.
+     *  
+     * @param tagCompound The tag to save the Pose information to.
      */
     private void writePoseToNBT(NBTTagCompound tagCompound)
     {
@@ -343,7 +345,7 @@ public class EntityArmorStand extends EntityLivingBase
         return false;
     }
 
-    protected void collideWithEntity(Entity entityIn)
+    protected void collideWithEntity(Entity p_82167_1_)
     {
     }
 
@@ -370,7 +372,7 @@ public class EntityArmorStand extends EntityLivingBase
      */
     public boolean interactAt(EntityPlayer player, Vec3 targetVec3)
     {
-        if (this.hasMarker())
+        if (this.func_181026_s())
         {
             return false;
         }
@@ -523,7 +525,7 @@ public class EntityArmorStand extends EntityLivingBase
             this.setDead();
             return false;
         }
-        else if (!this.isEntityInvulnerable(source) && !this.canInteract && !this.hasMarker())
+        else if (!this.isEntityInvulnerable(source) && !this.canInteract && !this.func_181026_s())
         {
             if (source.isExplosion())
             {
@@ -664,7 +666,7 @@ public class EntityArmorStand extends EntityLivingBase
         }
     }
 
-    protected float updateDistance(float p_110146_1_, float p_110146_2_)
+    protected float func_110146_f(float p_110146_1_, float p_110146_2_)
     {
         this.prevRenderYawOffset = this.prevRotationYaw;
         this.renderYawOffset = this.rotationYaw;
@@ -735,7 +737,7 @@ public class EntityArmorStand extends EntityLivingBase
             this.setRightLegRotation(rotations5);
         }
 
-        boolean flag = this.hasMarker();
+        boolean flag = this.func_181026_s();
 
         if (!this.field_181028_bj && flag)
         {
@@ -892,10 +894,7 @@ public class EntityArmorStand extends EntityLivingBase
         return (this.dataWatcher.getWatchableObjectByte(10) & 8) != 0;
     }
 
-    /**
-     * Marker defines where if true, the size is 0 and will not be rendered or intractable.
-     */
-    private void setMarker(boolean p_181027_1_)
+    private void func_181027_m(boolean p_181027_1_)
     {
         byte b0 = this.dataWatcher.getWatchableObjectByte(10);
 
@@ -911,11 +910,7 @@ public class EntityArmorStand extends EntityLivingBase
         this.dataWatcher.updateObject(10, Byte.valueOf(b0));
     }
 
-    /**
-     * Gets whether the armor stand has marker enabled. If true, the armor stand's bounding box is set to zero and
-     * cannot be interacted with.
-     */
-    public boolean hasMarker()
+    public boolean func_181026_s()
     {
         return (this.dataWatcher.getWatchableObjectByte(10) & 16) != 0;
     }
@@ -991,6 +986,6 @@ public class EntityArmorStand extends EntityLivingBase
      */
     public boolean canBeCollidedWith()
     {
-        return super.canBeCollidedWith() && !this.hasMarker();
+        return super.canBeCollidedWith() && !this.func_181026_s();
     }
 }

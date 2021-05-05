@@ -123,16 +123,12 @@ public class EntitySpider extends EntityMob
 
     /**
      * Drop 0-2 items of this living's type
-     *  
-     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
-     * or tameable)
-     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
-        super.dropFewItems(wasRecentlyHit, lootingModifier);
+        super.dropFewItems(p_70628_1_, p_70628_2_);
 
-        if (wasRecentlyHit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + lootingModifier) > 0))
+        if (p_70628_1_ && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + p_70628_2_) > 0))
         {
             this.dropItem(Items.spider_eye, 1);
         }
@@ -242,9 +238,9 @@ public class EntitySpider extends EntityMob
 
     static class AISpiderAttack extends EntityAIAttackOnCollide
     {
-        public AISpiderAttack(EntitySpider spider, Class <? extends Entity > targetClass)
+        public AISpiderAttack(EntitySpider p_i45819_1_, Class <? extends Entity > targetClass)
         {
-            super(spider, targetClass, 1.0D, true);
+            super(p_i45819_1_, targetClass, 1.0D, true);
         }
 
         public boolean continueExecuting()
@@ -270,9 +266,9 @@ public class EntitySpider extends EntityMob
 
     static class AISpiderTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget
     {
-        public AISpiderTarget(EntitySpider spider, Class<T> classTarget)
+        public AISpiderTarget(EntitySpider p_i45818_1_, Class<T> classTarget)
         {
-            super(spider, classTarget, true);
+            super(p_i45818_1_, classTarget, true);
         }
 
         public boolean shouldExecute()

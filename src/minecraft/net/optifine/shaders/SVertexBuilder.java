@@ -32,9 +32,9 @@ public class SVertexBuilder
         this.entityData[this.entityDataIndex] = 0L;
     }
 
-    public static void initVertexBuilder(WorldRenderer wrr)
+    public static void initVertexBuilder(WorldRenderer worldRenderer)
     {
-        wrr.sVertexBuilder = new SVertexBuilder();
+        worldRenderer.sVertexBuilder = new SVertexBuilder();
     }
 
     public void pushEntity(long data)

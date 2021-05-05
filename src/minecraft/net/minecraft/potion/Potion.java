@@ -125,7 +125,7 @@ public class Potion
         return (Potion)field_180150_I.get(new ResourceLocation(location));
     }
 
-    public static Set<ResourceLocation> getPotionLocations()
+    public static Set<ResourceLocation> func_181168_c()
     {
         return field_180150_I.keySet();
     }

@@ -61,28 +61,26 @@ public class PlayerControllerMP
     /** Index of the current item held by the player in the inventory hotbar */
     private int currentPlayerItem;
 
-    public PlayerControllerMP(Minecraft mcIn, NetHandlerPlayClient netHandler)
+    public PlayerControllerMP(Minecraft mcIn, NetHandlerPlayClient p_i45062_2_)
     {
         this.mc = mcIn;
-        this.netClientHandler = netHandler;
+        this.netClientHandler = p_i45062_2_;
     }
 
-    public static void clickBlockCreative(Minecraft mcIn, PlayerControllerMP playerController, BlockPos pos, EnumFacing facing)
+    public static void clickBlockCreative(Minecraft mcIn, PlayerControllerMP p_178891_1_, BlockPos p_178891_2_, EnumFacing p_178891_3_)
     {
-        if (!mcIn.theWorld.extinguishFire(mcIn.thePlayer, pos, facing))
+        if (!mcIn.theWorld.extinguishFire(mcIn.thePlayer, p_178891_2_, p_178891_3_))
         {
-            playerController.onPlayerDestroyBlock(pos, facing);
+            p_178891_1_.onPlayerDestroyBlock(p_178891_2_, p_178891_3_);
         }
     }
 
     /**
      * Sets player capabilities depending on current gametype. params: player
-     *  
-     * @param player The player's instance
      */
-    public void setPlayerCapabilities(EntityPlayer player)
+    public void setPlayerCapabilities(EntityPlayer p_78748_1_)
     {
-        this.currentGameType.configurePlayerCapabilities(player.capabilities);
+        this.currentGameType.configurePlayerCapabilities(p_78748_1_.capabilities);
     }
 
     /**
@@ -95,12 +93,10 @@ public class PlayerControllerMP
 
     /**
      * Sets the game type for the player.
-     *  
-     * @param type The GameType to set
      */
-    public void setGameType(WorldSettings.GameType type)
+    public void setGameType(WorldSettings.GameType p_78746_1_)
     {
-        this.currentGameType = type;
+        this.currentGameType = p_78746_1_;
         this.currentGameType.configurePlayerCapabilities(this.mc.thePlayer.capabilities);
     }
 
@@ -119,6 +115,9 @@ public class PlayerControllerMP
 
     /**
      * Called when a player completes the destruction of a block
+     *  
+     * @param pos The block's coordinates
+     * @param side The side it was destroyed from
      */
     public boolean onPlayerDestroyBlock(BlockPos pos, EnumFacing side)
     {
@@ -194,6 +193,9 @@ public class PlayerControllerMP
 
     /**
      * Called when the player is hitting a block with an item.
+     *  
+     * @param loc location of the block being clicked
+     * @param face Blockface being clicked
      */
     public boolean clickBlock(BlockPos loc, EnumFacing face)
     {
@@ -484,9 +486,9 @@ public class PlayerControllerMP
         }
     }
 
-    public EntityPlayerSP func_178892_a(World worldIn, StatFileWriter statWriter)
+    public EntityPlayerSP func_178892_a(World worldIn, StatFileWriter p_178892_2_)
     {
-        return new EntityPlayerSP(this.mc, worldIn, this.netClientHandler, statWriter);
+        return new EntityPlayerSP(this.mc, worldIn, this.netClientHandler, p_178892_2_);
     }
 
     /**
@@ -513,19 +515,12 @@ public class PlayerControllerMP
         return this.currentGameType != WorldSettings.GameType.SPECTATOR && playerIn.interactWith(targetEntity);
     }
 
-    /**
-     * Return true when the player rightclick on an entity
-     *  
-     * @param player The player's instance
-     * @param entityIn The entity clicked
-     * @param movingObject The object clicked
-     */
-    public boolean isPlayerRightClickingOnEntity(EntityPlayer player, Entity entityIn, MovingObjectPosition movingObject)
+    public boolean func_178894_a(EntityPlayer p_178894_1_, Entity p_178894_2_, MovingObjectPosition p_178894_3_)
     {
         this.syncCurrentPlayItem();
-        Vec3 vec3 = new Vec3(movingObject.hitVec.xCoord - entityIn.posX, movingObject.hitVec.yCoord - entityIn.posY, movingObject.hitVec.zCoord - entityIn.posZ);
-        this.netClientHandler.addToSendQueue(new C02PacketUseEntity(entityIn, vec3));
-        return this.currentGameType != WorldSettings.GameType.SPECTATOR && entityIn.interactAt(player, vec3);
+        Vec3 vec3 = new Vec3(p_178894_3_.hitVec.xCoord - p_178894_2_.posX, p_178894_3_.hitVec.yCoord - p_178894_2_.posY, p_178894_3_.hitVec.zCoord - p_178894_2_.posZ);
+        this.netClientHandler.addToSendQueue(new C02PacketUseEntity(p_178894_2_, vec3));
+        return this.currentGameType != WorldSettings.GameType.SPECTATOR && p_178894_2_.interactAt(p_178894_1_, vec3);
     }
 
     /**
@@ -542,13 +537,10 @@ public class PlayerControllerMP
     /**
      * GuiEnchantment uses this during multiplayer to tell PlayerControllerMP to send a packet indicating the
      * enchantment action the player has taken.
-     *  
-     * @param windowID The ID of the current window
-     * @param button The button id (enchantment selected)
      */
-    public void sendEnchantPacket(int windowID, int button)
+    public void sendEnchantPacket(int p_78756_1_, int p_78756_2_)
     {
-        this.netClientHandler.addToSendQueue(new C11PacketEnchantItem(windowID, button));
+        this.netClientHandler.addToSendQueue(new C11PacketEnchantItem(p_78756_1_, p_78756_2_));
     }
 
     /**
@@ -627,10 +619,7 @@ public class PlayerControllerMP
         return this.currentGameType;
     }
 
-    /**
-     * Return isHittingBlock
-     */
-    public boolean getIsHittingBlock()
+    public boolean func_181040_m()
     {
         return this.isHittingBlock;
     }

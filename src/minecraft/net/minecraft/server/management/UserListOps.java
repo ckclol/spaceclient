@@ -29,10 +29,10 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry>
         return astring;
     }
 
-    public boolean bypassesPlayerLimit(GameProfile profile)
+    public boolean func_183026_b(GameProfile p_183026_1_)
     {
-        UserListOpsEntry userlistopsentry = (UserListOpsEntry)this.getEntry(profile);
-        return userlistopsentry != null ? userlistopsentry.bypassesPlayerLimit() : false;
+        UserListOpsEntry userlistopsentry = (UserListOpsEntry)this.getEntry(p_183026_1_);
+        return userlistopsentry != null ? userlistopsentry.func_183024_b() : false;
     }
 
     /**
@@ -45,6 +45,8 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry>
 
     /**
      * Gets the GameProfile of based on the provided username.
+     *  
+     * @param username The username to match to a GameProfile
      */
     public GameProfile getGameProfileFromName(String username)
     {

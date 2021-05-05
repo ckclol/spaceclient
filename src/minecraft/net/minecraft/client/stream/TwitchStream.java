@@ -79,7 +79,7 @@ public class TwitchStream implements BroadcastController.BroadcastListener, Chat
         this.mc = mcIn;
         this.broadcastController = new BroadcastController();
         this.chatController = new ChatController();
-        this.broadcastController.setBroadcastListener(this);
+        this.broadcastController.func_152841_a(this);
         this.chatController.func_152990_a(this);
         this.broadcastController.func_152842_a("nmt37qblda36pvonovdkbopzfzw3wlq");
         this.chatController.func_152984_a("nmt37qblda36pvonovdkbopzfzw3wlq");
@@ -241,11 +241,11 @@ public class TwitchStream implements BroadcastController.BroadcastListener, Chat
                 GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, 9729.0F);
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-                worldrenderer.pos(0.0D, (double)f1, 0.0D).tex(0.0D, (double)f3).endVertex();
-                worldrenderer.pos((double)f, (double)f1, 0.0D).tex((double)f2, (double)f3).endVertex();
-                worldrenderer.pos((double)f, 0.0D, 0.0D).tex((double)f2, 0.0D).endVertex();
-                worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0.0D).endVertex();
+                worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g);
+                worldrenderer.func_181662_b(0.0D, (double)f1, 0.0D).func_181673_a(0.0D, (double)f3).func_181675_d();
+                worldrenderer.func_181662_b((double)f, (double)f1, 0.0D).func_181673_a((double)f2, (double)f3).func_181675_d();
+                worldrenderer.func_181662_b((double)f, 0.0D, 0.0D).func_181673_a((double)f2, 0.0D).func_181675_d();
+                worldrenderer.func_181662_b(0.0D, 0.0D, 0.0D).func_181673_a(0.0D, 0.0D).func_181675_d();
                 tessellator.draw();
                 framebuffer1.unbindFramebufferTexture();
                 GlStateManager.popMatrix();
@@ -279,7 +279,7 @@ public class TwitchStream implements BroadcastController.BroadcastListener, Chat
     {
         if (this.isBroadcasting() && this.field_152957_i)
         {
-            long i = this.broadcastController.getStreamTime();
+            long i = this.broadcastController.func_152844_x();
 
             if (!this.broadcastController.func_152840_a(p_152911_1_.func_152810_c(), i + p_152911_2_, p_152911_1_.func_152809_a(), p_152911_1_.func_152806_b()))
             {
@@ -296,7 +296,7 @@ public class TwitchStream implements BroadcastController.BroadcastListener, Chat
     {
         if (this.isBroadcasting() && this.field_152957_i)
         {
-            long i = this.broadcastController.getStreamTime();
+            long i = this.broadcastController.func_152844_x();
             String s = p_176026_1_.func_152809_a();
             String s1 = p_176026_1_.func_152806_b();
             long j = this.broadcastController.func_177946_b(p_176026_1_.func_152810_c(), i + p_176026_2_, s, s1);
@@ -398,7 +398,7 @@ public class TwitchStream implements BroadcastController.BroadcastListener, Chat
             {
                 if (ingestserver.serverUrl.equals(gamesettings.streamPreferredServer))
                 {
-                    this.broadcastController.setIngestServer(ingestserver);
+                    this.broadcastController.func_152824_a(ingestserver);
                     break;
                 }
             }
@@ -407,7 +407,7 @@ public class TwitchStream implements BroadcastController.BroadcastListener, Chat
         this.targetFPS = videoparams.targetFps;
         this.field_152957_i = gamesettings.streamSendMetadata;
         this.broadcastController.func_152836_a(videoparams);
-        LOGGER.info(STREAM_MARKER, "Streaming at {}/{} at {} kbps to {}", new Object[] {Integer.valueOf(videoparams.outputWidth), Integer.valueOf(videoparams.outputHeight), Integer.valueOf(videoparams.maxKbps), this.broadcastController.getIngestServer().serverUrl});
+        LOGGER.info(STREAM_MARKER, "Streaming at {}/{} at {} kbps to {}", new Object[] {Integer.valueOf(videoparams.outputWidth), Integer.valueOf(videoparams.outputHeight), Integer.valueOf(videoparams.maxKbps), this.broadcastController.func_152833_s().serverUrl});
         this.broadcastController.func_152828_a((String)null, "Minecraft", (String)null);
     }
 
@@ -532,7 +532,7 @@ public class TwitchStream implements BroadcastController.BroadcastListener, Chat
 
     public IngestServer[] func_152925_v()
     {
-        return this.broadcastController.getIngestList().getServers();
+        return this.broadcastController.func_152855_t().getServers();
     }
 
     public void func_152909_x()

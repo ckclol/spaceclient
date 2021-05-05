@@ -30,7 +30,7 @@ public abstract class ModelBase
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
+    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
     {
     }
 
@@ -60,6 +60,9 @@ public abstract class ModelBase
     /**
      * Copies the angles from one object to another. This is used when objects should stay aligned with each other, like
      * the hair over a players head.
+     *  
+     * @param source the object that is used for reference
+     * @param dest the object that is updated with the new values
      */
     public static void copyModelAngles(ModelRenderer source, ModelRenderer dest)
     {

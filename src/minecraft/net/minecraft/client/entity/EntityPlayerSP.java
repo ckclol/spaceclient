@@ -1,7 +1,5 @@
 package net.minecraft.client.entity;
 
-import client.cmd.Command;
-import client.cmd.CommandManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -294,16 +292,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     /**
      * Sends a chat message from the player. Args: chatMessage
+     *  
+     * @param message used on EntityPlayerSP.sendChatMessage - as inbound message
      */
-    public void sendChatMessage(String message) {
- 	   if (CommandManager.isCommand(message)) {
- 		   final Command cmd = CommandManager.findCommand(message);
- 		   if (cmd.getExecutor() != null){
- 			   cmd.getExecutor().execute(this, CommandManager.getArgs(message));
- 		   }
- 	   } else {
- 		   this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
- 	   }
+    public void sendChatMessage(String message)
+    {
+        this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }
 
     /**
@@ -539,6 +533,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     /**
      * Send a chat message to the CommandSender
+     *  
+     * @param component The ChatComponent to send
      */
     public void addChatMessage(IChatComponent component)
     {
@@ -547,6 +543,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
+     *  
+     * @param permLevel The permission level required to execute the command
+     * @param commandName The name of the command
      */
     public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {
@@ -916,4 +915,3 @@ public class EntityPlayerSP extends AbstractClientPlayer
         }
     }
 }
-

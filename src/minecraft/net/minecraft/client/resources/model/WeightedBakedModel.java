@@ -23,9 +23,9 @@ public class WeightedBakedModel implements IBakedModel
         this.baseModel = ((WeightedBakedModel.MyWeighedRandomItem)p_i46073_1_.get(0)).model;
     }
 
-    public List<BakedQuad> getFaceQuads(EnumFacing facing)
+    public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_)
     {
-        return this.baseModel.getFaceQuads(facing);
+        return this.baseModel.getFaceQuads(p_177551_1_);
     }
 
     public List<BakedQuad> getGeneralQuads()
@@ -48,9 +48,9 @@ public class WeightedBakedModel implements IBakedModel
         return this.baseModel.isBuiltInRenderer();
     }
 
-    public TextureAtlasSprite getParticleTexture()
+    public TextureAtlasSprite getTexture()
     {
-        return this.baseModel.getParticleTexture();
+        return this.baseModel.getTexture();
     }
 
     public ItemCameraTransforms getItemCameraTransforms()

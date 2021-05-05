@@ -276,7 +276,7 @@ public class ShadersTex
         TextureMap texturemap = (TextureMap)tm.getTexture(resLoc);
         Shaders.atlasSizeX = texturemap.atlasWidth;
         Shaders.atlasSizeY = texturemap.atlasHeight;
-        bindTextures(updatingTex = texturemap.getMultiTexID());
+        bindTextures(updatingTex = (texturemap).getMultiTexID());
     }
 
     public static void bindTextures(int baseTex)

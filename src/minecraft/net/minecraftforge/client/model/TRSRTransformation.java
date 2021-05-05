@@ -1,6 +1,6 @@
 package net.minecraftforge.client.model;
 
-import javax.vecmath.Matrix4f;
+import net.minecraft.util.Matrix4f;
 import org.apache.commons.lang3.NotImplementedException;
 
 public class TRSRTransformation

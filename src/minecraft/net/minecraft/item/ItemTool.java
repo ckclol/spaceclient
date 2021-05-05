@@ -32,14 +32,17 @@ public class ItemTool extends Item
         this.setCreativeTab(CreativeTabs.tabTools);
     }
 
-    public float getStrVsBlock(ItemStack stack, Block state)
+    public float getStrVsBlock(ItemStack stack, Block block)
     {
-        return this.effectiveBlocks.contains(state) ? this.efficiencyOnProperMaterial : 1.0F;
+        return this.effectiveBlocks.contains(block) ? this.efficiencyOnProperMaterial : 1.0F;
     }
 
     /**
      * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
      * the damage on the stack.
+     *  
+     * @param target The Entity being hit
+     * @param attacker the attacking entity
      */
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
@@ -91,6 +94,9 @@ public class ItemTool extends Item
 
     /**
      * Return whether this item is repairable in an anvil.
+     *  
+     * @param toRepair The ItemStack to be repaired
+     * @param repair The ItemStack that should repair this Item (leather for leather armor, etc.)
      */
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {

@@ -102,14 +102,14 @@ public class EntityIronGolem extends EntityGolem
         return p_70682_1_;
     }
 
-    protected void collideWithEntity(Entity entityIn)
+    protected void collideWithEntity(Entity p_82167_1_)
     {
-        if (entityIn instanceof IMob && !(entityIn instanceof EntityCreeper) && this.getRNG().nextInt(20) == 0)
+        if (p_82167_1_ instanceof IMob && !(p_82167_1_ instanceof EntityCreeper) && this.getRNG().nextInt(20) == 0)
         {
-            this.setAttackTarget((EntityLivingBase)entityIn);
+            this.setAttackTarget((EntityLivingBase)p_82167_1_);
         }
 
-        super.collideWithEntity(entityIn);
+        super.collideWithEntity(p_82167_1_);
     }
 
     /**
@@ -187,7 +187,7 @@ public class EntityIronGolem extends EntityGolem
         return flag;
     }
 
-    public void handleStatusUpdate(byte id)
+    public void handleHealthUpdate(byte id)
     {
         if (id == 4)
         {
@@ -200,7 +200,7 @@ public class EntityIronGolem extends EntityGolem
         }
         else
         {
-            super.handleStatusUpdate(id);
+            super.handleHealthUpdate(id);
         }
     }
 
@@ -243,12 +243,8 @@ public class EntityIronGolem extends EntityGolem
 
     /**
      * Drop 0-2 items of this living's type
-     *  
-     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
-     * or tameable)
-     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
         int i = this.rand.nextInt(3);
 
@@ -296,7 +292,7 @@ public class EntityIronGolem extends EntityGolem
     {
         if (!this.isPlayerCreated() && this.attackingPlayer != null && this.villageObj != null)
         {
-            this.villageObj.setReputationForPlayer(this.attackingPlayer.getName(), -5);
+            this.villageObj.setReputationForPlayer(this.attackingPlayer.getCommandSenderName(), -5);
         }
 
         super.onDeath(cause);

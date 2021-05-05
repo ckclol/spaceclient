@@ -55,9 +55,9 @@ public class ResourcePackRepository
     public final IMetadataSerializer rprMetadataSerializer;
     private IResourcePack resourcePackInstance;
     private final ReentrantLock lock = new ReentrantLock();
-    private ListenableFuture<Object> downloadingPacks;
+    private ListenableFuture<Object> field_177322_i;
     private List<ResourcePackRepository.Entry> repositoryEntriesAll = Lists.<ResourcePackRepository.Entry>newArrayList();
-    private List<ResourcePackRepository.Entry> repositoryEntries = Lists.<ResourcePackRepository.Entry>newArrayList();
+    public List<ResourcePackRepository.Entry> repositoryEntries = Lists.<ResourcePackRepository.Entry>newArrayList();
 
     public ResourcePackRepository(File dirResourcepacksIn, File dirServerResourcepacksIn, IResourcePack rprDefaultResourcePackIn, IMetadataSerializer rprMetadataSerializerIn, GameSettings settings)
     {
@@ -77,7 +77,7 @@ public class ResourcePackRepository
             {
                 if (resourcepackrepository$entry.getResourcePackName().equals(s))
                 {
-                    if (resourcepackrepository$entry.func_183027_f() == 1 || settings.incompatibleResourcePacks.contains(resourcepackrepository$entry.getResourcePackName()))
+                    if (resourcepackrepository$entry.func_183027_f() == 1 || settings.field_183018_l.contains(resourcepackrepository$entry.getResourcePackName()))
                     {
                         this.repositoryEntries.add(resourcepackrepository$entry);
                         break;
@@ -125,7 +125,7 @@ public class ResourcePackRepository
                     resourcepackrepository$entry.updateResourcePack();
                     list.add(resourcepackrepository$entry);
                 }
-                catch (Exception var6)
+                catch (Exception var61)
                 {
                     list.remove(resourcepackrepository$entry);
                 }
@@ -161,10 +161,10 @@ public class ResourcePackRepository
         return ImmutableList.copyOf(this.repositoryEntries);
     }
 
-    public void setRepositories(List<ResourcePackRepository.Entry> repositories)
+    public void setRepositories(List<ResourcePackRepository.Entry> p_148527_1_)
     {
         this.repositoryEntries.clear();
-        this.repositoryEntries.addAll(repositories);
+        this.repositoryEntries.addAll(p_148527_1_);
     }
 
     public File getDirResourcepacks()
@@ -190,7 +190,7 @@ public class ResourcePackRepository
 
         try
         {
-            this.clearResourcePack();
+            this.func_148529_f();
 
             if (file1.exists() && hash.length() == 40)
             {
@@ -200,8 +200,9 @@ public class ResourcePackRepository
 
                     if (s1.equals(hash))
                     {
-                        ListenableFuture listenablefuture1 = this.setResourcePackInstance(file1);
-                        return listenablefuture1;
+                        ListenableFuture listenablefuture2 = this.setResourcePackInstance(file1);
+                        ListenableFuture listenablefuture3 = listenablefuture2;
+                        return listenablefuture3;
                     }
 
                     logger.warn("File " + file1 + " had wrong hash (expected " + hash + ", found " + s1 + "). Deleting it.");
@@ -214,7 +215,7 @@ public class ResourcePackRepository
                 }
             }
 
-            this.deleteOldServerResourcesPacks();
+            this.func_183028_i();
             final GuiScreenWorking guiscreenworking = new GuiScreenWorking();
             Map<String, String> map = Minecraft.getSessionInfo();
             final Minecraft minecraft = Minecraft.getMinecraft();
@@ -226,8 +227,8 @@ public class ResourcePackRepository
                 }
             }));
             final SettableFuture<Object> settablefuture = SettableFuture.<Object>create();
-            this.downloadingPacks = HttpUtil.downloadResourcePack(file1, url, map, 52428800, guiscreenworking, minecraft.getProxy());
-            Futures.addCallback(this.downloadingPacks, new FutureCallback<Object>()
+            this.field_177322_i = HttpUtil.downloadResourcePack(file1, url, map, 52428800, guiscreenworking, minecraft.getProxy());
+            Futures.addCallback(this.field_177322_i, new FutureCallback<Object>()
             {
                 public void onSuccess(Object p_onSuccess_1_)
                 {
@@ -239,8 +240,9 @@ public class ResourcePackRepository
                     settablefuture.setException(p_onFailure_1_);
                 }
             });
-            ListenableFuture listenablefuture = this.downloadingPacks;
-            return listenablefuture;
+            ListenableFuture listenablefuture = this.field_177322_i;
+            ListenableFuture listenablefuture11 = listenablefuture;
+            return listenablefuture11;
         }
         finally
         {
@@ -248,10 +250,7 @@ public class ResourcePackRepository
         }
     }
 
-    /**
-     * Keep only the 10 most recent resources packs, delete the others
-     */
-    private void deleteOldServerResourcesPacks()
+    private void func_183028_i()
     {
         List<File> list = Lists.newArrayList(FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, (IOFileFilter)null));
         Collections.sort(list, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
@@ -267,9 +266,9 @@ public class ResourcePackRepository
         }
     }
 
-    public ListenableFuture<Object> setResourcePackInstance(File resourceFile)
+    public ListenableFuture<Object> setResourcePackInstance(File p_177319_1_)
     {
-        this.resourcePackInstance = new FileResourcePack(resourceFile);
+        this.resourcePackInstance = new FileResourcePack(p_177319_1_);
         return Minecraft.getMinecraft().scheduleResourcesRefresh();
     }
 
@@ -281,18 +280,18 @@ public class ResourcePackRepository
         return this.resourcePackInstance;
     }
 
-    public void clearResourcePack()
+    public void func_148529_f()
     {
         this.lock.lock();
 
         try
         {
-            if (this.downloadingPacks != null)
+            if (this.field_177322_i != null)
             {
-                this.downloadingPacks.cancel(true);
+                this.field_177322_i.cancel(true);
             }
 
-            this.downloadingPacks = null;
+            this.field_177322_i = null;
 
             if (this.resourcePackInstance != null)
             {

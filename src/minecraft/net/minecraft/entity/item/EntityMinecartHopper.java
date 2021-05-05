@@ -28,9 +28,9 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         super(worldIn);
     }
 
-    public EntityMinecartHopper(World worldIn, double x, double y, double z)
+    public EntityMinecartHopper(World worldIn, double p_i1721_2_, double p_i1721_4_, double p_i1721_6_)
     {
-        super(worldIn, x, y, z);
+        super(worldIn, p_i1721_2_, p_i1721_4_, p_i1721_6_);
     }
 
     public EntityMinecart.EnumMinecartType getMinecartType()
@@ -182,11 +182,11 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         }
     }
 
-    public void killMinecart(DamageSource source)
+    public void killMinecart(DamageSource p_94095_1_)
     {
-        super.killMinecart(source);
+        super.killMinecart(p_94095_1_);
 
-        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
         {
             this.dropItemWithOffset(Item.getItemFromBlock(Blocks.hopper), 1, 0.0F);
         }

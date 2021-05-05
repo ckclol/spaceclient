@@ -31,7 +31,7 @@ public class ItemArmor extends Item
             int j = blockpos.getY();
             int k = blockpos.getZ();
             AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)i, (double)j, (double)k, (double)(i + 1), (double)(j + 1), (double)(k + 1));
-            List<EntityLivingBase> list = source.getWorld().<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, Predicates.<EntityLivingBase>and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
+            List<EntityLivingBase> list = source.getWorld().<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, Predicates.<EntityLivingBase> and (EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
 
             if (list.size() > 0)
             {
@@ -209,6 +209,9 @@ public class ItemArmor extends Item
 
     /**
      * Return whether this item is repairable in an anvil.
+     *  
+     * @param toRepair The ItemStack to be repaired
+     * @param repair The ItemStack that should repair this Item (leather for leather armor, etc.)
      */
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {

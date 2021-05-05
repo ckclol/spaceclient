@@ -318,18 +318,14 @@ public class EntityEnderman extends EntityMob
 
     /**
      * Drop 0-2 items of this living's type
-     *  
-     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
-     * or tameable)
-     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
         Item item = this.getDropItem();
 
         if (item != null)
         {
-            int i = this.rand.nextInt(2 + lootingModifier);
+            int i = this.rand.nextInt(2 + p_70628_2_);
 
             for (int j = 0; j < i; ++j)
             {
@@ -555,7 +551,7 @@ public class EntityEnderman extends EntityMob
 
         public boolean shouldExecute()
         {
-            return !this.enderman.worldObj.getGameRules().getBoolean("mobGriefing") ? false : (this.enderman.getHeldBlockState().getBlock().getMaterial() == Material.air ? false : this.enderman.getRNG().nextInt(2000) == 0);
+            return !this.enderman.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing") ? false : (this.enderman.getHeldBlockState().getBlock().getMaterial() == Material.air ? false : this.enderman.getRNG().nextInt(2000) == 0);
         }
 
         public void updateTask()
@@ -593,7 +589,7 @@ public class EntityEnderman extends EntityMob
 
         public boolean shouldExecute()
         {
-            return !this.enderman.worldObj.getGameRules().getBoolean("mobGriefing") ? false : (this.enderman.getHeldBlockState().getBlock().getMaterial() != Material.air ? false : this.enderman.getRNG().nextInt(20) == 0);
+            return !this.enderman.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing") ? false : (this.enderman.getHeldBlockState().getBlock().getMaterial() != Material.air ? false : this.enderman.getRNG().nextInt(20) == 0);
         }
 
         public void updateTask()
