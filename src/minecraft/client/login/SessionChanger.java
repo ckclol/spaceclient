@@ -1,3 +1,5 @@
+package client.login;
+
 import java.util.UUID;
 
 import com.mojang.authlib.Agent;
