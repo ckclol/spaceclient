@@ -11,7 +11,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
@@ -68,16 +67,12 @@ public class CryptManager
 
     /**
      * Compute a serverId hash for use by sendSessionRequest()
-     *  
-     * @param serverId The server ID
-     * @param publicKey The public key
-     * @param secretKey The secret key
      */
     public static byte[] getServerIdHash(String serverId, PublicKey publicKey, SecretKey secretKey)
     {
         try
         {
-            return digestOperation("SHA-1", new byte[][] {serverId.getBytes("ISO_8859_1"), secretKey.getEncoded(), publicKey.getEncoded()});
+            return digestOperation("SHA-1", serverId.getBytes("ISO_8859_1"), secretKey.getEncoded(), publicKey.getEncoded());
         }
         catch (UnsupportedEncodingException unsupportedencodingexception)
         {
@@ -88,9 +83,6 @@ public class CryptManager
 
     /**
      * Compute a message digest on arbitrary byte[] data
-     *  
-     * @param algorithm The name of the algorithm
-     * @param data The data
      */
     private static byte[] digestOperation(String algorithm, byte[]... data)
     {
@@ -114,8 +106,6 @@ public class CryptManager
 
     /**
      * Create a new PublicKey from encoded X.509 data
-     *  
-     * @param encodedKey The key, encoded to the X.509 standard
      */
     public static PublicKey decodePublicKey(byte[] encodedKey)
     {
@@ -140,9 +130,6 @@ public class CryptManager
 
     /**
      * Decrypt shared secret AES key using RSA private key
-     *  
-     * @param key The encryption key
-     * @param secretKeyEncrypted The encrypted secret key
      */
     public static SecretKey decryptSharedKey(PrivateKey key, byte[] secretKeyEncrypted)
     {
@@ -151,9 +138,6 @@ public class CryptManager
 
     /**
      * Encrypt byte[] data with RSA public key
-     *  
-     * @param key The encryption key
-     * @param data The data
      */
     public static byte[] encryptData(Key key, byte[] data)
     {
@@ -162,9 +146,6 @@ public class CryptManager
 
     /**
      * Decrypt byte[] data with RSA private key
-     *  
-     * @param key The encryption key
-     * @param data The data
      */
     public static byte[] decryptData(Key key, byte[] data)
     {
@@ -173,11 +154,6 @@ public class CryptManager
 
     /**
      * Encrypt or decrypt byte[] data using the specified key
-     *  
-     * @param opMode The operation mode of the cipher. (this is one of the following: Cipher.ENCRYPT_MODE,
-     * Cipher.DECRYPT_MODE, Cipher.WRAP_MODE or Cipher.UNWRAP_MODE)
-     * @param key The encryption key
-     * @param data The data
      */
     private static byte[] cipherOperation(int opMode, Key key, byte[] data)
     {
@@ -200,11 +176,6 @@ public class CryptManager
 
     /**
      * Creates the Cipher Instance.
-     *  
-     * @param opMode The operation mode of the cipher. (this is one of the following: Cipher.ENCRYPT_MODE,
-     * Cipher.DECRYPT_MODE, Cipher.WRAP_MODE or Cipher.UNWRAP_MODE)
-     * @param transformation The name of the transformation, e.g. DES/CBC/PKCS5Padding.
-     * @param key The encryption key
      */
     private static Cipher createTheCipherInstance(int opMode, String transformation, Key key)
     {
@@ -233,17 +204,13 @@ public class CryptManager
 
     /**
      * Creates an Cipher instance using the AES/CFB8/NoPadding algorithm. Used for protocol encryption.
-     *  
-     * @param opMode The operation mode of the cipher. (this is one of the following: Cipher.ENCRYPT_MODE,
-     * Cipher.DECRYPT_MODE, Cipher.WRAP_MODE or Cipher.UNWRAP_MODE)
-     * @param key The encryption key
      */
     public static Cipher createNetCipherInstance(int opMode, Key key)
     {
         try
         {
             Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
-            cipher.init(opMode, (Key)key, (AlgorithmParameterSpec)(new IvParameterSpec(key.getEncoded())));
+            cipher.init(opMode, key, new IvParameterSpec(key.getEncoded()));
             return cipher;
         }
         catch (GeneralSecurityException generalsecurityexception)

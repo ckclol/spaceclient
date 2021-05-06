@@ -25,12 +25,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T>
     }
 
     /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doe
-     *  
-     * @param entityYaw The yaw rotation of the passed entity
+     * Renders the desired {@code T} type Entity.
      */
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
@@ -45,7 +40,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T>
         double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)partialTicks;
         double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks;
         double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)partialTicks;
-        double d3 = 0.30000001192092896D;
+        double d3 = (double)0.3F;
         Vec3 vec3 = entity.func_70489_a(d0, d1, d2);
         float f3 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
 

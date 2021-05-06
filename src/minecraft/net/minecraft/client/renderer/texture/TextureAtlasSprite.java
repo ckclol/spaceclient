@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import net.minecraft.client.resources.IResourceManager;
@@ -23,7 +22,7 @@ import net.optifine.util.TextureUtils;
 public class TextureAtlasSprite
 {
     private final String iconName;
-    protected List<int[][]> framesTextureData = Lists.<int[][]>newArrayList();
+    protected List<int[][]> framesTextureData = Lists.newArrayList();
     protected int[][] interpolatedFrameData;
     private AnimationMetadataSection animationMetadata;
     protected boolean rotated;
@@ -93,8 +92,8 @@ public class TextureAtlasSprite
         this.originX = originInX;
         this.originY = originInY;
         this.rotated = rotatedIn;
-        float f = (float)(0.009999999776482582D / (double)inX);
-        float f1 = (float)(0.009999999776482582D / (double)inY);
+        float f = (float)((double)0.01F / (double)inX);
+        float f1 = (float)((double)0.01F / (double)inY);
         this.minU = (float)originInX / (float)((double)inX) + f;
         this.maxU = (float)(originInX + this.width) / (float)((double)inX) - f;
         this.minV = (float)originInY / (float)inY + f1;
@@ -261,7 +260,7 @@ public class TextureAtlasSprite
 
                 if (i != k && k >= 0 && k < this.framesTextureData.size())
                 {
-                    TextureUtil.uploadTextureMipmap((int[][])((int[][])this.framesTextureData.get(k)), this.width, this.height, this.originX, this.originY, flag, flag1);
+                    TextureUtil.uploadTextureMipmap(this.framesTextureData.get(k), this.width, this.height, this.originX, this.originY, flag, flag1);
                 }
             }
             else if (this.animationMetadata.isInterpolate())
@@ -285,8 +284,8 @@ public class TextureAtlasSprite
 
         if (i != k && k >= 0 && k < this.framesTextureData.size())
         {
-            int[][] aint = (int[][])((int[][])this.framesTextureData.get(i));
-            int[][] aint1 = (int[][])((int[][])this.framesTextureData.get(k));
+            int[][] aint = this.framesTextureData.get(i);
+            int[][] aint1 = this.framesTextureData.get(k);
 
             if (this.interpolatedFrameData == null || this.interpolatedFrameData.length != aint.length)
             {
@@ -320,7 +319,7 @@ public class TextureAtlasSprite
 
     public int[][] getFrameTextureData(int index)
     {
-        return (int[][])((int[][])this.framesTextureData.get(index));
+        return this.framesTextureData.get(index);
     }
 
     public int getFrameCount()
@@ -377,7 +376,7 @@ public class TextureAtlasSprite
 
                 if (k > 0 && (bufferedimage.getWidth() != i >> k || bufferedimage.getHeight() != j >> k))
                 {
-                    throw new RuntimeException(String.format("Unable to load miplevel: %d, image is size: %dx%d, expected %dx%d", new Object[] {Integer.valueOf(k), Integer.valueOf(bufferedimage.getWidth()), Integer.valueOf(bufferedimage.getHeight()), Integer.valueOf(i >> k), Integer.valueOf(j >> k)}));
+                    throw new RuntimeException(String.format("Unable to load miplevel: %d, image is size: %dx%d, expected %dx%d", k, bufferedimage.getWidth(), bufferedimage.getHeight(), i >> k, j >> k));
                 }
 
                 aint[k] = new int[bufferedimage.getWidth() * bufferedimage.getHeight()];
@@ -403,12 +402,8 @@ public class TextureAtlasSprite
 
             if (meta.getFrameCount() > 0)
             {
-                Iterator iterator = meta.getFrameIndexSet().iterator();
-
-                while (iterator.hasNext())
+                for (int i1 : meta.getFrameIndexSet())
                 {
-                    int i1 = ((Integer)iterator.next()).intValue();
-
                     if (i1 >= j1)
                     {
                         throw new RuntimeException("invalid frameindex " + i1);
@@ -422,7 +417,7 @@ public class TextureAtlasSprite
             }
             else
             {
-                List<AnimationFrame> list = Lists.<AnimationFrame>newArrayList();
+                List<AnimationFrame> list = Lists.newArrayList();
 
                 for (int j2 = 0; j2 < j1; ++j2)
                 {
@@ -443,7 +438,7 @@ public class TextureAtlasSprite
 
             for (int k1 = 0; k1 < this.framesTextureData.size(); ++k1)
             {
-                int[][] aint1 = (int[][])((int[][])this.framesTextureData.get(k1));
+                int[][] aint1 = this.framesTextureData.get(k1);
 
                 if (aint1 != null && !this.iconName.startsWith("minecraft:blocks/leaves_"))
                 {
@@ -464,11 +459,11 @@ public class TextureAtlasSprite
 
     public void generateMipmaps(int level)
     {
-        List<int[][]> list = Lists.<int[][]>newArrayList();
+        List<int[][]> list = Lists.newArrayList();
 
         for (int i = 0; i < this.framesTextureData.size(); ++i)
         {
-            final int[][] aint = (int[][])((int[][])this.framesTextureData.get(i));
+            final int[][] aint = this.framesTextureData.get(i);
 
             if (aint != null)
             {
@@ -480,7 +475,7 @@ public class TextureAtlasSprite
                 {
                     CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Generating mipmaps for frame");
                     CrashReportCategory crashreportcategory = crashreport.makeCategory("Frame being iterated");
-                    crashreportcategory.addCrashSection("Frame index", Integer.valueOf(i));
+                    crashreportcategory.addCrashSection("Frame index", i);
                     crashreportcategory.addCrashSectionCallable("Frame sizes", new Callable<String>()
                     {
                         public String call() throws Exception
@@ -494,7 +489,7 @@ public class TextureAtlasSprite
                                     stringbuilder.append(", ");
                                 }
 
-                                stringbuilder.append(aint1 == null ? "null" : Integer.valueOf(aint1.length));
+                                stringbuilder.append(aint1 == null ? "null" : aint1.length);
                             }
 
                             return stringbuilder.toString();
@@ -519,7 +514,7 @@ public class TextureAtlasSprite
         {
             for (int i = this.framesTextureData.size(); i <= index; ++i)
             {
-                this.framesTextureData.add((int[][])((int[][])null));
+                this.framesTextureData.add((int[][])null);
             }
         }
 
@@ -575,7 +570,7 @@ public class TextureAtlasSprite
     private void resetSprite()
     {
         this.animationMetadata = null;
-        this.setFramesTextureData(Lists.<int[][]>newArrayList());
+        this.setFramesTextureData(Lists.newArrayList());
         this.frameCounter = 0;
         this.tickCounter = 0;
 
@@ -587,7 +582,7 @@ public class TextureAtlasSprite
 
     public String toString()
     {
-        return "TextureAtlasSprite{name=\'" + this.iconName + '\'' + ", frameCount=" + this.framesTextureData.size() + ", rotated=" + this.rotated + ", x=" + this.originX + ", y=" + this.originY + ", height=" + this.height + ", width=" + this.width + ", u0=" + this.minU + ", u1=" + this.maxU + ", v0=" + this.minV + ", v1=" + this.maxV + '}';
+        return "TextureAtlasSprite{name='" + this.iconName + '\'' + ", frameCount=" + this.framesTextureData.size() + ", rotated=" + this.rotated + ", x=" + this.originX + ", y=" + this.originY + ", height=" + this.height + ", width=" + this.width + ", u0=" + this.minU + ", u1=" + this.maxU + ", v0=" + this.minV + ", v1=" + this.maxV + '}';
     }
 
     public boolean hasCustomLoader(IResourceManager p_hasCustomLoader_1_, ResourceLocation p_hasCustomLoader_2_)
@@ -741,7 +736,7 @@ public class TextureAtlasSprite
 
     public List<int[][]> getFramesTextureData()
     {
-        List<int[][]> list = new ArrayList();
+        List<int[][]> list = new ArrayList<>();
         list.addAll(this.framesTextureData);
         return list;
     }

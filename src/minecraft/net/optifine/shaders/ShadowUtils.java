@@ -16,7 +16,7 @@ public class ShadowUtils
     {
         float f = Shaders.getShadowRenderDistance();
 
-        if (f > 0.0F && f < (float)((renderDistanceChunks - 1) * 16))
+        if (!(f <= 0.0F) && !(f >= (float)((renderDistanceChunks - 1) * 16)))
         {
             int i = MathHelper.ceiling_float_int(f / 16.0F) + 1;
             float f6 = world.getCelestialAngleRadians((float)partialTicks);
@@ -33,7 +33,7 @@ public class ShadowUtils
         }
         else
         {
-            List<RenderChunk> list = Arrays.<RenderChunk>asList(viewFrustum.renderChunks);
+            List<RenderChunk> list = Arrays.asList(viewFrustum.renderChunks);
             Iterator<RenderChunk> iterator = list.iterator();
             return iterator;
         }

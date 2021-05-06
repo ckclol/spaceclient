@@ -165,8 +165,6 @@ public class StructureBoundingBox
 
     /**
      * Checks if given Vec3i is inside of StructureBoundingBox
-     *  
-     * @param vec The vector
      */
     public boolean isVecInside(Vec3i vec)
     {

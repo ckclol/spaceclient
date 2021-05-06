@@ -48,8 +48,6 @@ public class EnchantmentLootBonus extends Enchantment
 
     /**
      * Determines if the enchantment passed can be applyied together with this enchantment.
-     *  
-     * @param ench A possible enchantment that may be applied along side this enchantment, depending on the results.
      */
     public boolean canApplyTogether(Enchantment ench)
     {

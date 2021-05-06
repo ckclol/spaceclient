@@ -26,7 +26,7 @@ public class PreYggdrasilConverter
 
     private static void lookupNames(MinecraftServer server, Collection<String> names, ProfileLookupCallback callback)
     {
-        String[] astring = (String[])Iterators.toArray(Iterators.filter(names.iterator(), new Predicate<String>()
+        String[] astring = Iterators.toArray(Iterators.filter(names.iterator(), new Predicate<String>()
         {
             public boolean apply(String p_apply_1_)
             {
@@ -62,7 +62,7 @@ public class PreYggdrasilConverter
             }
             else if (!minecraftserver.isSinglePlayer() && minecraftserver.isServerInOnlineMode())
             {
-                final List<GameProfile> list = Lists.<GameProfile>newArrayList();
+                final List<GameProfile> list = Lists.newArrayList();
                 ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback()
                 {
                     public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_)
@@ -72,11 +72,11 @@ public class PreYggdrasilConverter
                     }
                     public void onProfileLookupFailed(GameProfile p_onProfileLookupFailed_1_, Exception p_onProfileLookupFailed_2_)
                     {
-                        PreYggdrasilConverter.LOGGER.warn((String)("Could not lookup user whitelist entry for " + p_onProfileLookupFailed_1_.getName()), (Throwable)p_onProfileLookupFailed_2_);
+                        PreYggdrasilConverter.LOGGER.warn("Could not lookup user whitelist entry for " + p_onProfileLookupFailed_1_.getName(), (Throwable)p_onProfileLookupFailed_2_);
                     }
                 };
-                lookupNames(minecraftserver, Lists.newArrayList(new String[] {p_152719_0_}), profilelookupcallback);
-                return list.size() > 0 && ((GameProfile)list.get(0)).getId() != null ? ((GameProfile)list.get(0)).getId().toString() : "";
+                lookupNames(minecraftserver, Lists.newArrayList(p_152719_0_), profilelookupcallback);
+                return list.size() > 0 && list.get(0).getId() != null ? list.get(0).getId().toString() : "";
             }
             else
             {

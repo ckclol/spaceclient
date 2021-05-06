@@ -30,7 +30,7 @@ import net.optifine.util.StrUtils;
 
 public class RandomEntities
 {
-    private static Map<String, RandomEntityProperties> mapProperties = new HashMap();
+    private static Map<String, RandomEntityProperties> mapProperties = new HashMap<>();
     private static boolean active = false;
     private static RenderGlobal renderGlobal;
     private static RandomEntity randomEntity = new RandomEntity();
@@ -46,8 +46,8 @@ public class RandomEntities
     public static final String PREFIX_MCPATCHER_MOB = "mcpatcher/mob/";
     private static final String[] DEPENDANT_SUFFIXES = new String[] {"_armor", "_eyes", "_exploding", "_shooting", "_fur", "_eyes", "_invulnerable", "_angry", "_tame", "_collar"};
     private static final String PREFIX_DYNAMIC_TEXTURE_HORSE = "horse/";
-    private static final String[] HORSE_TEXTURES = (String[])((String[])ReflectorRaw.getFieldValue((Object)null, EntityHorse.class, String[].class, 0));
-    private static final String[] HORSE_TEXTURES_ABBR = (String[])((String[])ReflectorRaw.getFieldValue((Object)null, EntityHorse.class, String[].class, 1));
+    private static final String[] HORSE_TEXTURES = (String[])ReflectorRaw.getFieldValue((Object)null, EntityHorse.class, String[].class, 0);
+    private static final String[] HORSE_TEXTURES_ABBR = (String[])ReflectorRaw.getFieldValue((Object)null, EntityHorse.class, String[].class, 1);
 
     public static void entityLoaded(Entity entity, World world)
     {
@@ -132,16 +132,14 @@ public class RandomEntities
 
                     if (!s.startsWith("textures/entity/") && !s.startsWith("textures/painting/"))
                     {
-                        ResourceLocation resourcelocation2 = loc;
-                        return resourcelocation2;
+                        return loc;
                     }
 
-                    RandomEntityProperties randomentityproperties = (RandomEntityProperties)mapProperties.get(s);
+                    RandomEntityProperties randomentityproperties = mapProperties.get(s);
 
                     if (randomentityproperties == null)
                     {
-                        ResourceLocation resourcelocation3 = loc;
-                        return resourcelocation3;
+                        return loc;
                     }
 
                     ResourceLocation resourcelocation1 = randomentityproperties.getTextureLocation(loc, irandomentity);
@@ -321,7 +319,14 @@ public class RandomEntities
 
     private static String getPathBase(String pathRandom)
     {
-        return pathRandom.startsWith("optifine/random/") ? StrUtils.replacePrefix(pathRandom, "optifine/random/", "textures/") : (pathRandom.startsWith("mcpatcher/mob/") ? StrUtils.replacePrefix(pathRandom, "mcpatcher/mob/", "textures/entity/") : null);
+        if (pathRandom.startsWith("optifine/random/"))
+        {
+            return StrUtils.replacePrefix(pathRandom, "optifine/random/", "textures/");
+        }
+        else
+        {
+            return pathRandom.startsWith("mcpatcher/mob/") ? StrUtils.replacePrefix(pathRandom, "mcpatcher/mob/", "textures/entity/") : null;
+        }
     }
 
     protected static ResourceLocation getLocationIndexed(ResourceLocation loc, int index)
@@ -378,7 +383,7 @@ public class RandomEntities
         }
         else
         {
-            for (int i = 1; i < ((List)list).size() + 10; ++i)
+            for (int i = 1; i < list.size() + 10; ++i)
             {
                 int j = i + 1;
                 ResourceLocation resourcelocation1 = getLocationIndexed(resourcelocation, j);
@@ -395,7 +400,7 @@ public class RandomEntities
             }
             else
             {
-                ResourceLocation[] aresourcelocation = (ResourceLocation[])((ResourceLocation[])list.toArray(new ResourceLocation[list.size()]));
+                ResourceLocation[] aresourcelocation = (ResourceLocation[]) list.toArray(new ResourceLocation[list.size()]);
                 dbg(loc.getResourcePath() + ", variants: " + aresourcelocation.length);
                 return aresourcelocation;
             }
@@ -437,7 +442,7 @@ public class RandomEntities
 
                 if (Config.hasResource(resourcelocation))
                 {
-                    RandomEntityProperties randomentityproperties = (RandomEntityProperties)mapProperties.get(s1);
+                    RandomEntityProperties randomentityproperties = mapProperties.get(s1);
 
                     if (randomentityproperties == null)
                     {

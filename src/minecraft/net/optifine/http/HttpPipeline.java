@@ -23,6 +23,10 @@ public class HttpPipeline
     public static final String HEADER_TRANSFER_ENCODING = "Transfer-Encoding";
     public static final String HEADER_VALUE_CHUNKED = "chunked";
 
+    private HttpPipeline()
+    {
+    }
+
     public static void addRequest(String urlStr, HttpListener listener) throws IOException
     {
         addRequest(urlStr, listener, Proxy.NO_PROXY);
@@ -56,7 +60,7 @@ public class HttpPipeline
 
             String s2 = "GET";
             String s3 = "HTTP/1.1";
-            Map<String, String> map = new LinkedHashMap();
+            Map<String, String> map = new LinkedHashMap<>();
             map.put("User-Agent", "Java/" + System.getProperty("java.version"));
             map.put("Host", s1);
             map.put("Accept", "text/html, image/gif, image/png");
@@ -140,7 +144,7 @@ public class HttpPipeline
 
     public static HttpResponse executeRequest(HttpRequest req) throws IOException
     {
-        final Map<String, Object> map = new HashMap();
+        final Map<String, Object> map = new HashMap<>();
         String s = "Response";
         String s1 = "Exception";
         HttpListener httplistener = new HttpListener()
@@ -212,9 +216,9 @@ public class HttpPipeline
 
     public static boolean hasActiveRequests()
     {
-        for (Object e: mapConnections.values())
+        for (Object o : mapConnections.values())
         {
-            HttpPipelineConnection httppipelineconnection = (HttpPipelineConnection) e;
+        	HttpPipelineConnection httppipelineconnection = (HttpPipelineConnection)o;
             if (httppipelineconnection.hasActiveRequests())
             {
                 return true;

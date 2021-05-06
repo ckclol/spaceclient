@@ -54,7 +54,7 @@ public class StrUtils
                     {
                         int i = 0;
 
-                        for (int j = 0; j < ((List)list).size(); ++j)
+                        for (int j = 0; j < list.size(); ++j)
                         {
                             String s3 = (String)list.get(j);
 
@@ -250,7 +250,7 @@ public class StrUtils
                     {
                         int i = 0;
 
-                        for (int j = 0; j < ((List)list).size(); ++j)
+                        for (int j = 0; j < list.size(); ++j)
                         {
                             String s3 = (String)list.get(j);
 
@@ -303,7 +303,7 @@ public class StrUtils
                 }
 
                 list.add(str.substring(i, str.length()));
-                return (String[])((String[])list.toArray(new String[list.size()]));
+                return (String[]) list.toArray(new String[list.size()]);
             }
         }
         else
@@ -342,7 +342,14 @@ public class StrUtils
 
     public static boolean isEmpty(String string)
     {
-        return string == null ? true : string.trim().length() <= 0;
+        if (string == null)
+        {
+            return true;
+        }
+        else
+        {
+            return string.trim().length() <= 0;
+        }
     }
 
     public static String stringInc(String str)
@@ -449,7 +456,18 @@ public class StrUtils
 
     public static boolean equals(Object a, Object b)
     {
-        return a == b ? true : (a != null && a.equals(b) ? true : b != null && b.equals(a));
+        if (a == b)
+        {
+            return true;
+        }
+        else if (a != null && a.equals(b))
+        {
+            return true;
+        }
+        else
+        {
+            return b != null && b.equals(a);
+        }
     }
 
     public static boolean startsWith(String str, String[] prefixes)
@@ -646,7 +664,7 @@ public class StrUtils
             }
             else
             {
-                List<String> list = new ArrayList(strs.length);
+                List<String> list = new ArrayList<>(strs.length);
 
                 for (int i = 0; i < strs.length; ++i)
                 {
@@ -658,7 +676,7 @@ public class StrUtils
                     }
                 }
 
-                String[] astring = (String[])list.toArray(new String[list.size()]);
+                String[] astring = list.toArray(new String[list.size()]);
                 return astring;
             }
         }
@@ -754,12 +772,26 @@ public class StrUtils
 
     public static String addSuffixCheck(String str, String suffix)
     {
-        return str != null && suffix != null ? (str.endsWith(suffix) ? str : str + suffix) : str;
+        if (str != null && suffix != null)
+        {
+            return str.endsWith(suffix) ? str : str + suffix;
+        }
+        else
+        {
+            return str;
+        }
     }
 
     public static String addPrefixCheck(String str, String prefix)
     {
-        return str != null && prefix != null ? (str.endsWith(prefix) ? str : prefix + str) : str;
+        if (str != null && prefix != null)
+        {
+            return str.endsWith(prefix) ? str : prefix + str;
+        }
+        else
+        {
+            return str;
+        }
     }
 
     public static String trim(String str, String chars)

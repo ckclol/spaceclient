@@ -241,7 +241,7 @@ public class TextureUtils
         }
         else
         {
-            SimpleTexture simpletexture = new SimpleTexture(loc);
+            ITextureObject simpletexture = new SimpleTexture(loc);
             Config.getTextureManager().loadTexture(loc, simpletexture);
             return simpletexture;
         }
@@ -561,14 +561,14 @@ public class TextureUtils
             int l = j * k;
             IntBuffer intbuffer = BufferUtils.createIntBuffer(l);
             int[] aint = new int[l];
-            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)intbuffer);
+            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, intbuffer);
             intbuffer.get(aint);
             BufferedImage bufferedimage = new BufferedImage(j, k, 2);
             bufferedimage.setRGB(0, 0, j, k, aint, 0, j);
 
             try
             {
-                ImageIO.write(bufferedimage, "png", (File)file4);
+                ImageIO.write(bufferedimage, "png", file4);
                 Config.dbg("Exported: " + file4);
             }
             catch (Exception exception)
@@ -586,7 +586,7 @@ public class TextureUtils
 
         if (tas.getFrameCount() < 1)
         {
-            List<int[][]> list = new ArrayList();
+            List<int[][]> list = new ArrayList<>();
             int[][] aint = new int[mipmaps + 1][];
             int[] aint1 = new int[i * j];
             aint[0] = aint1;
@@ -594,7 +594,7 @@ public class TextureUtils
             tas.setFramesTextureData(list);
         }
 
-        List<int[][]> list1 = new ArrayList();
+        List<int[][]> list1 = new ArrayList<>();
         int l = tas.getFrameCount();
 
         for (int i1 = 0; i1 < l; ++i1)
@@ -643,7 +643,7 @@ public class TextureUtils
         }
         else
         {
-            int[][] aint = (int[][])list.get(frame);
+            int[][] aint = list.get(frame);
 
             if (aint != null && aint.length > level)
             {

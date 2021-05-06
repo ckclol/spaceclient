@@ -23,8 +23,6 @@ public class ItemCoal extends Item
 
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-     *  
-     * @param subItems The List of sub-items. This is a List of ItemStacks.
      */
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems)
     {

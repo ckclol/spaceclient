@@ -31,7 +31,19 @@ public class ModelAdapterChest extends ModelAdapter
         else
         {
             ModelChest modelchest = (ModelChest)model;
-            return modelPart.equals("lid") ? modelchest.chestLid : (modelPart.equals("base") ? modelchest.chestBelow : (modelPart.equals("knob") ? modelchest.chestKnob : null));
+
+            if (modelPart.equals("lid"))
+            {
+                return modelchest.chestLid;
+            }
+            else if (modelPart.equals("base"))
+            {
+                return modelchest.chestBelow;
+            }
+            else
+            {
+                return modelPart.equals("knob") ? modelchest.chestKnob : null;
+            }
         }
     }
 

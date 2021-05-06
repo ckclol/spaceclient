@@ -36,7 +36,15 @@ public class ShaderPackFolder implements IShaderPack
     public boolean hasDirectory(String name)
     {
         File file1 = new File(this.packFile, name.substring(1));
-        return !file1.exists() ? false : file1.isDirectory();
+
+        if (!file1.exists())
+        {
+            return false;
+        }
+        else
+        {
+            return file1.isDirectory();
+        }
     }
 
     public String getName()

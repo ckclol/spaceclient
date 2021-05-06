@@ -25,9 +25,9 @@ public class EntityMinecartFurnace extends EntityMinecart
         super(worldIn);
     }
 
-    public EntityMinecartFurnace(World worldIn, double p_i1719_2_, double p_i1719_4_, double p_i1719_6_)
+    public EntityMinecartFurnace(World worldIn, double x, double y, double z)
     {
-        super(worldIn, p_i1719_2_, p_i1719_4_, p_i1719_6_);
+        super(worldIn, x, y, z);
     }
 
     public EntityMinecart.EnumMinecartType getMinecartType()
@@ -62,7 +62,7 @@ public class EntityMinecartFurnace extends EntityMinecart
 
         if (this.isMinecartPowered() && this.rand.nextInt(4) == 0)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -74,11 +74,11 @@ public class EntityMinecartFurnace extends EntityMinecart
         return 0.2D;
     }
 
-    public void killMinecart(DamageSource p_94095_1_)
+    public void killMinecart(DamageSource source)
     {
-        super.killMinecart(p_94095_1_);
+        super.killMinecart(source);
 
-        if (!p_94095_1_.isExplosion() && this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
+        if (!source.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
         {
             this.entityDropItem(new ItemStack(Blocks.furnace, 1), 0.0F);
         }
@@ -119,17 +119,17 @@ public class EntityMinecartFurnace extends EntityMinecart
             this.pushX /= d0;
             this.pushZ /= d0;
             double d1 = 1.0D;
-            this.motionX *= 0.800000011920929D;
+            this.motionX *= (double)0.8F;
             this.motionY *= 0.0D;
-            this.motionZ *= 0.800000011920929D;
+            this.motionZ *= (double)0.8F;
             this.motionX += this.pushX * d1;
             this.motionZ += this.pushZ * d1;
         }
         else
         {
-            this.motionX *= 0.9800000190734863D;
+            this.motionX *= (double)0.98F;
             this.motionY *= 0.0D;
-            this.motionZ *= 0.9800000190734863D;
+            this.motionZ *= (double)0.98F;
         }
 
         super.applyDrag();
@@ -188,11 +188,11 @@ public class EntityMinecartFurnace extends EntityMinecart
     {
         if (p_94107_1_)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(this.dataWatcher.getWatchableObjectByte(16) | 1)));
+            this.dataWatcher.updateObject(16, (byte)(this.dataWatcher.getWatchableObjectByte(16) | 1));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(this.dataWatcher.getWatchableObjectByte(16) & -2)));
+            this.dataWatcher.updateObject(16, (byte)(this.dataWatcher.getWatchableObjectByte(16) & -2));
         }
     }
 

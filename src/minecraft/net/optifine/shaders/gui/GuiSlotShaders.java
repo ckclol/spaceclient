@@ -90,7 +90,7 @@ class GuiSlotShaders extends GuiSlot
         this.shadersGui.updateButtons();
     }
 
-    private boolean checkCompatible(IShaderPack sp, final int index)
+    private boolean checkCompatible(IShaderPack sp, int index)
     {
         if (sp == null)
         {
@@ -127,15 +127,16 @@ class GuiSlotShaders extends GuiSlot
                     else
                     {
                         String s3 = ("HD_U_" + s1).replace('_', ' ');
-                        String s4 = I18n.format("of.message.shaders.nv1", new Object[] {s3});
-                        String s5 = I18n.format("of.message.shaders.nv2", new Object[0]);
+                        String s4 = I18n.format("of.message.shaders.nv1", s3);
+                        String s5 = I18n.format("of.message.shaders.nv2");
+                        final int j = index;
                         GuiYesNoCallback guiyesnocallback = new GuiYesNoCallback()
                         {
                             public void confirmClicked(boolean result, int id)
                             {
                                 if (result)
                                 {
-                                    GuiSlotShaders.this.selectIndex(index);
+                                    GuiSlotShaders.this.selectIndex(j);
                                 }
 
                                 GuiSlotShaders.this.mc.displayGuiScreen(GuiSlotShaders.this.shadersGui);

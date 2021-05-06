@@ -67,7 +67,7 @@ public class ScreenShotHelper
                 GlStateManager.pushMatrix();
                 GlStateManager.clear(16640);
                 minecraft.getFramebuffer().bindFramebuffer(true);
-                minecraft.entityRenderer.func_181560_a(Config.renderPartialTicks, System.nanoTime());
+                minecraft.entityRenderer.updateCameraAndRender(Config.renderPartialTicks, System.nanoTime());
             }
 
             if (OpenGlHelper.isFramebufferEnabled())
@@ -91,11 +91,11 @@ public class ScreenShotHelper
             if (OpenGlHelper.isFramebufferEnabled())
             {
                 GlStateManager.bindTexture(buffer.framebufferTexture);
-                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
             }
             else
             {
-                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
             }
 
             pixelBuffer.get(pixelValues);
@@ -141,16 +141,16 @@ public class ScreenShotHelper
             }
 
             file2 = file2.getCanonicalFile();
-            ImageIO.write(bufferedimage, "png", (File)file2);
+            ImageIO.write(bufferedimage, "png", file2);
             IChatComponent ichatcomponent = new ChatComponentText(file2.getName());
             ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
-            ichatcomponent.getChatStyle().setUnderlined(Boolean.valueOf(true));
-            return new ChatComponentTranslation("screenshot.success", new Object[] {ichatcomponent});
+            ichatcomponent.getChatStyle().setUnderlined(true);
+            return new ChatComponentTranslation("screenshot.success", ichatcomponent);
         }
-        catch (Exception exception)
+        catch (Exception exception1)
         {
-            logger.warn((String)"Couldn\'t save screenshot", (Throwable)exception);
-            return new ChatComponentTranslation("screenshot.failure", new Object[] {exception.getMessage()});
+            logger.warn("Couldn't save screenshot", (Throwable)exception1);
+            return new ChatComponentTranslation("screenshot.failure", exception1.getMessage());
         }
     }
 

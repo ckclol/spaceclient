@@ -31,7 +31,7 @@ public abstract class AbstractResourcePack implements IResourcePack
 
     private static String locationToName(ResourceLocation location)
     {
-        return String.format("%s/%s/%s", new Object[] {"assets", location.getResourceDomain(), location.getResourcePath()});
+        return String.format("%s/%s/%s", "assets", location.getResourceDomain(), location.getResourcePath());
     }
 
     protected static String getRelativeName(File p_110595_0_, File p_110595_1_)
@@ -53,14 +53,14 @@ public abstract class AbstractResourcePack implements IResourcePack
 
     protected abstract boolean hasResourceName(String name);
 
-    protected void logNameNotLowercase(String p_110594_1_)
+    protected void logNameNotLowercase(String name)
     {
-        resourceLog.warn("ResourcePack: ignored non-lowercase namespace: {} in {}", new Object[] {p_110594_1_, this.resourcePackFile});
+        resourceLog.warn("ResourcePack: ignored non-lowercase namespace: {} in {}", name, this.resourcePackFile);
     }
 
-    public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer p_135058_1_, String p_135058_2_) throws IOException
+    public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer metadataSerializer, String metadataSectionName) throws IOException
     {
-        return readMetadata(p_135058_1_, this.getInputStreamByName("pack.mcmeta"), p_135058_2_);
+        return readMetadata(metadataSerializer, this.getInputStreamByName("pack.mcmeta"), metadataSectionName);
     }
 
     static <T extends IMetadataSection> T readMetadata(IMetadataSerializer p_110596_0_, InputStream p_110596_1_, String p_110596_2_)
@@ -71,7 +71,7 @@ public abstract class AbstractResourcePack implements IResourcePack
         try
         {
             bufferedreader = new BufferedReader(new InputStreamReader(p_110596_1_, Charsets.UTF_8));
-            jsonobject = (new JsonParser()).parse((Reader)bufferedreader).getAsJsonObject();
+            jsonobject = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
         }
         catch (RuntimeException runtimeexception)
         {

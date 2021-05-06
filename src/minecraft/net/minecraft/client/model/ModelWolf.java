@@ -131,9 +131,9 @@ public class ModelWolf extends ModelBase
             this.wolfBody.rotateAngleX = ((float)Math.PI / 4F);
             this.wolfTail.setRotationPoint(-1.0F, 21.0F, 6.0F);
             this.wolfLeg1.setRotationPoint(-2.5F, 22.0F, 2.0F);
-            this.wolfLeg1.rotateAngleX = ((float)Math.PI * 3F / 2F);
+            this.wolfLeg1.rotateAngleX = ((float)Math.PI * 1.5F);
             this.wolfLeg2.setRotationPoint(0.5F, 22.0F, 2.0F);
-            this.wolfLeg2.rotateAngleX = ((float)Math.PI * 3F / 2F);
+            this.wolfLeg2.rotateAngleX = ((float)Math.PI * 1.5F);
             this.wolfLeg3.rotateAngleX = 5.811947F;
             this.wolfLeg3.setRotationPoint(-2.49F, 17.0F, -4.0F);
             this.wolfLeg4.rotateAngleX = 5.811947F;
@@ -167,11 +167,11 @@ public class ModelWolf extends ModelBase
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
-        super.setRotationAngles(p_78087_1_, p_78087_2_, p_78087_3_, p_78087_4_, p_78087_5_, p_78087_6_, entityIn);
-        this.wolfHeadMain.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
-        this.wolfHeadMain.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
-        this.wolfTail.rotateAngleX = p_78087_3_;
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+        this.wolfHeadMain.rotateAngleX = headPitch / (180F / (float)Math.PI);
+        this.wolfHeadMain.rotateAngleY = netHeadYaw / (180F / (float)Math.PI);
+        this.wolfTail.rotateAngleX = ageInTicks;
     }
 }

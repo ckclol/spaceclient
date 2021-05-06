@@ -17,9 +17,9 @@ public class EntityHeartFX extends EntityFX
     protected EntityHeartFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double p_i46354_8_, double p_i46354_10_, double p_i46354_12_, float scale)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
-        this.motionX *= 0.009999999776482582D;
-        this.motionY *= 0.009999999776482582D;
-        this.motionZ *= 0.009999999776482582D;
+        this.motionX *= (double)0.01F;
+        this.motionY *= (double)0.01F;
+        this.motionZ *= (double)0.01F;
         this.motionY += 0.1D;
         this.particleScale *= 0.75F;
         this.particleScale *= scale;
@@ -31,15 +31,13 @@ public class EntityHeartFX extends EntityFX
 
     /**
      * Renders the particle
-     *  
-     * @param worldRendererIn The WorldRenderer instance
      */
-    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
+    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
         this.particleScale = this.particleScaleOverTime * f;
-        super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     /**
@@ -64,14 +62,14 @@ public class EntityHeartFX extends EntityFX
             this.motionZ *= 1.1D;
         }
 
-        this.motionX *= 0.8600000143051147D;
-        this.motionY *= 0.8600000143051147D;
-        this.motionZ *= 0.8600000143051147D;
+        this.motionX *= (double)0.86F;
+        this.motionY *= (double)0.86F;
+        this.motionZ *= (double)0.86F;
 
         if (this.onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            this.motionX *= (double)0.7F;
+            this.motionZ *= (double)0.7F;
         }
     }
 

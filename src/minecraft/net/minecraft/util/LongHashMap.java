@@ -36,8 +36,6 @@ public class LongHashMap<V>
 
     /**
      * the hash function
-     *  
-     * @param integer Integer to make suitable for hashing
      */
     private static int hash(int integer)
     {
@@ -73,7 +71,7 @@ public class LongHashMap<V>
             }
         }
 
-        return (V)((Object)null);
+        return (V)(null);
     }
 
     public boolean containsItem(long p_76161_1_)
@@ -135,9 +133,7 @@ public class LongHashMap<V>
             this.copyHashTableTo(entry1);
             this.hashArray = entry1;
             this.mask = this.hashArray.length - 1;
-            float f = (float)p_76153_1_;
-            this.getClass();
-            this.capacity = (int)(f * 0.75F);
+            this.capacity = (int)((float)p_76153_1_ * 0.75F);
         }
     }
 
@@ -224,7 +220,7 @@ public class LongHashMap<V>
     private void createKey(int p_76156_1_, long p_76156_2_, V p_76156_4_, int p_76156_5_)
     {
         LongHashMap.Entry<V> entry = this.hashArray[p_76156_5_];
-        this.hashArray[p_76156_5_] = new LongHashMap.Entry(p_76156_1_, p_76156_2_, p_76156_4_, entry);
+        this.hashArray[p_76156_5_] = new LongHashMap.Entry<>(p_76156_1_, p_76156_2_, p_76156_4_, entry);
 
         if (this.numHashElements++ >= this.capacity)
         {
@@ -281,8 +277,8 @@ public class LongHashMap<V>
             else
             {
                 LongHashMap.Entry<V> entry = (LongHashMap.Entry)p_equals_1_;
-                Object object = Long.valueOf(this.getKey());
-                Object object1 = Long.valueOf(entry.getKey());
+                Object object = this.getKey();
+                Object object1 = entry.getKey();
 
                 if (object == object1 || object != null && object.equals(object1))
                 {

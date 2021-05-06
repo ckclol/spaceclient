@@ -66,15 +66,15 @@ public class RegionFile
             }
 
             int k1 = (int)this.dataFile.length() / 4096;
-            this.sectorFree = Lists.<Boolean>newArrayListWithCapacity(k1);
+            this.sectorFree = Lists.newArrayListWithCapacity(k1);
 
             for (int j = 0; j < k1; ++j)
             {
-                this.sectorFree.add(Boolean.valueOf(true));
+                this.sectorFree.add(true);
             }
 
-            this.sectorFree.set(0, Boolean.valueOf(false));
-            this.sectorFree.set(1, Boolean.valueOf(false));
+            this.sectorFree.set(0, false);
+            this.sectorFree.set(1, false);
             this.dataFile.seek(0L);
 
             for (int l1 = 0; l1 < 1024; ++l1)
@@ -86,7 +86,7 @@ public class RegionFile
                 {
                     for (int l = 0; l < (k & 255); ++l)
                     {
-                        this.sectorFree.set((k >> 8) + l, Boolean.valueOf(false));
+                        this.sectorFree.set((k >> 8) + l, false);
                     }
                 }
             }
@@ -105,9 +105,6 @@ public class RegionFile
 
     /**
      * Returns an uncompressed chunk stream from the region file.
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
      */
     public synchronized DataInputStream getChunkDataInputStream(int x, int z)
     {
@@ -180,9 +177,6 @@ public class RegionFile
 
     /**
      * Returns an output stream used to write chunk data. Data is on disk when the returned stream is closed.
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
      */
     public DataOutputStream getChunkDataOutputStream(int x, int z)
     {
@@ -191,11 +185,6 @@ public class RegionFile
 
     /**
      * args: x, z, data, length - write chunk data at (x, z) to disk
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
-     * @param data The chunk data to write
-     * @param length The length of the data
      */
     protected synchronized void write(int x, int z, byte[] data, int length)
     {
@@ -219,10 +208,10 @@ public class RegionFile
             {
                 for (int i1 = 0; i1 < k; ++i1)
                 {
-                    this.sectorFree.set(j + i1, Boolean.valueOf(true));
+                    this.sectorFree.set(j + i1, true);
                 }
 
-                int l1 = this.sectorFree.indexOf(Boolean.valueOf(true));
+                int l1 = this.sectorFree.indexOf(true);
                 int j1 = 0;
 
                 if (l1 != -1)
@@ -231,7 +220,7 @@ public class RegionFile
                     {
                         if (j1 != 0)
                         {
-                            if (((Boolean)this.sectorFree.get(k1)).booleanValue())
+                            if (this.sectorFree.get(k1))
                             {
                                 ++j1;
                             }
@@ -240,7 +229,7 @@ public class RegionFile
                                 j1 = 0;
                             }
                         }
-                        else if (((Boolean)this.sectorFree.get(k1)).booleanValue())
+                        else if (this.sectorFree.get(k1))
                         {
                             l1 = k1;
                             j1 = 1;
@@ -260,7 +249,7 @@ public class RegionFile
 
                     for (int j2 = 0; j2 < l; ++j2)
                     {
-                        this.sectorFree.set(j + j2, Boolean.valueOf(false));
+                        this.sectorFree.set(j + j2, false);
                     }
 
                     this.write(j, data, length);
@@ -273,7 +262,7 @@ public class RegionFile
                     for (int i2 = 0; i2 < l; ++i2)
                     {
                         this.dataFile.write(emptySector);
-                        this.sectorFree.add(Boolean.valueOf(false));
+                        this.sectorFree.add(false);
                     }
 
                     this.sizeDelta += 4096 * l;
@@ -303,9 +292,6 @@ public class RegionFile
 
     /**
      * args: x, z - check region bounds
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
      */
     private boolean outOfBounds(int x, int z)
     {
@@ -314,9 +300,6 @@ public class RegionFile
 
     /**
      * args: x, z - get chunk's offset in region file
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
      */
     private int getOffset(int x, int z)
     {
@@ -325,9 +308,6 @@ public class RegionFile
 
     /**
      * args: x, z, - true if chunk has been saved / converted
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
      */
     public boolean isChunkSaved(int x, int z)
     {
@@ -336,10 +316,6 @@ public class RegionFile
 
     /**
      * args: x, z, offset - sets the chunk's offset in the region file
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
-     * @param offset The chunk offset
      */
     private void setOffset(int x, int z, int offset) throws IOException
     {
@@ -350,10 +326,6 @@ public class RegionFile
 
     /**
      * args: x, z, timestamp - sets the chunk's write timestamp
-     *  
-     * @param x Chunk X coordinate
-     * @param z Chunk Z coordinate
-     * @param timestamp The chunk's write timestamp
      */
     private void setChunkTimestamp(int x, int z, int timestamp) throws IOException
     {

@@ -61,12 +61,12 @@ public class IteratorAxis implements Iterator<BlockPos>
     {
         ++this.zNext;
 
-        if (this.zNext >= this.zEnd)
+        if (!(this.zNext < this.zEnd))
         {
             this.zNext = this.zStart;
             ++this.yNext;
 
-            if (this.yNext >= this.yEnd)
+            if (!(this.yNext < this.yEnd))
             {
                 this.yNext = this.yStart;
                 this.yStart += this.yDelta;

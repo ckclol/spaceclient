@@ -61,7 +61,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
         {
             double d0 = entityplayer.posX - (double)((float)this.pos.getX() + 0.5F);
             double d1 = entityplayer.posZ - (double)((float)this.pos.getZ() + 0.5F);
-            this.field_145924_q = (float)MathHelper.func_181159_b(d1, d0);
+            this.field_145924_q = (float)MathHelper.atan2(d1, d0);
             this.bookSpread += 0.1F;
 
             if (this.bookSpread < 0.5F || rand.nextInt(40) == 0)
@@ -129,9 +129,9 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
         return this.hasCustomName() ? this.customName : "container.enchant";
     }
@@ -154,7 +154,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
      */
     public IChatComponent getDisplayName()
     {
-        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]));
+        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName()));
     }
 
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)

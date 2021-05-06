@@ -19,7 +19,7 @@ public class ContainerPlayer extends Container
     public boolean isLocalWorld;
     private final EntityPlayer thePlayer;
 
-    public ContainerPlayer(final InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player)
+    public ContainerPlayer(InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player)
     {
         this.isLocalWorld = localWorld;
         this.thePlayer = player;
@@ -35,7 +35,7 @@ public class ContainerPlayer extends Container
 
         for (int k = 0; k < 4; ++k)
         {
-            final int k_f = k;
+            final int j1 = k;
             this.addSlotToContainer(new Slot(playerInventory, playerInventory.getSizeInventory() - 1 - k, 8, 8 + k * 18)
             {
                 public int getSlotStackLimit()
@@ -44,20 +44,35 @@ public class ContainerPlayer extends Container
                 }
                 public boolean isItemValid(ItemStack stack)
                 {
-                    return stack == null ? false : (stack.getItem() instanceof ItemArmor ? ((ItemArmor)stack.getItem()).armorType == k_f : (stack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && stack.getItem() != Items.skull ? false : k_f == 0));
+                    if (stack == null)
+                    {
+                        return false;
+                    }
+                    else if (stack.getItem() instanceof ItemArmor)
+                    {
+                        return ((ItemArmor)stack.getItem()).armorType == j1;
+                    }
+                    else if (stack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && stack.getItem() != Items.skull)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return j1 == 0;
+                    }
                 }
                 public String getSlotTexture()
                 {
-                    return ItemArmor.EMPTY_SLOT_NAMES[k_f];
+                    return ItemArmor.EMPTY_SLOT_NAMES[j1];
                 }
             });
         }
 
         for (int l = 0; l < 3; ++l)
         {
-            for (int j1 = 0; j1 < 9; ++j1)
+            for (int k1 = 0; k1 < 9; ++k1)
             {
-                this.addSlotToContainer(new Slot(playerInventory, j1 + (l + 1) * 9, 8 + j1 * 18, 84 + l * 18));
+                this.addSlotToContainer(new Slot(playerInventory, k1 + (l + 1) * 9, 8 + k1 * 18, 84 + l * 18));
             }
         }
 
@@ -86,7 +101,7 @@ public class ContainerPlayer extends Container
 
         for (int i = 0; i < 4; ++i)
         {
-            ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
+            ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
 
             if (itemstack != null)
             {
@@ -108,7 +123,7 @@ public class ContainerPlayer extends Container
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
         ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
         {
@@ -138,7 +153,7 @@ public class ContainerPlayer extends Container
                     return null;
                 }
             }
-            else if (itemstack.getItem() instanceof ItemArmor && !((Slot)this.inventorySlots.get(5 + ((ItemArmor)itemstack.getItem()).armorType)).getHasStack())
+            else if (itemstack.getItem() instanceof ItemArmor && !this.inventorySlots.get(5 + ((ItemArmor)itemstack.getItem()).armorType).getHasStack())
             {
                 int i = 5 + ((ItemArmor)itemstack.getItem()).armorType;
 
@@ -190,8 +205,8 @@ public class ContainerPlayer extends Container
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in
      * is null for the initial slot that was double-clicked.
      */
-    public boolean canMergeSlot(ItemStack stack, Slot p_94530_2_)
+    public boolean canMergeSlot(ItemStack stack, Slot slotIn)
     {
-        return p_94530_2_.inventory != this.craftResult && super.canMergeSlot(stack, p_94530_2_);
+        return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
     }
 }

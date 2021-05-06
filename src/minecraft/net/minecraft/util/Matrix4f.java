@@ -2,24 +2,24 @@ package net.minecraft.util;
 
 public class Matrix4f extends org.lwjgl.util.vector.Matrix4f
 {
-    public Matrix4f(float[] matrix4f)
+    public Matrix4f(float[] p_i46413_1_)
     {
-        this.m00 = matrix4f[0];
-        this.m01 = matrix4f[1];
-        this.m02 = matrix4f[2];
-        this.m03 = matrix4f[3];
-        this.m10 = matrix4f[4];
-        this.m11 = matrix4f[5];
-        this.m12 = matrix4f[6];
-        this.m13 = matrix4f[7];
-        this.m20 = matrix4f[8];
-        this.m21 = matrix4f[9];
-        this.m22 = matrix4f[10];
-        this.m23 = matrix4f[11];
-        this.m30 = matrix4f[12];
-        this.m31 = matrix4f[13];
-        this.m32 = matrix4f[14];
-        this.m33 = matrix4f[15];
+        this.m00 = p_i46413_1_[0];
+        this.m01 = p_i46413_1_[1];
+        this.m02 = p_i46413_1_[2];
+        this.m03 = p_i46413_1_[3];
+        this.m10 = p_i46413_1_[4];
+        this.m11 = p_i46413_1_[5];
+        this.m12 = p_i46413_1_[6];
+        this.m13 = p_i46413_1_[7];
+        this.m20 = p_i46413_1_[8];
+        this.m21 = p_i46413_1_[9];
+        this.m22 = p_i46413_1_[10];
+        this.m23 = p_i46413_1_[11];
+        this.m30 = p_i46413_1_[12];
+        this.m31 = p_i46413_1_[13];
+        this.m32 = p_i46413_1_[14];
+        this.m33 = p_i46413_1_[15];
     }
 
     public Matrix4f()

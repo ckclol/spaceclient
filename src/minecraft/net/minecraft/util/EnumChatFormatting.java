@@ -32,7 +32,7 @@ public enum EnumChatFormatting
     ITALIC("ITALIC", 'o', true),
     RESET("RESET", 'r', -1);
 
-    private static final Map<String, EnumChatFormatting> nameMapping = Maps.<String, EnumChatFormatting>newHashMap();
+    private static final Map<String, EnumChatFormatting> nameMapping = Maps.newHashMap();
 
     /**
      * Matches formatting codes that indicate that the client should treat the following text as bold, recolored,
@@ -119,8 +119,6 @@ public enum EnumChatFormatting
 
     /**
      * Returns a copy of the given string, with formatting codes stripped away.
-     *  
-     * @param text The text to strip formatting codes from
      */
     public static String getTextWithoutFormattingCodes(String text)
     {
@@ -129,12 +127,10 @@ public enum EnumChatFormatting
 
     /**
      * Gets a value by its friendly name; null if the given name does not map to a defined value.
-     *  
-     * @param friendlyName The friendly name
      */
     public static EnumChatFormatting getValueByName(String friendlyName)
     {
-        return friendlyName == null ? null : (EnumChatFormatting)nameMapping.get(func_175745_c(friendlyName));
+        return friendlyName == null ? null : nameMapping.get(func_175745_c(friendlyName));
     }
 
     public static EnumChatFormatting func_175744_a(int p_175744_0_)
@@ -159,7 +155,7 @@ public enum EnumChatFormatting
 
     public static Collection<String> getValidValues(boolean p_96296_0_, boolean p_96296_1_)
     {
-        List<String> list = Lists.<String>newArrayList();
+        List<String> list = Lists.newArrayList();
 
         for (EnumChatFormatting enumchatformatting : values())
         {

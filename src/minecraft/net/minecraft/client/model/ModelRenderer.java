@@ -50,31 +50,23 @@ public class ModelRenderer
     public float offsetX;
     public float offsetY;
     public float offsetZ;
-    public List spriteList;
-    public boolean mirrorV;
-    public float scaleX;
-    public float scaleY;
-    public float scaleZ;
+    public List spriteList = new ArrayList();
+    public boolean mirrorV = false;
+    public float scaleX = 1.0F;
+    public float scaleY = 1.0F;
+    public float scaleZ = 1.0F;
     private int countResetDisplayList;
-    private ResourceLocation textureLocation;
-    private String id;
+    private ResourceLocation textureLocation = null;
+    private String id = null;
     private ModelUpdater modelUpdater;
-    private RenderGlobal renderGlobal;
+    private RenderGlobal renderGlobal = Config.getRenderGlobal();
 
     public ModelRenderer(ModelBase model, String boxNameIn)
     {
-        this.spriteList = new ArrayList();
-        this.mirrorV = false;
-        this.scaleX = 1.0F;
-        this.scaleY = 1.0F;
-        this.scaleZ = 1.0F;
-        this.textureLocation = null;
-        this.id = null;
-        this.renderGlobal = Config.getRenderGlobal();
         this.textureWidth = 64.0F;
         this.textureHeight = 32.0F;
         this.showModel = true;
-        this.cubeList = Lists.<ModelBox>newArrayList();
+        this.cubeList = Lists.newArrayList();
         this.baseModel = model;
         model.boxList.add(this);
         this.boxName = boxNameIn;
@@ -99,7 +91,7 @@ public class ModelRenderer
     {
         if (this.childModels == null)
         {
-            this.childModels = Lists.<ModelRenderer>newArrayList();
+            this.childModels = Lists.newArrayList();
         }
 
         this.childModels.add(renderer);
@@ -195,7 +187,7 @@ public class ModelRenderer
                     {
                         for (int l = 0; l < this.childModels.size(); ++l)
                         {
-                            ((ModelRenderer)this.childModels.get(l)).render(p_78785_1_);
+                            this.childModels.get(l).render(p_78785_1_);
                         }
                     }
 
@@ -219,7 +211,7 @@ public class ModelRenderer
                     {
                         for (int k = 0; k < this.childModels.size(); ++k)
                         {
-                            ((ModelRenderer)this.childModels.get(k)).render(p_78785_1_);
+                            this.childModels.get(k).render(p_78785_1_);
                         }
                     }
 
@@ -262,7 +254,7 @@ public class ModelRenderer
                 {
                     for (int j = 0; j < this.childModels.size(); ++j)
                     {
-                        ((ModelRenderer)this.childModels.get(j)).render(p_78785_1_);
+                        this.childModels.get(j).render(p_78785_1_);
                     }
                 }
 
@@ -337,7 +329,7 @@ public class ModelRenderer
             {
                 for (int j = 0; j < this.childModels.size(); ++j)
                 {
-                    ((ModelRenderer)this.childModels.get(j)).render(p_78791_1_);
+                    this.childModels.get(j).render(p_78791_1_);
                 }
             }
 
@@ -408,7 +400,7 @@ public class ModelRenderer
 
         for (int i = 0; i < this.cubeList.size(); ++i)
         {
-            ((ModelBox)this.cubeList.get(i)).render(worldrenderer, scale);
+            this.cubeList.get(i).render(worldrenderer, scale);
         }
 
         for (int j = 0; j < this.spriteList.size(); ++j)
@@ -492,7 +484,7 @@ public class ModelRenderer
             {
                 for (int i = 0; i < this.childModels.size(); ++i)
                 {
-                    ModelRenderer modelrenderer = (ModelRenderer)this.childModels.get(i);
+                    ModelRenderer modelrenderer = this.childModels.get(i);
 
                     if (p_getChild_1_.equals(modelrenderer.getId()))
                     {
@@ -525,7 +517,7 @@ public class ModelRenderer
                 {
                     for (int i = 0; i < this.childModels.size(); ++i)
                     {
-                        ModelRenderer modelrenderer1 = (ModelRenderer)this.childModels.get(i);
+                        ModelRenderer modelrenderer1 = this.childModels.get(i);
                         ModelRenderer modelrenderer2 = modelrenderer1.getChildDeep(p_getChildDeep_1_);
 
                         if (modelrenderer2 != null)
@@ -548,7 +540,7 @@ public class ModelRenderer
     public String toString()
     {
         StringBuffer stringbuffer = new StringBuffer();
-        stringbuffer.append("id: " + this.id + ", boxes: " + (this.cubeList != null ? Integer.valueOf(this.cubeList.size()) : null) + ", submodels: " + (this.childModels != null ? Integer.valueOf(this.childModels.size()) : null));
+        stringbuffer.append("id: " + this.id + ", boxes: " + (this.cubeList != null ? this.cubeList.size() : null) + ", submodels: " + (this.childModels != null ? this.childModels.size() : null));
         return stringbuffer.toString();
     }
 }

@@ -4,7 +4,6 @@
     <fullyQualifiedTypeName name="net.minecraft.command.CommandBase"/>
     <fullyQualifiedTypeName name="client.discord.DiscordRP"/>
     <fullyQualifiedTypeName name="client.event.events.ClientTickEvent"/>
-    <fullyQualifiedTypeName name="net.minecraft.util.ResourceLocation"/>
     <fullyQualifiedTypeName name="net.minecraft.client.gui.Gui"/>
     <fullyQualifiedTypeName name="client.cmd.Command"/>
     <fullyQualifiedTypeName name="client.cmd.CommandManager"/>
@@ -23,4 +22,5 @@
     <fullyQualifiedTypeName name="org.apache.logging.log4j.core.config.plugins.ResolverUtil.Test"/>
     <fullyQualifiedTypeName name="net.minecraft.util.Matrix4f"/>
     <fullyQualifiedTypeName name="net.minecraft.client.renderer.GLAllocation"/>
+    <fullyQualifiedTypeName name="net.minecraft.util.ResourceLocation"/>
 </qualifiedTypeNameHistroy>

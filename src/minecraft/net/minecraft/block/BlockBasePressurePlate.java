@@ -77,7 +77,10 @@ public abstract class BlockBasePressurePlate extends Block
         return true;
     }
 
-    public boolean func_181623_g()
+    /**
+     * Return true if an entity can be spawned inside the block (used to get the player's bed spawn location)
+     */
+    public boolean canSpawnInBlock()
     {
         return true;
     }
@@ -200,12 +203,12 @@ public abstract class BlockBasePressurePlate extends Block
         worldIn.notifyNeighborsOfStateChange(pos.down(), this);
     }
 
-    public int isProvidingWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
+    public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
     {
         return this.getRedstoneStrength(state);
     }
 
-    public int isProvidingStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
+    public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
     {
         return side == EnumFacing.UP ? this.getRedstoneStrength(state) : 0;
     }

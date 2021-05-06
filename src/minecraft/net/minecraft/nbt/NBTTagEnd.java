@@ -6,6 +6,10 @@ import java.io.IOException;
 
 public class NBTTagEnd extends NBTBase
 {
+    NBTTagEnd()
+    {
+    }
+
     void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException
     {
         sizeTracker.read(64L);
@@ -23,7 +27,7 @@ public class NBTTagEnd extends NBTBase
      */
     public byte getId()
     {
-        return (byte)0;
+        return 0;
     }
 
     public String toString()

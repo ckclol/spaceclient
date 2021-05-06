@@ -113,7 +113,7 @@ public class TileEntitySkull extends TileEntity
                 }
                 else
                 {
-                    Property property = (Property)Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
+                    Property property = Iterables.getFirst(gameprofile.getProperties().get("textures"), (Property)null);
 
                     if (property == null)
                     {

@@ -29,7 +29,27 @@ public class ModelAdapterSnowman extends ModelAdapter
         else
         {
             ModelSnowMan modelsnowman = (ModelSnowMan)model;
-            return modelPart.equals("body") ? modelsnowman.body : (modelPart.equals("body_bottom") ? modelsnowman.bottomBody : (modelPart.equals("head") ? modelsnowman.head : (modelPart.equals("left_hand") ? modelsnowman.leftHand : (modelPart.equals("right_hand") ? modelsnowman.rightHand : null))));
+
+            if (modelPart.equals("body"))
+            {
+                return modelsnowman.body;
+            }
+            else if (modelPart.equals("body_bottom"))
+            {
+                return modelsnowman.bottomBody;
+            }
+            else if (modelPart.equals("head"))
+            {
+                return modelsnowman.head;
+            }
+            else if (modelPart.equals("left_hand"))
+            {
+                return modelsnowman.leftHand;
+            }
+            else
+            {
+                return modelPart.equals("right_hand") ? modelsnowman.rightHand : null;
+            }
         }
     }
 

@@ -25,7 +25,7 @@ public class RenderZombie extends RenderBiped<EntityZombie>
     public RenderZombie(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelZombie(), 0.5F, 1.0F);
-        LayerRenderer layerrenderer = (LayerRenderer)this.layerRenderers.get(0);
+        LayerRenderer layerrenderer = this.layerRenderers.get(0);
         this.field_82434_o = this.modelBipedMain;
         this.zombieVillagerModel = new ModelZombieVillager();
         this.addLayer(new LayerHeldItem(this));
@@ -33,8 +33,8 @@ public class RenderZombie extends RenderBiped<EntityZombie>
         {
             protected void initArmor()
             {
-                this.field_177189_c = new ModelZombie(0.5F, true);
-                this.field_177186_d = new ModelZombie(1.0F, true);
+                this.modelLeggings = new ModelZombie(0.5F, true);
+                this.modelArmor = new ModelZombie(1.0F, true);
             }
         };
         this.addLayer(layerbipedarmor);
@@ -52,12 +52,7 @@ public class RenderZombie extends RenderBiped<EntityZombie>
     }
 
     /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doe
-     *  
-     * @param entityYaw The yaw rotation of the passed entity
+     * Renders the desired {@code T} type Entity.
      */
     public void doRender(EntityZombie entity, double x, double y, double z, float entityYaw, float partialTicks)
     {

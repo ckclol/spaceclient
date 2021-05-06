@@ -30,8 +30,6 @@ public class CommandExecuteAt extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -40,15 +38,12 @@ public class CommandExecuteAt extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
-    public void processCommand(final ICommandSender sender, String[] args) throws CommandException
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 5)
         {
-            throw new WrongUsageException("commands.execute.usage", new Object[0]);
+            throw new WrongUsageException("commands.execute.usage");
         }
         else
         {
@@ -72,18 +67,19 @@ public class CommandExecuteAt extends CommandBase
 
                 if (iblockstate.getBlock() != block || k >= 0 && iblockstate.getBlock().getMetaFromState(iblockstate) != k)
                 {
-                    throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getCommandSenderName()});
+                    throw new CommandException("commands.execute.failed", "detect", entity.getName());
                 }
 
                 i = 10;
             }
 
             String s = buildString(args, i);
+            final ICommandSender icommandsender1 = sender;
             ICommandSender icommandsender = new ICommandSender()
             {
-                public String getCommandSenderName()
+                public String getName()
                 {
-                    return entity.getCommandSenderName();
+                    return entity.getName();
                 }
                 public IChatComponent getDisplayName()
                 {
@@ -91,11 +87,11 @@ public class CommandExecuteAt extends CommandBase
                 }
                 public void addChatMessage(IChatComponent component)
                 {
-                    sender.addChatMessage(component);
+                    icommandsender1.addChatMessage(component);
                 }
                 public boolean canCommandSenderUseCommand(int permLevel, String commandName)
                 {
-                    return sender.canCommandSenderUseCommand(permLevel, commandName);
+                    return icommandsender1.canCommandSenderUseCommand(permLevel, commandName);
                 }
                 public BlockPos getPosition()
                 {
@@ -116,7 +112,7 @@ public class CommandExecuteAt extends CommandBase
                 public boolean sendCommandFeedback()
                 {
                     MinecraftServer minecraftserver = MinecraftServer.getServer();
-                    return minecraftserver == null || minecraftserver.worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
+                    return minecraftserver == null || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
                 }
                 public void setCommandStat(CommandResultStats.Type type, int amount)
                 {
@@ -131,26 +127,38 @@ public class CommandExecuteAt extends CommandBase
 
                 if (j < 1)
                 {
-                    throw new CommandException("commands.execute.allInvocationsFailed", new Object[] {s});
+                    throw new CommandException("commands.execute.allInvocationsFailed", s);
                 }
             }
             catch (Throwable var23)
             {
-                throw new CommandException("commands.execute.failed", new Object[] {s, entity.getCommandSenderName()});
+                throw new CommandException("commands.execute.failed", s, entity.getName());
             }
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : (args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos) : (args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? func_175771_a(args, 5, pos) : (args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null)));
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+        }
+        else if (args.length > 1 && args.length <= 4)
+        {
+            return func_175771_a(args, 1, pos);
+        }
+        else if (args.length > 5 && args.length <= 8 && "detect".equals(args[4]))
+        {
+            return func_175771_a(args, 5, pos);
+        }
+        else
+        {
+            return args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null;
+        }
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

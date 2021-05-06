@@ -17,10 +17,10 @@ public class Shader
     private final ShaderManager manager;
     public final Framebuffer framebufferIn;
     public final Framebuffer framebufferOut;
-    private final List<Object> listAuxFramebuffers = Lists.<Object>newArrayList();
-    private final List<String> listAuxNames = Lists.<String>newArrayList();
-    private final List<Integer> listAuxWidths = Lists.<Integer>newArrayList();
-    private final List<Integer> listAuxHeights = Lists.<Integer>newArrayList();
+    private final List<Object> listAuxFramebuffers = Lists.newArrayList();
+    private final List<String> listAuxNames = Lists.newArrayList();
+    private final List<Integer> listAuxWidths = Lists.newArrayList();
+    private final List<Integer> listAuxHeights = Lists.newArrayList();
     private Matrix4f projectionMatrix;
 
     public Shader(IResourceManager p_i45089_1_, String p_i45089_2_, Framebuffer p_i45089_3_, Framebuffer p_i45089_4_) throws JsonException, IOException
@@ -39,8 +39,8 @@ public class Shader
     {
         this.listAuxNames.add(this.listAuxNames.size(), p_148041_1_);
         this.listAuxFramebuffers.add(this.listAuxFramebuffers.size(), p_148041_2_);
-        this.listAuxWidths.add(this.listAuxWidths.size(), Integer.valueOf(p_148041_3_));
-        this.listAuxHeights.add(this.listAuxHeights.size(), Integer.valueOf(p_148041_4_));
+        this.listAuxWidths.add(this.listAuxWidths.size(), p_148041_3_);
+        this.listAuxHeights.add(this.listAuxHeights.size(), p_148041_4_);
     }
 
     private void preLoadShader()
@@ -72,8 +72,8 @@ public class Shader
 
         for (int i = 0; i < this.listAuxFramebuffers.size(); ++i)
         {
-            this.manager.addSamplerTexture((String)this.listAuxNames.get(i), this.listAuxFramebuffers.get(i));
-            this.manager.getShaderUniformOrDefault("AuxSize" + i).set((float)((Integer)this.listAuxWidths.get(i)).intValue(), (float)((Integer)this.listAuxHeights.get(i)).intValue());
+            this.manager.addSamplerTexture(this.listAuxNames.get(i), this.listAuxFramebuffers.get(i));
+            this.manager.getShaderUniformOrDefault("AuxSize" + i).set((float)this.listAuxWidths.get(i), (float)this.listAuxHeights.get(i));
         }
 
         this.manager.getShaderUniformOrDefault("ProjMat").set(this.projectionMatrix);
@@ -89,11 +89,11 @@ public class Shader
         GlStateManager.colorMask(true, true, true, true);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
-        worldrenderer.func_181662_b(0.0D, (double)f1, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
-        worldrenderer.func_181662_b((double)f, (double)f1, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
-        worldrenderer.func_181662_b((double)f, 0.0D, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
-        worldrenderer.func_181662_b(0.0D, 0.0D, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(0.0D, (double)f1, 500.0D).color(255, 255, 255, 255).endVertex();
+        worldrenderer.pos((double)f, (double)f1, 500.0D).color(255, 255, 255, 255).endVertex();
+        worldrenderer.pos((double)f, 0.0D, 500.0D).color(255, 255, 255, 255).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, 500.0D).color(255, 255, 255, 255).endVertex();
         tessellator.draw();
         GlStateManager.depthMask(true);
         GlStateManager.colorMask(true, true, true, true);

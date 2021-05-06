@@ -25,7 +25,7 @@ public class LayerWolfCollar implements LayerRenderer<EntityWolf>
         {
             this.wolfRenderer.bindTexture(WOLF_COLLAR);
             EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
-            float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
+            float[] afloat = EntitySheep.getDyeRgb(enumdyecolor);
 
             if (Config.isCustomColors())
             {

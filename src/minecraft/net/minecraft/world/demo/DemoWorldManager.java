@@ -45,7 +45,7 @@ public class DemoWorldManager extends ItemInWorldManager
         {
             if (j <= 6L)
             {
-                this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day." + j, new Object[0]));
+                this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day." + j));
             }
         }
         else if (j == 1L)
@@ -65,7 +65,7 @@ public class DemoWorldManager extends ItemInWorldManager
         }
         else if (j == 5L && i % 24000L == 22000L)
         {
-            this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day.warning", new Object[0]));
+            this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day.warning"));
         }
     }
 
@@ -76,7 +76,7 @@ public class DemoWorldManager extends ItemInWorldManager
     {
         if (this.field_73104_e > 100)
         {
-            this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.reminder", new Object[0]));
+            this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.reminder"));
             this.field_73104_e = 0;
         }
     }
@@ -84,9 +84,6 @@ public class DemoWorldManager extends ItemInWorldManager
     /**
      * If not creative, it calls sendBlockBreakProgress until the block is broken first. tryHarvestBlock can also be the
      * result of this call.
-     *  
-     * @param pos The block's coordinates
-     * @param side The specific side that is being hit
      */
     public void onBlockClicked(BlockPos pos, EnumFacing side)
     {
@@ -110,8 +107,6 @@ public class DemoWorldManager extends ItemInWorldManager
 
     /**
      * Attempts to harvest a block
-     *  
-     * @param pos The coordinates of the block
      */
     public boolean tryHarvestBlock(BlockPos pos)
     {
@@ -136,9 +131,6 @@ public class DemoWorldManager extends ItemInWorldManager
 
     /**
      * Activate the clicked on block, otherwise use the held item.
-     *  
-     * @param pos The block's coordinates
-     * @param side The side of the block that was clicked on
      */
     public boolean activateBlockOrUseItem(EntityPlayer player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ)
     {

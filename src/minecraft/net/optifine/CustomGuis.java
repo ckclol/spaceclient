@@ -208,7 +208,7 @@ public class CustomGuis
 
         if (Config.isCustomGuis())
         {
-            List<List<CustomGuiProperties>> list = new ArrayList();
+            List<List<CustomGuiProperties>> list = new ArrayList<>();
             IResourcePack[] airesourcepack = Config.getResourcePacks();
 
             for (int i = airesourcepack.length - 1; i >= 0; --i)
@@ -235,11 +235,11 @@ public class CustomGuis
             {
                 if (listProps.size() > i)
                 {
-                    List<CustomGuiProperties> list = (List)listProps.get(i);
+                    List<CustomGuiProperties> list = listProps.get(i);
 
                     if (list != null)
                     {
-                        CustomGuiProperties[] acustomguiproperties1 = (CustomGuiProperties[])((CustomGuiProperties[])list.toArray(new CustomGuiProperties[list.size()]));
+                        CustomGuiProperties[] acustomguiproperties1 = list.toArray(new CustomGuiProperties[list.size()]);
                         acustomguiproperties[i] = acustomguiproperties1;
                     }
                 }
@@ -251,7 +251,7 @@ public class CustomGuis
 
     private static void update(IResourcePack rp, List<List<CustomGuiProperties>> listProps)
     {
-        String[] astring = ResUtils.collectFiles(rp, (String)"optifine/gui/container/", (String)".properties", (String[])null);
+        String[] astring = ResUtils.collectFiles(rp, "optifine/gui/container/", ".properties", (String[])null);
         Arrays.sort((Object[])astring);
 
         for (int i = 0; i < astring.length; ++i)
@@ -304,14 +304,14 @@ public class CustomGuis
 
             while (listProps.size() <= i)
             {
-                listProps.add(null);
+                listProps.add((List<CustomGuiProperties>)null);
             }
 
-            List<CustomGuiProperties> list = (List)listProps.get(i);
+            List<CustomGuiProperties> list = listProps.get(i);
 
             if (list == null)
             {
-                list = new ArrayList();
+                list = new ArrayList<>();
                 listProps.set(i, list);
             }
 

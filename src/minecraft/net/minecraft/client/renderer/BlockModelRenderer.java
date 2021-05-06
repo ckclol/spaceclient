@@ -38,7 +38,7 @@ public class BlockModelRenderer
     {
         if (Reflector.ForgeModContainer_forgeLightPipelineEnabled.exists())
         {
-            Reflector.setFieldValue(Reflector.ForgeModContainer_forgeLightPipelineEnabled, Boolean.valueOf(false));
+            Reflector.setFieldValue(Reflector.ForgeModContainer_forgeLightPipelineEnabled, false);
         }
     }
 
@@ -81,7 +81,7 @@ public class BlockModelRenderer
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Tesselating block model");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Block model being tesselated");
             CrashReportCategory.addBlockInfo(crashreportcategory, blockPosIn, blockStateIn);
-            crashreportcategory.addCrashSection("Using AO", Boolean.valueOf(flag));
+            crashreportcategory.addCrashSection("Using AO", flag);
             throw new ReportedException(crashreport);
         }
     }
@@ -433,17 +433,17 @@ public class BlockModelRenderer
         }
     }
 
-    public void renderModelBrightnessColor(IBakedModel bakedModel, float p_178262_2_, float p_178262_3_, float p_178262_4_, float p_178262_5_)
+    public void renderModelBrightnessColor(IBakedModel bakedModel, float p_178262_2_, float red, float green, float blue)
     {
         for (EnumFacing enumfacing : EnumFacing.VALUES)
         {
-            this.renderModelBrightnessColorQuads(p_178262_2_, p_178262_3_, p_178262_4_, p_178262_5_, bakedModel.getFaceQuads(enumfacing));
+            this.renderModelBrightnessColorQuads(p_178262_2_, red, green, blue, bakedModel.getFaceQuads(enumfacing));
         }
 
-        this.renderModelBrightnessColorQuads(p_178262_2_, p_178262_3_, p_178262_4_, p_178262_5_, bakedModel.getGeneralQuads());
+        this.renderModelBrightnessColorQuads(p_178262_2_, red, green, blue, bakedModel.getGeneralQuads());
     }
 
-    public void renderModelBrightness(IBakedModel p_178266_1_, IBlockState p_178266_2_, float p_178266_3_, boolean p_178266_4_)
+    public void renderModelBrightness(IBakedModel model, IBlockState p_178266_2_, float brightness, boolean p_178266_4_)
     {
         Block block = p_178266_2_.getBlock();
         block.setBlockBoundsForItemRender();
@@ -461,30 +461,30 @@ public class BlockModelRenderer
 
         if (!p_178266_4_)
         {
-            GlStateManager.color(p_178266_3_, p_178266_3_, p_178266_3_, 1.0F);
+            GlStateManager.color(brightness, brightness, brightness, 1.0F);
         }
 
-        this.renderModelBrightnessColor(p_178266_1_, p_178266_3_, f, f1, f2);
+        this.renderModelBrightnessColor(model, brightness, f, f1, f2);
     }
 
-    private void renderModelBrightnessColorQuads(float p_178264_1_, float p_178264_2_, float p_178264_3_, float p_178264_4_, List<BakedQuad> p_178264_5_)
+    private void renderModelBrightnessColorQuads(float brightness, float red, float green, float blue, List<BakedQuad> listQuads)
     {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        for (BakedQuad bakedquad : p_178264_5_)
+        for (BakedQuad bakedquad : listQuads)
         {
-            worldrenderer.func_181668_a(7, DefaultVertexFormats.ITEM);
+            worldrenderer.begin(7, DefaultVertexFormats.ITEM);
             worldrenderer.addVertexData(bakedquad.getVertexData());
             worldrenderer.putSprite(bakedquad.getSprite());
 
             if (bakedquad.hasTintIndex())
             {
-                worldrenderer.putColorRGB_F4(p_178264_2_ * p_178264_1_, p_178264_3_ * p_178264_1_, p_178264_4_ * p_178264_1_);
+                worldrenderer.putColorRGB_F4(red * brightness, green * brightness, blue * brightness);
             }
             else
             {
-                worldrenderer.putColorRGB_F4(p_178264_1_, p_178264_1_, p_178264_1_);
+                worldrenderer.putColorRGB_F4(brightness, brightness, brightness);
             }
 
             Vec3i vec3i = bakedquad.getFace().getDirectionVec();
@@ -523,7 +523,7 @@ public class BlockModelRenderer
 
                         if (!worldrenderer.isDrawing())
                         {
-                            worldrenderer.func_181668_a(7, DefaultVertexFormats.BLOCK);
+                            worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
                             worldrenderer.setTranslation(p_renderOverlayModels_5_.getXOffset(), p_renderOverlayModels_5_.getYOffset(), p_renderOverlayModels_5_.getZOffset());
                         }
 
@@ -567,8 +567,8 @@ public class BlockModelRenderer
 
     public static class AmbientOcclusionFace
     {
-        private final float[] vertexColorMultiplier;
-        private final int[] vertexBrightness;
+        private final float[] vertexColorMultiplier = new float[4];
+        private final int[] vertexBrightness = new int[4];
 
         public AmbientOcclusionFace()
         {
@@ -577,8 +577,6 @@ public class BlockModelRenderer
 
         public AmbientOcclusionFace(BlockModelRenderer p_i46235_1_)
         {
-            this.vertexColorMultiplier = new float[4];
-            this.vertexBrightness = new int[4];
         }
 
         public void setMaxBlockLight()
@@ -737,24 +735,24 @@ public class BlockModelRenderer
             }
         }
 
-        private int getAoBrightness(int p_147778_1_, int p_147778_2_, int p_147778_3_, int p_147778_4_)
+        private int getAoBrightness(int br1, int br2, int br3, int br4)
         {
-            if (p_147778_1_ == 0)
+            if (br1 == 0)
             {
-                p_147778_1_ = p_147778_4_;
+                br1 = br4;
             }
 
-            if (p_147778_2_ == 0)
+            if (br2 == 0)
             {
-                p_147778_2_ = p_147778_4_;
+                br2 = br4;
             }
 
-            if (p_147778_3_ == 0)
+            if (br3 == 0)
             {
-                p_147778_3_ = p_147778_4_;
+                br3 = br4;
             }
 
-            return p_147778_1_ + p_147778_2_ + p_147778_3_ + p_147778_4_ >> 2 & 16711935;
+            return br1 + br2 + br3 + br4 >> 2 & 16711935;
         }
 
         private int getVertexBrightness(int p_178203_1_, int p_178203_2_, int p_178203_3_, int p_178203_4_, float p_178203_5_, float p_178203_6_, float p_178203_7_, float p_178203_8_)
@@ -781,7 +779,7 @@ public class BlockModelRenderer
         protected final BlockModelRenderer.Orientation[] field_178287_k;
         protected final BlockModelRenderer.Orientation[] field_178284_l;
         protected final BlockModelRenderer.Orientation[] field_178285_m;
-        private static final BlockModelRenderer.EnumNeighborInfo[] field_178282_n = new BlockModelRenderer.EnumNeighborInfo[6];
+        private static final BlockModelRenderer.EnumNeighborInfo[] VALUES = new BlockModelRenderer.EnumNeighborInfo[6];
 
         private EnumNeighborInfo(EnumFacing[] p_i46236_3_, float p_i46236_4_, boolean p_i46236_5_, BlockModelRenderer.Orientation[] p_i46236_6_, BlockModelRenderer.Orientation[] p_i46236_7_, BlockModelRenderer.Orientation[] p_i46236_8_, BlockModelRenderer.Orientation[] p_i46236_9_)
         {
@@ -796,16 +794,16 @@ public class BlockModelRenderer
 
         public static BlockModelRenderer.EnumNeighborInfo getNeighbourInfo(EnumFacing p_178273_0_)
         {
-            return field_178282_n[p_178273_0_.getIndex()];
+            return VALUES[p_178273_0_.getIndex()];
         }
 
         static {
-            field_178282_n[EnumFacing.DOWN.getIndex()] = DOWN;
-            field_178282_n[EnumFacing.UP.getIndex()] = UP;
-            field_178282_n[EnumFacing.NORTH.getIndex()] = NORTH;
-            field_178282_n[EnumFacing.SOUTH.getIndex()] = SOUTH;
-            field_178282_n[EnumFacing.WEST.getIndex()] = WEST;
-            field_178282_n[EnumFacing.EAST.getIndex()] = EAST;
+            VALUES[EnumFacing.DOWN.getIndex()] = DOWN;
+            VALUES[EnumFacing.UP.getIndex()] = UP;
+            VALUES[EnumFacing.NORTH.getIndex()] = NORTH;
+            VALUES[EnumFacing.SOUTH.getIndex()] = SOUTH;
+            VALUES[EnumFacing.WEST.getIndex()] = WEST;
+            VALUES[EnumFacing.EAST.getIndex()] = EAST;
         }
     }
 
@@ -845,7 +843,7 @@ public class BlockModelRenderer
         private final int field_178200_h;
         private final int field_178201_i;
         private final int field_178198_j;
-        private static final BlockModelRenderer.VertexTranslations[] field_178199_k = new BlockModelRenderer.VertexTranslations[6];
+        private static final BlockModelRenderer.VertexTranslations[] VALUES = new BlockModelRenderer.VertexTranslations[6];
 
         private VertexTranslations(int p_i46234_3_, int p_i46234_4_, int p_i46234_5_, int p_i46234_6_)
         {
@@ -857,16 +855,16 @@ public class BlockModelRenderer
 
         public static BlockModelRenderer.VertexTranslations getVertexTranslations(EnumFacing p_178184_0_)
         {
-            return field_178199_k[p_178184_0_.getIndex()];
+            return VALUES[p_178184_0_.getIndex()];
         }
 
         static {
-            field_178199_k[EnumFacing.DOWN.getIndex()] = DOWN;
-            field_178199_k[EnumFacing.UP.getIndex()] = UP;
-            field_178199_k[EnumFacing.NORTH.getIndex()] = NORTH;
-            field_178199_k[EnumFacing.SOUTH.getIndex()] = SOUTH;
-            field_178199_k[EnumFacing.WEST.getIndex()] = WEST;
-            field_178199_k[EnumFacing.EAST.getIndex()] = EAST;
+            VALUES[EnumFacing.DOWN.getIndex()] = DOWN;
+            VALUES[EnumFacing.UP.getIndex()] = UP;
+            VALUES[EnumFacing.NORTH.getIndex()] = NORTH;
+            VALUES[EnumFacing.SOUTH.getIndex()] = SOUTH;
+            VALUES[EnumFacing.WEST.getIndex()] = WEST;
+            VALUES[EnumFacing.EAST.getIndex()] = EAST;
         }
     }
 }

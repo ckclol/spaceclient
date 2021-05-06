@@ -94,7 +94,7 @@ public class MacroProcessor
 
                 if (list1 == null)
                 {
-                    list1 = new ArrayList(Arrays.asList(ShaderMacros.getExtensions()));
+                    list1 = new ArrayList<>(Arrays.asList(ShaderMacros.getExtensions()));
                 }
 
                 Iterator iterator = list1.iterator();
@@ -116,7 +116,7 @@ public class MacroProcessor
 
     private static List<ShaderOption> getMacroOptions()
     {
-        List<ShaderOption> list = new ArrayList();
+        List<ShaderOption> list = new ArrayList<>();
         ShaderOption[] ashaderoption = Shaders.getShaderPackOptions();
 
         for (int i = 0; i < ashaderoption.length; ++i)

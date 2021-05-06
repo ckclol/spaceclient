@@ -132,14 +132,14 @@ public class Vec3
         double d1 = vec.yCoord - this.yCoord;
         double d2 = vec.zCoord - this.zCoord;
 
-        if (d0 * d0 < 1.0000000116860974E-7D)
+        if (d0 * d0 < (double)1.0E-7F)
         {
             return null;
         }
         else
         {
             double d3 = (x - this.xCoord) / d0;
-            return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
+            return !(d3 < 0.0D) && !(d3 > 1.0D) ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
         }
     }
 
@@ -153,14 +153,14 @@ public class Vec3
         double d1 = vec.yCoord - this.yCoord;
         double d2 = vec.zCoord - this.zCoord;
 
-        if (d1 * d1 < 1.0000000116860974E-7D)
+        if (d1 * d1 < (double)1.0E-7F)
         {
             return null;
         }
         else
         {
             double d3 = (y - this.yCoord) / d1;
-            return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
+            return !(d3 < 0.0D) && !(d3 > 1.0D) ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
         }
     }
 
@@ -174,14 +174,14 @@ public class Vec3
         double d1 = vec.yCoord - this.yCoord;
         double d2 = vec.zCoord - this.zCoord;
 
-        if (d2 * d2 < 1.0000000116860974E-7D)
+        if (d2 * d2 < (double)1.0E-7F)
         {
             return null;
         }
         else
         {
             double d3 = (z - this.zCoord) / d2;
-            return d3 >= 0.0D && d3 <= 1.0D ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
+            return !(d3 < 0.0D) && !(d3 > 1.0D) ? new Vec3(this.xCoord + d0 * d3, this.yCoord + d1 * d3, this.zCoord + d2 * d3) : null;
         }
     }
 

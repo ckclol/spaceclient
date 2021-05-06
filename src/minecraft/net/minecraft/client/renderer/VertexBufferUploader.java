@@ -7,7 +7,7 @@ public class VertexBufferUploader extends WorldVertexBufferUploader
 {
     private VertexBuffer vertexBuffer = null;
 
-    public void func_181679_a(WorldRenderer p_181679_1_)
+    public void draw(WorldRenderer p_181679_1_)
     {
         if (p_181679_1_.getDrawMode() == 7 && Config.isQuadsToTriangles())
         {
@@ -15,7 +15,7 @@ public class VertexBufferUploader extends WorldVertexBufferUploader
             this.vertexBuffer.setDrawMode(p_181679_1_.getDrawMode());
         }
 
-        this.vertexBuffer.func_181722_a(p_181679_1_.getByteBuffer());
+        this.vertexBuffer.bufferData(p_181679_1_.getByteBuffer());
         p_181679_1_.reset();
     }
 

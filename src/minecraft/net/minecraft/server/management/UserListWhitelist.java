@@ -23,7 +23,7 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
 
         for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values())
         {
-            astring[i++] = ((GameProfile)userlistwhitelistentry.getValue()).getName();
+            astring[i++] = userlistwhitelistentry.getValue().getName();
         }
 
         return astring;
@@ -37,13 +37,16 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
         return obj.getId().toString();
     }
 
-    public GameProfile func_152706_a(String p_152706_1_)
+    /**
+     * Gets the GameProfile for the UserListBanEntry with the specified username, if present
+     */
+    public GameProfile getBannedProfile(String name)
     {
         for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values())
         {
-            if (p_152706_1_.equalsIgnoreCase(((GameProfile)userlistwhitelistentry.getValue()).getName()))
+            if (name.equalsIgnoreCase(userlistwhitelistentry.getValue().getName()))
             {
-                return (GameProfile)userlistwhitelistentry.getValue();
+                return userlistwhitelistentry.getValue();
             }
         }
 

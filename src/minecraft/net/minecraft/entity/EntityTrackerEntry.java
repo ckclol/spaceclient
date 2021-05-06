@@ -105,7 +105,7 @@ public class EntityTrackerEntry
     private boolean ridingEntity;
     private boolean onGround;
     public boolean playerEntitiesUpdated;
-    public Set<EntityPlayerMP> trackingPlayers = Sets.<EntityPlayerMP>newHashSet();
+    public Set<EntityPlayerMP> trackingPlayers = Sets.newHashSet();
 
     public EntityTrackerEntry(Entity trackedEntityIn, int trackingDistanceThresholdIn, int updateFrequencyIn, boolean sendVelocityUpdatesIn)
     {
@@ -124,7 +124,14 @@ public class EntityTrackerEntry
 
     public boolean equals(Object p_equals_1_)
     {
-        return p_equals_1_ instanceof EntityTrackerEntry ? ((EntityTrackerEntry)p_equals_1_).trackedEntity.getEntityId() == this.trackedEntity.getEntityId() : false;
+        if (p_equals_1_ instanceof EntityTrackerEntry)
+        {
+            return ((EntityTrackerEntry)p_equals_1_).trackedEntity.getEntityId() == this.trackedEntity.getEntityId();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public int hashCode()
@@ -132,7 +139,7 @@ public class EntityTrackerEntry
         return this.trackedEntity.getEntityId();
     }
 
-    public void updatePlayerList(List<EntityPlayer> p_73122_1_)
+    public void updatePlayerList(List<EntityPlayer> players)
     {
         this.playerEntitiesUpdated = false;
 
@@ -143,7 +150,7 @@ public class EntityTrackerEntry
             this.lastTrackedEntityPosZ = this.trackedEntity.posZ;
             this.firstUpdateDone = true;
             this.playerEntitiesUpdated = true;
-            this.updatePlayerEntities(p_73122_1_);
+            this.updatePlayerEntities(players);
         }
 
         if (this.field_85178_v != this.trackedEntity.ridingEntity || this.trackedEntity.ridingEntity != null && this.updateCounter % 60 == 0)
@@ -161,7 +168,7 @@ public class EntityTrackerEntry
             {
                 MapData mapdata = Items.filled_map.getMapData(itemstack, this.trackedEntity.worldObj);
 
-                for (EntityPlayer entityplayer : p_73122_1_)
+                for (EntityPlayer entityplayer : players)
                 {
                     EntityPlayerMP entityplayermp = (EntityPlayerMP)entityplayer;
                     mapdata.updateVisiblePlayers(entityplayermp, itemstack);
@@ -330,8 +337,6 @@ public class EntityTrackerEntry
 
     /**
      * Send the given packet to all players tracking this entity.
-     *  
-     * @param packetIn The packet to send
      */
     public void sendPacketToTrackedPlayers(Packet packetIn)
     {
@@ -377,7 +382,7 @@ public class EntityTrackerEntry
                 if (!this.trackingPlayers.contains(playerMP) && (this.isPlayerWatchingThisChunk(playerMP) || this.trackedEntity.forceSpawn))
                 {
                     this.trackingPlayers.add(playerMP);
-                    Packet packet = this.func_151260_c();
+                    Packet packet = this.createSpawnPacket();
                     playerMP.playerNetServerHandler.sendPacket(packet);
 
                     if (!this.trackedEntity.getDataWatcher().getIsBlank())
@@ -476,15 +481,18 @@ public class EntityTrackerEntry
         return playerMP.getServerForPlayer().getPlayerManager().isPlayerWatchingChunk(playerMP, this.trackedEntity.chunkCoordX, this.trackedEntity.chunkCoordZ);
     }
 
-    public void updatePlayerEntities(List<EntityPlayer> p_73125_1_)
+    public void updatePlayerEntities(List<EntityPlayer> players)
     {
-        for (int i = 0; i < p_73125_1_.size(); ++i)
+        for (int i = 0; i < players.size(); ++i)
         {
-            this.updatePlayerEntity((EntityPlayerMP)p_73125_1_.get(i));
+            this.updatePlayerEntity((EntityPlayerMP)players.get(i));
         }
     }
 
-    private Packet func_151260_c()
+    /**
+     * Creates a spawn packet for the entity managed by this entry.
+     */
+    private Packet createSpawnPacket()
     {
         if (this.trackedEntity.isDead)
         {
@@ -627,7 +635,7 @@ public class EntityTrackerEntry
         }
         else
         {
-            throw new IllegalArgumentException("Don\'t know how to add " + this.trackedEntity.getClass() + "!");
+            throw new IllegalArgumentException("Don't know how to add " + this.trackedEntity.getClass() + "!");
         }
     }
 

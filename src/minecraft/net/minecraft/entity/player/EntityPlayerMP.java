@@ -117,8 +117,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     /** player Z position as seen by PlayerManager */
     public double managedPosZ;
-    public final List<ChunkCoordIntPair> loadedChunks = Lists.<ChunkCoordIntPair>newLinkedList();
-    private final List<Integer> destroyedItemsNetCache = Lists.<Integer>newLinkedList();
+    public final List<ChunkCoordIntPair> loadedChunks = Lists.newLinkedList();
+    private final List<Integer> destroyedItemsNetCache = Lists.newLinkedList();
     private final StatisticsFile statsFile;
 
     /**
@@ -296,7 +296,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
             while (iterator.hasNext() && j < i)
             {
-                aint[j++] = ((Integer)iterator.next()).intValue();
+                aint[j++] = iterator.next();
                 iterator.remove();
             }
 
@@ -305,13 +305,13 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
         if (!this.loadedChunks.isEmpty())
         {
-            List<Chunk> list = Lists.<Chunk>newArrayList();
+            List<Chunk> list = Lists.newArrayList();
             Iterator<ChunkCoordIntPair> iterator1 = this.loadedChunks.iterator();
-            List<TileEntity> list1 = Lists.<TileEntity>newArrayList();
+            List<TileEntity> list1 = Lists.newArrayList();
 
-            while (iterator1.hasNext() && ((List)list).size() < 10)
+            while (iterator1.hasNext() && list.size() < 10)
             {
-                ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)iterator1.next();
+                ChunkCoordIntPair chunkcoordintpair = iterator1.next();
 
                 if (chunkcoordintpair != null)
                 {
@@ -337,7 +337,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
             {
                 if (list.size() == 1)
                 {
-                    this.playerNetServerHandler.sendPacket(new S21PacketChunkData((Chunk)list.get(0), true, 65535));
+                    this.playerNetServerHandler.sendPacket(new S21PacketChunkData(list.get(0), true, 65535));
                 }
                 else
                 {
@@ -412,7 +412,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
                 for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(IScoreObjectiveCriteria.health))
                 {
-                    this.getWorldScoreboard().getValueFromObjective(this.getCommandSenderName(), scoreobjective).func_96651_a(Arrays.<EntityPlayer>asList(new EntityPlayer[] {this}));
+                    this.getWorldScoreboard().getValueFromObjective(this.getName(), scoreobjective).func_96651_a(Arrays.asList(this));
                 }
             }
 
@@ -443,11 +443,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     {
         BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(new BlockPos(MathHelper.floor_double(this.posX), 0, MathHelper.floor_double(this.posZ)));
         String s = biomegenbase.biomeName;
-        JsonSerializableSet jsonserializableset = (JsonSerializableSet)this.getStatFile().func_150870_b(AchievementList.exploreAllBiomes);
+        JsonSerializableSet jsonserializableset = this.getStatFile().func_150870_b(AchievementList.exploreAllBiomes);
 
         if (jsonserializableset == null)
         {
-            jsonserializableset = (JsonSerializableSet)this.getStatFile().func_150872_a(AchievementList.exploreAllBiomes, new JsonSerializableSet());
+            jsonserializableset = this.getStatFile().func_150872_a(AchievementList.exploreAllBiomes, new JsonSerializableSet());
         }
 
         jsonserializableset.add(s);
@@ -462,7 +462,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
                 while (iterator.hasNext())
                 {
-                    BiomeGenBase biomegenbase1 = (BiomeGenBase)iterator.next();
+                    BiomeGenBase biomegenbase1 = iterator.next();
 
                     if (biomegenbase1.biomeName.equals(s1))
                     {
@@ -488,7 +488,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
      */
     public void onDeath(DamageSource cause)
     {
-        if (this.worldObj.getGameRules().getGameRuleBooleanValue("showDeathMessages"))
+        if (this.worldObj.getGameRules().getBoolean("showDeathMessages"))
         {
             Team team = this.getTeam();
 
@@ -509,22 +509,22 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
             }
         }
 
-        if (!this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
+        if (!this.worldObj.getGameRules().getBoolean("keepInventory"))
         {
             this.inventory.dropAllItems();
         }
 
         for (ScoreObjective scoreobjective : this.worldObj.getScoreboard().getObjectivesFromCriteria(IScoreObjectiveCriteria.deathCount))
         {
-            Score score = this.getWorldScoreboard().getValueFromObjective(this.getCommandSenderName(), scoreobjective);
+            Score score = this.getWorldScoreboard().getValueFromObjective(this.getName(), scoreobjective);
             score.func_96648_a();
         }
 
-        EntityLivingBase entitylivingbase = this.func_94060_bK();
+        EntityLivingBase entitylivingbase = this.getAttackingEntity();
 
         if (entitylivingbase != null)
         {
-            EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.entityEggs.get(Integer.valueOf(EntityList.getEntityID(entitylivingbase)));
+            EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs.get(EntityList.getEntityID(entitylivingbase));
 
             if (entitylist$entityegginfo != null)
             {
@@ -636,7 +636,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     public boolean isSpectatedByPlayer(EntityPlayerMP player)
     {
-        return player.isSpectator() ? this.getSpectatingEntity() == this : (this.isSpectator() ? false : super.isSpectatedByPlayer(player));
+        if (player.isSpectator())
+        {
+            return this.getSpectatingEntity() == this;
+        }
+        else
+        {
+            return this.isSpectator() ? false : super.isSpectatedByPlayer(player);
+        }
     }
 
     private void sendTileEntityUpdate(TileEntity p_147097_1_)
@@ -679,14 +686,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     /**
      * Wake up the player if they're sleeping.
      */
-    public void wakeUpPlayer(boolean p_70999_1_, boolean updateWorldFlag, boolean setSpawn)
+    public void wakeUpPlayer(boolean immediately, boolean updateWorldFlag, boolean setSpawn)
     {
         if (this.isPlayerSleeping())
         {
             this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(this, 2));
         }
 
-        super.wakeUpPlayer(p_70999_1_, updateWorldFlag, setSpawn);
+        super.wakeUpPlayer(immediately, updateWorldFlag, setSpawn);
 
         if (this.playerNetServerHandler != null)
         {
@@ -719,7 +726,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     public void handleFalling(double p_71122_1_, boolean p_71122_3_)
     {
         int i = MathHelper.floor_double(this.posX);
-        int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);
+        int j = MathHelper.floor_double(this.posY - (double)0.2F);
         int k = MathHelper.floor_double(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
         Block block = this.worldObj.getBlockState(blockpos).getBlock();
@@ -777,7 +784,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
             if (ilockablecontainer.isLocked() && !this.canOpen(ilockablecontainer.getLockCode()) && !this.isSpectator())
             {
-                this.playerNetServerHandler.sendPacket(new S02PacketChat(new ChatComponentTranslation("container.isLocked", new Object[] {chestInventory.getDisplayName()}), (byte)2));
+                this.playerNetServerHandler.sendPacket(new S02PacketChat(new ChatComponentTranslation("container.isLocked", chestInventory.getDisplayName()), (byte)2));
                 this.playerNetServerHandler.sendPacket(new S29PacketSoundEffect("random.door_close", this.posX, this.posY, this.posZ, 1.0F, 1.0F));
                 return;
             }
@@ -850,10 +857,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     /**
      * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
      * contents of that slot. Args: Container, slot number, slot contents
-     *  
-     * @param containerToSend The container that is to be updated on the client.
-     * @param slotInd The slot index that is to be updated.
-     * @param stack The itemstack to be updated in the selected slot.
      */
     public void sendSlotContents(Container containerToSend, int slotInd, ItemStack stack)
     {
@@ -873,9 +876,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     /**
      * update the crafting window inventory with the items in the list
-     *  
-     * @param containerToSend The container whose contents are to be sent to the player.
-     * @param itemsList The items to be sent to the player.
      */
     public void updateCraftingInventory(Container containerToSend, List<ItemStack> itemsList)
     {
@@ -887,17 +887,13 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
      * Sends two ints to the client-side Container. Used for furnace burning time, smelting progress, brewing progress,
      * and enchanting level. Normally the first int identifies which variable to update, and the second contains the new
      * value. Both are truncated to shorts in non-local SMP.
-     *  
-     * @param containerIn The container sending a progress bar update.
-     * @param varToUpdate The integer corresponding the variable to be updated.
-     * @param newValue The value the variable is to be updated with.
      */
     public void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue)
     {
         this.playerNetServerHandler.sendPacket(new S31PacketWindowProperty(containerIn.windowId, varToUpdate, newValue));
     }
 
-    public void func_175173_a(Container p_175173_1_, IInventory p_175173_2_)
+    public void sendAllWindowProperties(Container p_175173_1_, IInventory p_175173_2_)
     {
         for (int i = 0; i < p_175173_2_.getFieldCount(); ++i)
         {
@@ -962,9 +958,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         {
             this.statsFile.increaseStat(this, stat, amount);
 
-            for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(stat.func_150952_k()))
+            for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(stat.getCriteria()))
             {
-                this.getWorldScoreboard().getValueFromObjective(this.getCommandSenderName(), scoreobjective).increseScore(amount);
+                this.getWorldScoreboard().getValueFromObjective(this.getName(), scoreobjective).increseScore(amount);
             }
 
             if (this.statsFile.func_150879_e())
@@ -980,9 +976,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         {
             this.statsFile.unlockAchievement(this, p_175145_1_, 0);
 
-            for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(p_175145_1_.func_150952_k()))
+            for (ScoreObjective scoreobjective : this.getWorldScoreboard().getObjectivesFromCriteria(p_175145_1_.getCriteria()))
             {
-                this.getWorldScoreboard().getValueFromObjective(this.getCommandSenderName(), scoreobjective).setScorePoints(0);
+                this.getWorldScoreboard().getValueFromObjective(this.getName(), scoreobjective).setScorePoints(0);
             }
 
             if (this.statsFile.func_150879_e())
@@ -1066,10 +1062,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         this.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(this.getEntityId(), id));
     }
 
-    protected void onFinishedPotionEffect(PotionEffect p_70688_1_)
+    protected void onFinishedPotionEffect(PotionEffect effect)
     {
-        super.onFinishedPotionEffect(p_70688_1_);
-        this.playerNetServerHandler.sendPacket(new S1EPacketRemoveEntityEffect(this.getEntityId(), p_70688_1_));
+        super.onFinishedPotionEffect(effect);
+        this.playerNetServerHandler.sendPacket(new S1EPacketRemoveEntityEffect(this.getEntityId(), effect));
     }
 
     /**
@@ -1141,8 +1137,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     /**
      * Send a chat message to the CommandSender
-     *  
-     * @param component The ChatComponent to send
      */
     public void addChatMessage(IChatComponent component)
     {
@@ -1151,9 +1145,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
-     *  
-     * @param permLevel The permission level required to execute the command
-     * @param commandName The name of the command
      */
     public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {
@@ -1165,8 +1156,16 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         {
             if (this.mcServer.getConfigurationManager().canSendCommands(this.getGameProfile()))
             {
-                UserListOpsEntry userlistopsentry = (UserListOpsEntry)this.mcServer.getConfigurationManager().getOppedPlayers().getEntry(this.getGameProfile());
-                return userlistopsentry != null ? userlistopsentry.getPermissionLevel() >= permLevel : this.mcServer.getOpPermissionLevel() >= permLevel;
+                UserListOpsEntry userlistopsentry = this.mcServer.getConfigurationManager().getOppedPlayers().getEntry(this.getGameProfile());
+
+                if (userlistopsentry != null)
+                {
+                    return userlistopsentry.getPermissionLevel() >= permLevel;
+                }
+                else
+                {
+                    return this.mcServer.getOpPermissionLevel() >= permLevel;
+                }
             }
             else
             {
@@ -1195,7 +1194,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         this.translator = packetIn.getLang();
         this.chatVisibility = packetIn.getChatVisibility();
         this.chatColours = packetIn.isColorsEnabled();
-        this.getDataWatcher().updateObject(10, Byte.valueOf((byte)packetIn.getModelPartFlags()));
+        this.getDataWatcher().updateObject(10, (byte)packetIn.getModelPartFlags());
     }
 
     public EntityPlayer.EnumChatVisibility getChatVisibility()
@@ -1237,11 +1236,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     {
         if (p_152339_1_ instanceof EntityPlayer)
         {
-            this.playerNetServerHandler.sendPacket(new S13PacketDestroyEntities(new int[] {p_152339_1_.getEntityId()}));
+            this.playerNetServerHandler.sendPacket(new S13PacketDestroyEntities(p_152339_1_.getEntityId()));
         }
         else
         {
-            this.destroyedItemsNetCache.add(Integer.valueOf(p_152339_1_.getEntityId()));
+            this.destroyedItemsNetCache.add(p_152339_1_.getEntityId());
         }
     }
 

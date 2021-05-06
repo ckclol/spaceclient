@@ -25,8 +25,6 @@ public class CommandSetSpawnpoint extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -35,15 +33,12 @@ public class CommandSetSpawnpoint extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length > 1 && args.length < 4)
         {
-            throw new WrongUsageException("commands.spawnpoint.usage", new Object[0]);
+            throw new WrongUsageException("commands.spawnpoint.usage");
         }
         else
         {
@@ -53,21 +48,25 @@ public class CommandSetSpawnpoint extends CommandBase
             if (entityplayermp.worldObj != null)
             {
                 entityplayermp.setSpawnPoint(blockpos, true);
-                notifyOperators(sender, this, "commands.spawnpoint.success", new Object[] {entityplayermp.getCommandSenderName(), Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+                notifyOperators(sender, this, "commands.spawnpoint.success", new Object[] {entityplayermp.getName(), blockpos.getX(), blockpos.getY(), blockpos.getZ()});
             }
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : (args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos) : null);
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+        }
+        else
+        {
+            return args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos) : null;
+        }
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

@@ -31,7 +31,7 @@ public class ChunkPosComparator implements Comparator<ChunkCoordIntPair>
         int i = cp.chunkXPos - this.chunkPosX;
         int j = cp.chunkZPos - this.chunkPosZ;
         int k = i * i + j * j;
-        double d0 = MathHelper.func_181159_b((double)j, (double)i);
+        double d0 = MathHelper.atan2((double)j, (double)i);
         double d1 = Math.abs(d0 - this.yawRad);
 
         if (d1 > Math.PI)

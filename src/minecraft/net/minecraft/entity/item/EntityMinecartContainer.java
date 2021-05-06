@@ -26,25 +26,23 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         super(worldIn);
     }
 
-    public EntityMinecartContainer(World worldIn, double p_i1717_2_, double p_i1717_4_, double p_i1717_6_)
+    public EntityMinecartContainer(World worldIn, double x, double y, double z)
     {
-        super(worldIn, p_i1717_2_, p_i1717_4_, p_i1717_6_);
+        super(worldIn, x, y, z);
     }
 
-    public void killMinecart(DamageSource p_94095_1_)
+    public void killMinecart(DamageSource source)
     {
-        super.killMinecart(p_94095_1_);
+        super.killMinecart(source);
 
-        if (this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
+        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
         {
-            InventoryHelper.func_180176_a(this.worldObj, this, this);
+            InventoryHelper.dropInventoryItems(this.worldObj, this, this);
         }
     }
 
     /**
      * Returns the stack in the given slot.
-     *  
-     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -53,9 +51,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
-     *  
-     * @param index The slot to remove from.
-     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -87,10 +82,8 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     /**
      * Removes a stack from the given slot and returns it.
-     *  
-     * @param index The slot to remove a stack from.
      */
-    public ItemStack getStackInSlotOnClosing(int index)
+    public ItemStack removeStackFromSlot(int index)
     {
         if (this.minecartContainerItems[index] != null)
         {
@@ -130,7 +123,14 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.isDead ? false : player.getDistanceSqToEntity(this) <= 64.0D;
+        if (this.isDead)
+        {
+            return false;
+        }
+        else
+        {
+            return !(player.getDistanceSqToEntity(this) > 64.0D);
+        }
     }
 
     public void openInventory(EntityPlayer player)
@@ -150,9 +150,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
         return this.hasCustomName() ? this.getCustomNameTag() : "container.minecart";
     }
@@ -181,7 +181,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         if (this.dropContentsWhenDead)
         {
-            InventoryHelper.func_180176_a(this.worldObj, this, this);
+            InventoryHelper.dropInventoryItems(this.worldObj, this, this);
         }
 
         super.setDead();

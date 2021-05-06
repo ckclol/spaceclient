@@ -26,8 +26,6 @@ public class CommandEntityData extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -36,23 +34,20 @@ public class CommandEntityData extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.entitydata.usage", new Object[0]);
+            throw new WrongUsageException("commands.entitydata.usage");
         }
         else
         {
-            Entity entity = func_175768_b(sender, args[0]);
+            Entity entity = getEntity(sender, args[0]);
 
             if (entity instanceof EntityPlayer)
             {
-                throw new CommandException("commands.entitydata.noPlayers", new Object[] {entity.getDisplayName()});
+                throw new CommandException("commands.entitydata.noPlayers", entity.getDisplayName());
             }
             else
             {
@@ -67,7 +62,7 @@ public class CommandEntityData extends CommandBase
                 }
                 catch (NBTException nbtexception)
                 {
-                    throw new CommandException("commands.entitydata.tagError", new Object[] {nbtexception.getMessage()});
+                    throw new CommandException("commands.entitydata.tagError", nbtexception.getMessage());
                 }
 
                 nbttagcompound2.removeTag("UUIDMost");
@@ -76,7 +71,7 @@ public class CommandEntityData extends CommandBase
 
                 if (nbttagcompound.equals(nbttagcompound1))
                 {
-                    throw new CommandException("commands.entitydata.failed", new Object[] {nbttagcompound.toString()});
+                    throw new CommandException("commands.entitydata.failed", nbttagcompound.toString());
                 }
                 else
                 {
@@ -89,9 +84,6 @@ public class CommandEntityData extends CommandBase
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

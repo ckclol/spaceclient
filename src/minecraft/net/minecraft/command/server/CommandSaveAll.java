@@ -21,8 +21,6 @@ public class CommandSaveAll extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -31,14 +29,11 @@ public class CommandSaveAll extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         MinecraftServer minecraftserver = MinecraftServer.getServer();
-        sender.addChatMessage(new ChatComponentTranslation("commands.save.start", new Object[0]));
+        sender.addChatMessage(new ChatComponentTranslation("commands.save.start"));
 
         if (minecraftserver.getConfigurationManager() != null)
         {
@@ -61,7 +56,7 @@ public class CommandSaveAll extends CommandBase
 
             if (args.length > 0 && "flush".equals(args[0]))
             {
-                sender.addChatMessage(new ChatComponentTranslation("commands.save.flushStart", new Object[0]));
+                sender.addChatMessage(new ChatComponentTranslation("commands.save.flushStart"));
 
                 for (int j = 0; j < minecraftserver.worldServers.length; ++j)
                 {
@@ -75,7 +70,7 @@ public class CommandSaveAll extends CommandBase
                     }
                 }
 
-                sender.addChatMessage(new ChatComponentTranslation("commands.save.flushEnd", new Object[0]));
+                sender.addChatMessage(new ChatComponentTranslation("commands.save.flushEnd"));
             }
         }
         catch (MinecraftException minecraftexception)

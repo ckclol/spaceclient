@@ -10,7 +10,7 @@ import net.optifine.shaders.Shaders;
 
 public class LayerEndermanEyes implements LayerRenderer<EntityEnderman>
 {
-    private static final ResourceLocation field_177203_a = new ResourceLocation("textures/entity/enderman/enderman_eyes.png");
+    private static final ResourceLocation RES_ENDERMAN_EYES = new ResourceLocation("textures/entity/enderman/enderman_eyes.png");
     private final RenderEnderman endermanRenderer;
 
     public LayerEndermanEyes(RenderEnderman endermanRendererIn)
@@ -20,7 +20,7 @@ public class LayerEndermanEyes implements LayerRenderer<EntityEnderman>
 
     public void doRenderLayer(EntityEnderman entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.endermanRenderer.bindTexture(field_177203_a);
+        this.endermanRenderer.bindTexture(RES_ENDERMAN_EYES);
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.blendFunc(1, 1);
@@ -47,7 +47,7 @@ public class LayerEndermanEyes implements LayerRenderer<EntityEnderman>
             Shaders.endSpiderEyes();
         }
 
-        this.endermanRenderer.func_177105_a(entitylivingbaseIn, partialTicks);
+        this.endermanRenderer.setLightmap(entitylivingbaseIn, partialTicks);
         GlStateManager.depthMask(true);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();

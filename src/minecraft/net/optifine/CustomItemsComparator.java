@@ -9,6 +9,14 @@ public class CustomItemsComparator implements Comparator
     {
         CustomItemProperties customitemproperties = (CustomItemProperties)o1;
         CustomItemProperties customitemproperties1 = (CustomItemProperties)o2;
-        return customitemproperties.weight != customitemproperties1.weight ? customitemproperties1.weight - customitemproperties.weight : (!Config.equals(customitemproperties.basePath, customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name));
+
+        if (customitemproperties.weight != customitemproperties1.weight)
+        {
+            return customitemproperties1.weight - customitemproperties.weight;
+        }
+        else
+        {
+            return !Config.equals(customitemproperties.basePath, customitemproperties1.basePath) ? customitemproperties.basePath.compareTo(customitemproperties1.basePath) : customitemproperties.name.compareTo(customitemproperties1.name);
+        }
     }
 }

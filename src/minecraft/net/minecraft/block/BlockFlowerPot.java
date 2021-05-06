@@ -2,7 +2,6 @@ package net.minecraft.block;
 
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
@@ -27,12 +26,12 @@ import net.minecraft.world.World;
 public class BlockFlowerPot extends BlockContainer
 {
     public static final PropertyInteger LEGACY_DATA = PropertyInteger.create("legacy_data", 0, 15);
-    public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> CONTENTS = PropertyEnum.<BlockFlowerPot.EnumFlowerType>create("contents", BlockFlowerPot.EnumFlowerType.class);
+    public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> CONTENTS = PropertyEnum.create("contents", BlockFlowerPot.EnumFlowerType.class);
 
     public BlockFlowerPot()
     {
         super(Material.circuits);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(CONTENTS, BlockFlowerPot.EnumFlowerType.EMPTY).withProperty(LEGACY_DATA, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(CONTENTS, BlockFlowerPot.EnumFlowerType.EMPTY).withProperty(LEGACY_DATA, 0));
         this.setBlockBoundsForItemRender();
     }
 
@@ -140,18 +139,25 @@ public class BlockFlowerPot extends BlockContainer
 
     private boolean canNotContain(Block blockIn, int meta)
     {
-        return blockIn != Blocks.yellow_flower && blockIn != Blocks.red_flower && blockIn != Blocks.cactus && blockIn != Blocks.brown_mushroom && blockIn != Blocks.red_mushroom && blockIn != Blocks.sapling && blockIn != Blocks.deadbush ? blockIn == Blocks.tallgrass && meta == BlockTallGrass.EnumType.FERN.getMeta() : true;
+        if (blockIn != Blocks.yellow_flower && blockIn != Blocks.red_flower && blockIn != Blocks.cactus && blockIn != Blocks.brown_mushroom && blockIn != Blocks.red_mushroom && blockIn != Blocks.sapling && blockIn != Blocks.deadbush)
+        {
+            return blockIn == Blocks.tallgrass && meta == BlockTallGrass.EnumType.FERN.getMeta();
+        }
+        else
+        {
+            return true;
+        }
     }
 
-    /**
-     * Used by pick block on the client to get a block's item form, if it exists.
-     */
     public Item getItem(World worldIn, BlockPos pos)
     {
         TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
         return tileentityflowerpot != null && tileentityflowerpot.getFlowerPotItem() != null ? tileentityflowerpot.getFlowerPotItem() : Items.flower_pot;
     }
 
+    /**
+     * Gets the meta to use for the Pick Block ItemStack result
+     */
     public int getDamageValue(World worldIn, BlockPos pos)
     {
         TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
@@ -212,8 +218,6 @@ public class BlockFlowerPot extends BlockContainer
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
@@ -301,7 +305,7 @@ public class BlockFlowerPot extends BlockContainer
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {CONTENTS, LEGACY_DATA});
+        return new BlockState(this, CONTENTS, LEGACY_DATA);
     }
 
     /**
@@ -309,7 +313,7 @@ public class BlockFlowerPot extends BlockContainer
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(LEGACY_DATA)).intValue();
+        return state.getValue(LEGACY_DATA);
     }
 
     /**

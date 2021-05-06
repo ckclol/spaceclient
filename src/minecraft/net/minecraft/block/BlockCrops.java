@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.Random;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -20,7 +19,7 @@ public class BlockCrops extends BlockBush implements IGrowable
 
     protected BlockCrops()
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
         this.setTickRandomly(true);
         float f = 0.5F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
@@ -44,7 +43,7 @@ public class BlockCrops extends BlockBush implements IGrowable
 
         if (worldIn.getLightFromNeighbors(pos.up()) >= 9)
         {
-            int i = ((Integer)state.getValue(AGE)).intValue();
+            int i = state.getValue(AGE);
 
             if (i < 7)
             {
@@ -52,7 +51,7 @@ public class BlockCrops extends BlockBush implements IGrowable
 
                 if (rand.nextInt((int)(25.0F / f) + 1) == 0)
                 {
-                    worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(i + 1)), 2);
+                    worldIn.setBlockState(pos, state.withProperty(AGE, i + 1), 2);
                 }
             }
         }
@@ -60,14 +59,14 @@ public class BlockCrops extends BlockBush implements IGrowable
 
     public void grow(World worldIn, BlockPos pos, IBlockState state)
     {
-        int i = ((Integer)state.getValue(AGE)).intValue() + MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
+        int i = state.getValue(AGE) + MathHelper.getRandomIntegerInRange(worldIn.rand, 2, 5);
 
         if (i > 7)
         {
             i = 7;
         }
 
-        worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(i)), 2);
+        worldIn.setBlockState(pos, state.withProperty(AGE, i), 2);
     }
 
     protected static float getGrowthChance(Block blockIn, World worldIn, BlockPos pos)
@@ -86,7 +85,7 @@ public class BlockCrops extends BlockBush implements IGrowable
                 {
                     f1 = 1.0F;
 
-                    if (((Integer)iblockstate.getValue(BlockFarmland.MOISTURE)).intValue() > 0)
+                    if (iblockstate.getValue(BlockFarmland.MOISTURE) > 0)
                     {
                         f1 = 3.0F;
                     }
@@ -142,9 +141,6 @@ public class BlockCrops extends BlockBush implements IGrowable
 
     /**
      * Spawns this Block's drops into the World as EntityItems.
-     *  
-     * @param chance The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
-     * @param fortune The player's fortune level
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
@@ -152,7 +148,7 @@ public class BlockCrops extends BlockBush implements IGrowable
 
         if (!worldIn.isRemote)
         {
-            int i = ((Integer)state.getValue(AGE)).intValue();
+            int i = state.getValue(AGE);
 
             if (i >= 7)
             {
@@ -171,17 +167,12 @@ public class BlockCrops extends BlockBush implements IGrowable
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return ((Integer)state.getValue(AGE)).intValue() == 7 ? this.getCrop() : this.getSeed();
+        return state.getValue(AGE) == 7 ? this.getCrop() : this.getSeed();
     }
 
-    /**
-     * Used by pick block on the client to get a block's item form, if it exists.
-     */
     public Item getItem(World worldIn, BlockPos pos)
     {
         return this.getSeed();
@@ -192,7 +183,7 @@ public class BlockCrops extends BlockBush implements IGrowable
      */
     public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient)
     {
-        return ((Integer)state.getValue(AGE)).intValue() < 7;
+        return state.getValue(AGE) < 7;
     }
 
     public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state)
@@ -210,7 +201,7 @@ public class BlockCrops extends BlockBush implements IGrowable
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(AGE, meta);
     }
 
     /**
@@ -218,11 +209,11 @@ public class BlockCrops extends BlockBush implements IGrowable
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(AGE)).intValue();
+        return state.getValue(AGE);
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {AGE});
+        return new BlockState(this, AGE);
     }
 }

@@ -30,14 +30,30 @@ public class ModelAdapterArmorStand extends ModelAdapterBiped
         else
         {
             ModelArmorStand modelarmorstand = (ModelArmorStand)model;
-            return modelPart.equals("right") ? modelarmorstand.standRightSide : (modelPart.equals("left") ? modelarmorstand.standLeftSide : (modelPart.equals("waist") ? modelarmorstand.standWaist : (modelPart.equals("base") ? modelarmorstand.standBase : super.getModelRenderer(modelarmorstand, modelPart))));
+
+            if (modelPart.equals("right"))
+            {
+                return modelarmorstand.standRightSide;
+            }
+            else if (modelPart.equals("left"))
+            {
+                return modelarmorstand.standLeftSide;
+            }
+            else if (modelPart.equals("waist"))
+            {
+                return modelarmorstand.standWaist;
+            }
+            else
+            {
+                return modelPart.equals("base") ? modelarmorstand.standBase : super.getModelRenderer(modelarmorstand, modelPart);
+            }
         }
     }
 
     public String[] getModelRendererNames()
     {
         String[] astring = super.getModelRendererNames();
-        astring = (String[])((String[])Config.addObjectsToArray(astring, new String[] {"right", "left", "waist", "base"}));
+        astring = (String[])Config.addObjectsToArray(astring, new String[] {"right", "left", "waist", "base"});
         return astring;
     }
 

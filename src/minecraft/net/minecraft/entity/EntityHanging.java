@@ -37,8 +37,6 @@ public abstract class EntityHanging extends Entity
 
     /**
      * Updates facing and bounding box based on it
-     *  
-     * @param facingDirectionIn The direction this hanging entity faces
      */
     protected void updateFacingWithBoundingBox(EnumFacing facingDirectionIn)
     {

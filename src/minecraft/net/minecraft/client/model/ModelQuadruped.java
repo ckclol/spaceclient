@@ -6,7 +6,7 @@ import net.minecraft.util.MathHelper;
 
 public class ModelQuadruped extends ModelBase
 {
-    public ModelRenderer head = new ModelRenderer(this, 0, 0);
+    public ModelRenderer head;
     public ModelRenderer body;
     public ModelRenderer leg1;
     public ModelRenderer leg2;
@@ -17,6 +17,7 @@ public class ModelQuadruped extends ModelBase
 
     public ModelQuadruped(int p_i1154_1_, float p_i1154_2_)
     {
+        this.head = new ModelRenderer(this, 0, 0);
         this.head.addBox(-4.0F, -4.0F, -8.0F, 8, 8, 8, p_i1154_2_);
         this.head.setRotationPoint(0.0F, (float)(18 - p_i1154_1_), -6.0F);
         this.body = new ModelRenderer(this, 28, 8);
@@ -76,15 +77,15 @@ public class ModelQuadruped extends ModelBase
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
         float f = (180F / (float)Math.PI);
-        this.head.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
-        this.head.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
+        this.head.rotateAngleX = headPitch / (180F / (float)Math.PI);
+        this.head.rotateAngleY = netHeadYaw / (180F / (float)Math.PI);
         this.body.rotateAngleX = ((float)Math.PI / 2F);
-        this.leg1.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F) * 1.4F * p_78087_2_;
-        this.leg2.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F + (float)Math.PI) * 1.4F * p_78087_2_;
-        this.leg3.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F + (float)Math.PI) * 1.4F * p_78087_2_;
-        this.leg4.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F) * 1.4F * p_78087_2_;
+        this.leg1.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.leg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+        this.leg3.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+        this.leg4.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
     }
 }

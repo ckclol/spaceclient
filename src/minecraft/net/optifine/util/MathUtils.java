@@ -66,12 +66,12 @@ public class MathUtils
 
     public static float toDeg(float angle)
     {
-        return (angle * 180.0F / MathHelper.PI);
+        return angle * 180.0F / MathHelper.PI;
     }
 
     public static float toRad(float angle)
     {
-        return (angle / 180.0F * MathHelper.PI);
+        return angle / 180.0F * MathHelper.PI;
     }
 
     public static float roundToFloat(double d)

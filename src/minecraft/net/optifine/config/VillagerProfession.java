@@ -25,7 +25,14 @@ public class VillagerProfession
 
     public boolean matches(int prof, int car)
     {
-        return this.profession != prof ? false : this.careers == null || Config.equalsOne(car, this.careers);
+        if (this.profession != prof)
+        {
+            return false;
+        }
+        else
+        {
+            return this.careers == null || Config.equalsOne(car, this.careers);
+        }
     }
 
     private boolean hasCareer(int car)

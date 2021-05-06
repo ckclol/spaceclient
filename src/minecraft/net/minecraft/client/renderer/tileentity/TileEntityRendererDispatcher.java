@@ -76,13 +76,13 @@ public class TileEntityRendererDispatcher
         }
     }
 
-    public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRendererByClass(Class <? extends TileEntity > teClass)
+    public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRendererByClass(Class<? extends TileEntity> teClass)
     {
-        TileEntitySpecialRenderer <? extends TileEntity > tileentityspecialrenderer = (TileEntitySpecialRenderer)this.mapSpecialRenderers.get(teClass);
+        TileEntitySpecialRenderer<? extends TileEntity> tileentityspecialrenderer = this.mapSpecialRenderers.get(teClass);
 
         if (tileentityspecialrenderer == null && teClass != TileEntity.class)
         {
-            tileentityspecialrenderer = this.<TileEntity>getSpecialRendererByClass((Class<? extends TileEntity>) teClass.getSuperclass());
+            tileentityspecialrenderer = this.getSpecialRendererByClass((Class<? extends TileEntity>) teClass.getSuperclass());
             this.mapSpecialRenderers.put(teClass, tileentityspecialrenderer);
         }
 
@@ -119,7 +119,7 @@ public class TileEntityRendererDispatcher
 
             if (Reflector.ForgeTileEntity_hasFastRenderer.exists())
             {
-                flag = !this.drawingBatch || !Reflector.callBoolean(tileentityIn, Reflector.ForgeTileEntity_hasFastRenderer, new Object[0]);
+                flag = !this.drawingBatch || !Reflector.callBoolean(tileentityIn, Reflector.ForgeTileEntity_hasFastRenderer);
             }
 
             if (flag)
@@ -170,7 +170,7 @@ public class TileEntityRendererDispatcher
 
     public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage)
     {
-        TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this.<TileEntity>getSpecialRenderer(tileEntityIn);
+        TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this.getSpecialRenderer(tileEntityIn);
 
         if (tileentityspecialrenderer != null)
         {
@@ -178,7 +178,7 @@ public class TileEntityRendererDispatcher
             {
                 this.tileEntityRendered = tileEntityIn;
 
-                if (this.drawingBatch && Reflector.callBoolean(tileEntityIn, Reflector.ForgeTileEntity_hasFastRenderer, new Object[0]))
+                if (this.drawingBatch && Reflector.callBoolean(tileEntityIn, Reflector.ForgeTileEntity_hasFastRenderer))
                 {
                     tileentityspecialrenderer.renderTileEntityFast(tileEntityIn, x, y, z, partialTicks, destroyStage, this.batchBuffer.getWorldRenderer());
                 }
@@ -211,7 +211,7 @@ public class TileEntityRendererDispatcher
 
     public void preDrawBatch()
     {
-        this.batchBuffer.getWorldRenderer().func_181668_a(7, DefaultVertexFormats.BLOCK);
+        this.batchBuffer.getWorldRenderer().begin(7, DefaultVertexFormats.BLOCK);
         this.drawingBatch = true;
     }
 
@@ -234,7 +234,7 @@ public class TileEntityRendererDispatcher
 
         if (p_drawBatch_1_ > 0)
         {
-            this.batchBuffer.getWorldRenderer().func_181674_a((float)staticPlayerX, (float)staticPlayerY, (float)staticPlayerZ);
+            this.batchBuffer.getWorldRenderer().sortVertexData((float)staticPlayerX, (float)staticPlayerY, (float)staticPlayerZ);
         }
 
         this.batchBuffer.draw();

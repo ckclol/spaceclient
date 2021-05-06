@@ -146,7 +146,7 @@ public class ConnectedProperties
         }
         else
         {
-            Map<Integer, Integer> map = new HashMap();
+            Map<Integer, Integer> map = new HashMap<>();
 
             for (Object object : props.keySet())
             {
@@ -171,7 +171,7 @@ public class ConnectedProperties
 
                                 if (j >= 0 && j < this.tiles.length)
                                 {
-                                    map.put(Integer.valueOf(i), Integer.valueOf(j));
+                                    map.put(i, j);
                                 }
                                 else
                                 {
@@ -199,9 +199,9 @@ public class ConnectedProperties
                 {
                     aint[k] = -1;
 
-                    if (map.containsKey(Integer.valueOf(k)))
+                    if (map.containsKey(k))
                     {
-                        aint[k] = ((Integer)map.get(Integer.valueOf(k))).intValue();
+                        aint[k] = map.get(k);
                     }
                 }
 
@@ -273,7 +273,7 @@ public class ConnectedProperties
         {
             List list = new ArrayList();
             String[] astring = Config.tokenize(str, " ,");
-            label32:
+            label61:
 
             for (int i = 0; i < astring.length; ++i)
             {
@@ -302,7 +302,7 @@ public class ConnectedProperties
                             {
                                 if (l > k)
                                 {
-                                    continue label32;
+                                    continue label61;
                                 }
 
                                 list.add(String.valueOf(l));
@@ -315,7 +315,7 @@ public class ConnectedProperties
                 list.add(s);
             }
 
-            String[] astring2 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring2 = (String[]) list.toArray(new String[list.size()]);
 
             for (int i1 = 0; i1 < astring2.length; ++i1)
             {
@@ -473,9 +473,9 @@ public class ConnectedProperties
 
     public static IProperty getProperty(String key, Collection properties)
     {
-        for (Object e : properties)
+        for (Object o : properties)
         {
-            IProperty iproperty = (IProperty) e;
+        	IProperty iproperty = (IProperty)o;
             if (key.equals(iproperty.getName()))
             {
                 return iproperty;
@@ -704,7 +704,14 @@ public class ConnectedProperties
 
     private int detectConnect()
     {
-        return this.matchBlocks != null ? 1 : (this.matchTiles != null ? 2 : 128);
+        if (this.matchBlocks != null)
+        {
+            return 1;
+        }
+        else
+        {
+            return this.matchTiles != null ? 2 : 128;
+        }
     }
 
     private MatchBlock[] detectMatchBlocks()
@@ -743,7 +750,7 @@ public class ConnectedProperties
             {
                 char c0 = this.name.charAt(j);
 
-                if (c0 < 48 || c0 > 57)
+                if (c0 < '0' || c0 > '9')
                 {
                     break;
                 }
@@ -1171,7 +1178,7 @@ public class ConnectedProperties
 
                 if (skipTiles && s3.endsWith("<skip>.png"))
                 {
-                    list.add(null);
+                    list.add((Object)null);
                 }
                 else if (defaultTiles && s3.endsWith("<default>.png"))
                 {
@@ -1201,7 +1208,7 @@ public class ConnectedProperties
                 }
             }
 
-            TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[])((TextureAtlasSprite[])list.toArray(new TextureAtlasSprite[list.size()]));
+            TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) list.toArray(new TextureAtlasSprite[list.size()]);
             return atextureatlassprite;
         }
     }
@@ -1213,7 +1220,14 @@ public class ConnectedProperties
 
     public boolean matchesBlock(int blockId, int metadata)
     {
-        return !Matches.block(blockId, metadata, this.matchBlocks) ? false : Matches.metadata(metadata, this.metadatas);
+        if (!Matches.block(blockId, metadata, this.matchBlocks))
+        {
+            return false;
+        }
+        else
+        {
+            return Matches.metadata(metadata, this.metadatas);
+        }
     }
 
     public boolean matchesIcon(TextureAtlasSprite icon)

@@ -30,8 +30,6 @@ public class CommandBroadcast extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -40,20 +38,17 @@ public class CommandBroadcast extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length > 0 && args[0].length() > 0)
         {
             IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 0, true);
-            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.announcement", new Object[] {sender.getDisplayName(), ichatcomponent}));
+            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.announcement", sender.getDisplayName(), ichatcomponent));
         }
         else
         {
-            throw new WrongUsageException("commands.say.usage", new Object[0]);
+            throw new WrongUsageException("commands.say.usage");
         }
     }
 

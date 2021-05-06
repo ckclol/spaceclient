@@ -68,9 +68,9 @@ public abstract class BlockLeaves extends BlockLeavesBase
                         BlockPos blockpos = pos.add(j1, k1, l1);
                         IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                        if (iblockstate.getBlock().getMaterial() == Material.leaves && !((Boolean)iblockstate.getValue(CHECK_DECAY)).booleanValue())
+                        if (iblockstate.getBlock().getMaterial() == Material.leaves && !iblockstate.getValue(CHECK_DECAY))
                         {
-                            worldIn.setBlockState(blockpos, iblockstate.withProperty(CHECK_DECAY, Boolean.valueOf(true)), 4);
+                            worldIn.setBlockState(blockpos, iblockstate.withProperty(CHECK_DECAY, true), 4);
                         }
                     }
                 }
@@ -82,7 +82,7 @@ public abstract class BlockLeaves extends BlockLeavesBase
     {
         if (!worldIn.isRemote)
         {
-            if (((Boolean)state.getValue(CHECK_DECAY)).booleanValue() && ((Boolean)state.getValue(DECAYABLE)).booleanValue())
+            if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE))
             {
                 int i = 4;
                 int j = i + 1;
@@ -108,7 +108,7 @@ public abstract class BlockLeaves extends BlockLeavesBase
                         {
                             for (int k2 = -i; k2 <= i; ++k2)
                             {
-                                Block block = worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(k + i2, l + j2, i1 + k2)).getBlock();
+                                Block block = worldIn.getBlockState(blockpos$mutableblockpos.set(k + i2, l + j2, i1 + k2)).getBlock();
 
                                 if (block != Blocks.log && block != Blocks.log2)
                                 {
@@ -179,7 +179,7 @@ public abstract class BlockLeaves extends BlockLeavesBase
 
                 if (l2 >= 0)
                 {
-                    worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, Boolean.valueOf(false)), 4);
+                    worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
                 }
                 else
                 {
@@ -191,12 +191,12 @@ public abstract class BlockLeaves extends BlockLeavesBase
 
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (worldIn.canLightningStrike(pos.up()) && !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && rand.nextInt(15) == 1)
+        if (worldIn.isRainingAt(pos.up()) && !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && rand.nextInt(15) == 1)
         {
             double d0 = (double)((float)pos.getX() + rand.nextFloat());
             double d1 = (double)pos.getY() - 0.05D;
             double d2 = (double)((float)pos.getZ() + rand.nextFloat());
-            worldIn.spawnParticle(EnumParticleTypes.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -216,8 +216,6 @@ public abstract class BlockLeaves extends BlockLeavesBase
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
@@ -226,9 +224,6 @@ public abstract class BlockLeaves extends BlockLeavesBase
 
     /**
      * Spawns this Block's drops into the World as EntityItems.
-     *  
-     * @param chance The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
-     * @param fortune The player's fortune level
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {

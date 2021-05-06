@@ -37,14 +37,20 @@ public class ItemEditableBook extends Item
         else
         {
             String s = nbt.getString("title");
-            return s != null && s.length() <= 32 ? nbt.hasKey("author", 8) : false;
+
+            if (s != null && s.length() <= 32)
+            {
+                return nbt.hasKey("author", 8);
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
     /**
      * Gets the generation of the book (how many times it has been cloned)
-     *  
-     * @param book The book to get the generation of
      */
     public static int getGeneration(ItemStack book)
     {
@@ -69,9 +75,6 @@ public class ItemEditableBook extends Item
 
     /**
      * allows items to add custom lines of information to the mouseover description
-     *  
-     * @param tooltip All lines to display in the Item's tooltip. This is a List of Strings.
-     * @param advanced Whether the setting "Advanced tooltips" is enabled
      */
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
     {
@@ -82,7 +85,7 @@ public class ItemEditableBook extends Item
 
             if (!StringUtils.isNullOrEmpty(s))
             {
-                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", new Object[] {s}));
+                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", s));
             }
 
             tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocal("book.generation." + nbttagcompound.getInteger("generation")));

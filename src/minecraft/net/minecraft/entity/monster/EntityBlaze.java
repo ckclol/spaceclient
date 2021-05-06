@@ -37,15 +37,15 @@ public class EntityBlaze extends EntityMob
         this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(6.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue((double)0.23F);
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48.0D);
     }
 
@@ -112,7 +112,7 @@ public class EntityBlaze extends EntityMob
 
             for (int i = 0; i < 2; ++i)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D, new int[0]);
+                this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
             }
         }
 
@@ -138,7 +138,7 @@ public class EntityBlaze extends EntityMob
 
         if (entitylivingbase != null && entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() > this.posY + (double)this.getEyeHeight() + (double)this.heightOffset)
         {
-            this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
+            this.motionY += ((double)0.3F - this.motionY) * (double)0.3F;
             this.isAirBorne = true;
         }
 
@@ -164,12 +164,16 @@ public class EntityBlaze extends EntityMob
 
     /**
      * Drop 0-2 items of this living's type
+     *  
+     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
+     * or tameable)
+     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
     {
-        if (p_70628_1_)
+        if (wasRecentlyHit)
         {
-            int i = this.rand.nextInt(2 + p_70628_2_);
+            int i = this.rand.nextInt(2 + lootingModifier);
 
             for (int j = 0; j < i; ++j)
             {
@@ -196,7 +200,7 @@ public class EntityBlaze extends EntityMob
             b0 = (byte)(b0 & -2);
         }
 
-        this.dataWatcher.updateObject(16, Byte.valueOf(b0));
+        this.dataWatcher.updateObject(16, b0);
     }
 
     /**

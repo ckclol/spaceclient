@@ -24,10 +24,10 @@ public class EntityEnderCrystal extends Entity
         this.innerRotation = this.rand.nextInt(100000);
     }
 
-    public EntityEnderCrystal(World worldIn, double p_i1699_2_, double p_i1699_4_, double p_i1699_6_)
+    public EntityEnderCrystal(World worldIn, double x, double y, double z)
     {
         this(worldIn);
-        this.setPosition(p_i1699_2_, p_i1699_4_, p_i1699_6_);
+        this.setPosition(x, y, z);
     }
 
     /**
@@ -41,7 +41,7 @@ public class EntityEnderCrystal extends Entity
 
     protected void entityInit()
     {
-        this.dataWatcher.addObject(8, Integer.valueOf(this.health));
+        this.dataWatcher.addObject(8, this.health);
     }
 
     /**
@@ -53,7 +53,7 @@ public class EntityEnderCrystal extends Entity
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         ++this.innerRotation;
-        this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
+        this.dataWatcher.updateObject(8, this.health);
         int i = MathHelper.floor_double(this.posX);
         int j = MathHelper.floor_double(this.posY);
         int k = MathHelper.floor_double(this.posZ);

@@ -22,8 +22,6 @@ public class CommandSetPlayerTimeout extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -32,21 +30,18 @@ public class CommandSetPlayerTimeout extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length != 1)
         {
-            throw new WrongUsageException("commands.setidletimeout.usage", new Object[0]);
+            throw new WrongUsageException("commands.setidletimeout.usage");
         }
         else
         {
             int i = parseInt(args[0], 0);
             MinecraftServer.getServer().setPlayerIdleTimeout(i);
-            notifyOperators(sender, this, "commands.setidletimeout.success", new Object[] {Integer.valueOf(i)});
+            notifyOperators(sender, this, "commands.setidletimeout.success", new Object[] {i});
         }
     }
 }

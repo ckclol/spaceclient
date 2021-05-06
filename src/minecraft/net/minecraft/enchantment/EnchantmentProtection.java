@@ -69,9 +69,6 @@ public class EnchantmentProtection extends Enchantment
 
     /**
      * Calculates the damage protection of the enchantment based on level and damage source passed.
-     *  
-     * @param level The level of this enchantment.
-     * @param source The source of the damage.
      */
     public int calcModifierDamage(int level, DamageSource source)
     {
@@ -82,7 +79,27 @@ public class EnchantmentProtection extends Enchantment
         else
         {
             float f = (float)(6 + level * level) / 3.0F;
-            return this.protectionType == 0 ? MathHelper.floor_float(f * 0.75F) : (this.protectionType == 1 && source.isFireDamage() ? MathHelper.floor_float(f * 1.25F) : (this.protectionType == 2 && source == DamageSource.fall ? MathHelper.floor_float(f * 2.5F) : (this.protectionType == 3 && source.isExplosion() ? MathHelper.floor_float(f * 1.5F) : (this.protectionType == 4 && source.isProjectile() ? MathHelper.floor_float(f * 1.5F) : 0))));
+
+            if (this.protectionType == 0)
+            {
+                return MathHelper.floor_float(f * 0.75F);
+            }
+            else if (this.protectionType == 1 && source.isFireDamage())
+            {
+                return MathHelper.floor_float(f * 1.25F);
+            }
+            else if (this.protectionType == 2 && source == DamageSource.fall)
+            {
+                return MathHelper.floor_float(f * 2.5F);
+            }
+            else if (this.protectionType == 3 && source.isExplosion())
+            {
+                return MathHelper.floor_float(f * 1.5F);
+            }
+            else
+            {
+                return this.protectionType == 4 && source.isProjectile() ? MathHelper.floor_float(f * 1.5F) : 0;
+            }
         }
     }
 
@@ -96,15 +113,21 @@ public class EnchantmentProtection extends Enchantment
 
     /**
      * Determines if the enchantment passed can be applyied together with this enchantment.
-     *  
-     * @param ench A possible enchantment that may be applied along side this enchantment, depending on the results.
      */
     public boolean canApplyTogether(Enchantment ench)
     {
         if (ench instanceof EnchantmentProtection)
         {
             EnchantmentProtection enchantmentprotection = (EnchantmentProtection)ench;
-            return enchantmentprotection.protectionType == this.protectionType ? false : this.protectionType == 2 || enchantmentprotection.protectionType == 2;
+
+            if (enchantmentprotection.protectionType == this.protectionType)
+            {
+                return false;
+            }
+            else
+            {
+                return this.protectionType == 2 || enchantmentprotection.protectionType == 2;
+            }
         }
         else
         {

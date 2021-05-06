@@ -53,18 +53,25 @@ public class NextTickHashSet extends TreeSet
         {
             NextTickListEntry nextticklistentry = (NextTickListEntry)obj;
 
-            Set set = this.getSubSet(nextticklistentry, true);
-			boolean flag = set.add(nextticklistentry);
-			boolean flag1 = super.add(obj);
+            if (nextticklistentry == null)
+            {
+                return false;
+            }
+            else
+            {
+                Set set = this.getSubSet(nextticklistentry, true);
+                boolean flag = set.add(nextticklistentry);
+                boolean flag1 = super.add(obj);
 
-			if (flag != flag1)
-			{
-			    throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
-			}
-			else
-			{
-			    return flag1;
-			}
+                if (flag != flag1)
+                {
+                    throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
+                }
+                else
+                {
+                    return flag1;
+                }
+            }
         }
     }
 
@@ -164,13 +171,9 @@ public class NextTickHashSet extends TreeSet
             {
                 return Iterators.emptyIterator();
             }
-            else if (list.size() == 1)
-            {
-                return (Iterator)list.get(0);
-            }
             else
             {
-                return Iterators.concat(list.iterator());
+                return list.size() == 1 ? (Iterator)list.get(0) : Iterators.concat(list.iterator());
             }
         }
     }

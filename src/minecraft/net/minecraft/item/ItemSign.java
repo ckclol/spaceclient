@@ -22,9 +22,6 @@ public class ItemSign extends Item
 
     /**
      * Called when a Block is right-clicked with this Item
-     *  
-     * @param pos The block being right-clicked
-     * @param side The side being right-clicked
      */
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
@@ -57,7 +54,7 @@ public class ItemSign extends Item
                 if (side == EnumFacing.UP)
                 {
                     int i = MathHelper.floor_double((double)((playerIn.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-                    worldIn.setBlockState(pos, Blocks.standing_sign.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 3);
+                    worldIn.setBlockState(pos, Blocks.standing_sign.getDefaultState().withProperty(BlockStandingSign.ROTATION, i), 3);
                 }
                 else
                 {

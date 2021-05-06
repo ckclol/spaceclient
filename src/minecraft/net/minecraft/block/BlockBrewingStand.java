@@ -3,7 +3,6 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -33,7 +32,7 @@ public class BlockBrewingStand extends BlockContainer
     public BlockBrewingStand()
     {
         super(Material.iron);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_BOTTLE[0], Boolean.valueOf(false)).withProperty(HAS_BOTTLE[1], Boolean.valueOf(false)).withProperty(HAS_BOTTLE[2], Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_BOTTLE[0], false).withProperty(HAS_BOTTLE[1], false).withProperty(HAS_BOTTLE[2], false));
     }
 
     /**
@@ -75,8 +74,6 @@ public class BlockBrewingStand extends BlockContainer
 
     /**
      * Add all collision boxes of this Block to the list that intersect with the given mask.
-     *  
-     * @param collidingEntity the Entity colliding with this Block
      */
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
@@ -135,7 +132,7 @@ public class BlockBrewingStand extends BlockContainer
         double d0 = (double)((float)pos.getX() + 0.4F + rand.nextFloat() * 0.2F);
         double d1 = (double)((float)pos.getY() + 0.7F + rand.nextFloat() * 0.3F);
         double d2 = (double)((float)pos.getZ() + 0.4F + rand.nextFloat() * 0.2F);
-        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
@@ -152,17 +149,12 @@ public class BlockBrewingStand extends BlockContainer
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return Items.brewing_stand;
     }
 
-    /**
-     * Used by pick block on the client to get a block's item form, if it exists.
-     */
     public Item getItem(World worldIn, BlockPos pos)
     {
         return Items.brewing_stand;
@@ -192,7 +184,7 @@ public class BlockBrewingStand extends BlockContainer
 
         for (int i = 0; i < 3; ++i)
         {
-            iblockstate = iblockstate.withProperty(HAS_BOTTLE[i], Boolean.valueOf((meta & 1 << i) > 0));
+            iblockstate = iblockstate.withProperty(HAS_BOTTLE[i], (meta & 1 << i) > 0);
         }
 
         return iblockstate;
@@ -207,7 +199,7 @@ public class BlockBrewingStand extends BlockContainer
 
         for (int j = 0; j < 3; ++j)
         {
-            if (((Boolean)state.getValue(HAS_BOTTLE[j])).booleanValue())
+            if (state.getValue(HAS_BOTTLE[j]))
             {
                 i |= 1 << j;
             }
@@ -218,6 +210,6 @@ public class BlockBrewingStand extends BlockContainer
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {HAS_BOTTLE[0], HAS_BOTTLE[1], HAS_BOTTLE[2]});
+        return new BlockState(this, HAS_BOTTLE[0], HAS_BOTTLE[1], HAS_BOTTLE[2]);
     }
 }

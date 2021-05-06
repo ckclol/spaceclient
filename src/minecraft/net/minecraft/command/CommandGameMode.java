@@ -28,8 +28,6 @@ public class CommandGameMode extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -38,15 +36,12 @@ public class CommandGameMode extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length <= 0)
         {
-            throw new WrongUsageException("commands.gamemode.usage", new Object[0]);
+            throw new WrongUsageException("commands.gamemode.usage");
         }
         else
         {
@@ -55,16 +50,16 @@ public class CommandGameMode extends CommandBase
             entityplayer.setGameType(worldsettings$gametype);
             entityplayer.fallDistance = 0.0F;
 
-            if (sender.getEntityWorld().getGameRules().getGameRuleBooleanValue("sendCommandFeedback"))
+            if (sender.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback"))
             {
-                entityplayer.addChatMessage(new ChatComponentTranslation("gameMode.changed", new Object[0]));
+                entityplayer.addChatMessage(new ChatComponentTranslation("gameMode.changed"));
             }
 
-            IChatComponent ichatcomponent = new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName(), new Object[0]);
+            IChatComponent ichatcomponent = new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName());
 
             if (entityplayer != sender)
             {
-                notifyOperators(sender, this, 1, "commands.gamemode.success.other", new Object[] {entityplayer.getCommandSenderName(), ichatcomponent});
+                notifyOperators(sender, this, 1, "commands.gamemode.success.other", new Object[] {entityplayer.getName(), ichatcomponent});
             }
             else
             {
@@ -78,12 +73,40 @@ public class CommandGameMode extends CommandBase
      */
     protected WorldSettings.GameType getGameModeFromCommand(ICommandSender p_71539_1_, String p_71539_2_) throws CommandException, NumberInvalidException
     {
-        return !p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.SURVIVAL.getName()) && !p_71539_2_.equalsIgnoreCase("s") ? (!p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.CREATIVE.getName()) && !p_71539_2_.equalsIgnoreCase("c") ? (!p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.ADVENTURE.getName()) && !p_71539_2_.equalsIgnoreCase("a") ? (!p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.SPECTATOR.getName()) && !p_71539_2_.equalsIgnoreCase("sp") ? WorldSettings.getGameTypeById(parseInt(p_71539_2_, 0, WorldSettings.GameType.values().length - 2)) : WorldSettings.GameType.SPECTATOR) : WorldSettings.GameType.ADVENTURE) : WorldSettings.GameType.CREATIVE) : WorldSettings.GameType.SURVIVAL;
+        if (!p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.SURVIVAL.getName()) && !p_71539_2_.equalsIgnoreCase("s"))
+        {
+            if (!p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.CREATIVE.getName()) && !p_71539_2_.equalsIgnoreCase("c"))
+            {
+                if (!p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.ADVENTURE.getName()) && !p_71539_2_.equalsIgnoreCase("a"))
+                {
+                    return !p_71539_2_.equalsIgnoreCase(WorldSettings.GameType.SPECTATOR.getName()) && !p_71539_2_.equalsIgnoreCase("sp") ? WorldSettings.getGameTypeById(parseInt(p_71539_2_, 0, WorldSettings.GameType.values().length - 2)) : WorldSettings.GameType.SPECTATOR;
+                }
+                else
+                {
+                    return WorldSettings.GameType.ADVENTURE;
+                }
+            }
+            else
+            {
+                return WorldSettings.GameType.CREATIVE;
+            }
+        }
+        else
+        {
+            return WorldSettings.GameType.SURVIVAL;
+        }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"survival", "creative", "adventure", "spectator"}): (args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayerUsernames()) : null);
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, new String[] {"survival", "creative", "adventure", "spectator"});
+        }
+        else
+        {
+            return args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayerUsernames()) : null;
+        }
     }
 
     /**
@@ -96,9 +119,6 @@ public class CommandGameMode extends CommandBase
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

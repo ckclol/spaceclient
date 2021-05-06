@@ -34,8 +34,8 @@ public class LayerSheepWool implements LayerRenderer<EntitySheep>
                 int k = i % j;
                 int l = (i + 1) % j;
                 float f = ((float)(entitylivingbaseIn.ticksExisted % 25) + partialTicks) / 25.0F;
-                float[] afloat1 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(k));
-                float[] afloat2 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(l));
+                float[] afloat1 = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata(k));
+                float[] afloat2 = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata(l));
 
                 if (Config.isCustomColors())
                 {
@@ -47,7 +47,7 @@ public class LayerSheepWool implements LayerRenderer<EntitySheep>
             }
             else
             {
-                float[] afloat = EntitySheep.func_175513_a(entitylivingbaseIn.getFleeceColor());
+                float[] afloat = EntitySheep.getDyeRgb(entitylivingbaseIn.getFleeceColor());
 
                 if (Config.isCustomColors())
                 {

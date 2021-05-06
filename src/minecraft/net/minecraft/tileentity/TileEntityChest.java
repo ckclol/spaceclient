@@ -69,8 +69,6 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
     /**
      * Returns the stack in the given slot.
-     *  
-     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -79,9 +77,6 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
-     *  
-     * @param index The slot to remove from.
-     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -115,10 +110,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
     /**
      * Removes a stack from the given slot and returns it.
-     *  
-     * @param index The slot to remove a stack from.
      */
-    public ItemStack getStackInSlotOnClosing(int index)
+    public ItemStack removeStackFromSlot(int index)
     {
         if (this.chestContents[index] != null)
         {
@@ -148,9 +141,9 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
         return this.hasCustomName() ? this.customName : "container.chest";
     }
@@ -228,7 +221,14 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        if (this.worldObj.getTileEntity(this.pos) != this)
+        {
+            return false;
+        }
+        else
+        {
+            return !(player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) > 64.0D);
+        }
     }
 
     public void updateContainingBlockInfo()
@@ -237,7 +237,6 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
         this.adjacentChestChecked = false;
     }
 
-    @SuppressWarnings("incomplete-switch")
     private void func_174910_a(TileEntityChest chestTe, EnumFacing side)
     {
         if (chestTe.isInvalid())

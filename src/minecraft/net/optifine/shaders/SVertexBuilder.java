@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -32,9 +33,9 @@ public class SVertexBuilder
         this.entityData[this.entityDataIndex] = 0L;
     }
 
-    public static void initVertexBuilder(WorldRenderer worldRenderer)
+    public static void initVertexBuilder(WorldRenderer wrr)
     {
-        worldRenderer.sVertexBuilder = new SVertexBuilder();
+        wrr.sVertexBuilder = new SVertexBuilder();
     }
 
     public void pushEntity(long data)
@@ -98,9 +99,9 @@ public class SVertexBuilder
         svertexbuilder.vertexSize = vertexformat.getNextOffset() / 4;
         svertexbuilder.hasNormal = vertexformat.hasNormal();
         svertexbuilder.hasTangent = svertexbuilder.hasNormal;
-        svertexbuilder.hasUV = vertexformat.hasElementOffset(0);
+        svertexbuilder.hasUV = vertexformat.hasUvOffset(0);
         svertexbuilder.offsetNormal = svertexbuilder.hasNormal ? vertexformat.getNormalOffset() / 4 : 0;
-        svertexbuilder.offsetUV = svertexbuilder.hasUV ? vertexformat.getElementOffsetById(0) / 4 : 0;
+        svertexbuilder.offsetUV = svertexbuilder.hasUV ? vertexformat.getUvOffsetById(0) / 4 : 0;
         svertexbuilder.offsetUVCenter = 8;
     }
 
@@ -120,11 +121,11 @@ public class SVertexBuilder
         {
             if (wrr.drawMode == 7 && wrr.vertexCount % 4 == 0)
             {
-                svertexbuilder.calcNormal(wrr, wrr.func_181664_j() - 4 * svertexbuilder.vertexSize);
+                svertexbuilder.calcNormal(wrr, wrr.getBufferSize() - 4 * svertexbuilder.vertexSize);
             }
 
             long i = svertexbuilder.entityData[svertexbuilder.entityDataIndex];
-            int j = wrr.func_181664_j() - 14 + 12;
+            int j = wrr.getBufferSize() - 14 + 12;
             wrr.rawIntBuffer.put(j, (int)i);
             wrr.rawIntBuffer.put(j + 1, (int)(i >> 32));
         }
@@ -181,7 +182,7 @@ public class SVertexBuilder
 
         if (svertexbuilder.vertexSize == 14 && wrr.drawMode == 7 && wrr.vertexCount % 4 == 0)
         {
-            svertexbuilder.calcNormal(wrr, wrr.func_181664_j() - 4 * svertexbuilder.vertexSize);
+            svertexbuilder.calcNormal(wrr, wrr.getBufferSize() - 4 * svertexbuilder.vertexSize);
         }
     }
 
@@ -189,7 +190,7 @@ public class SVertexBuilder
     {
         FloatBuffer floatbuffer = wrr.rawFloatBuffer;
         IntBuffer intbuffer = wrr.rawIntBuffer;
-        int i = wrr.func_181664_j();
+        int i = wrr.getBufferSize();
         float f = floatbuffer.get(baseIndex + 0 * this.vertexSize);
         float f1 = floatbuffer.get(baseIndex + 0 * this.vertexSize + 1);
         float f2 = floatbuffer.get(baseIndex + 0 * this.vertexSize + 2);

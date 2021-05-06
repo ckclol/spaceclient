@@ -2,7 +2,6 @@ package net.minecraft.block;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -25,16 +24,16 @@ public class BlockJukebox extends BlockContainer
     protected BlockJukebox()
     {
         super(Material.wood, MapColor.dirtColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_RECORD, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_RECORD, false));
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (((Boolean)state.getValue(HAS_RECORD)).booleanValue())
+        if (state.getValue(HAS_RECORD))
         {
             this.dropRecord(worldIn, pos, state);
-            state = state.withProperty(HAS_RECORD, Boolean.valueOf(false));
+            state = state.withProperty(HAS_RECORD, false);
             worldIn.setBlockState(pos, state, 2);
             return true;
         }
@@ -53,7 +52,7 @@ public class BlockJukebox extends BlockContainer
             if (tileentity instanceof BlockJukebox.TileEntityJukebox)
             {
                 ((BlockJukebox.TileEntityJukebox)tileentity).setRecord(new ItemStack(recordStack.getItem(), 1, recordStack.getMetadata()));
-                worldIn.setBlockState(pos, state.withProperty(HAS_RECORD, Boolean.valueOf(true)), 2);
+                worldIn.setBlockState(pos, state.withProperty(HAS_RECORD, true), 2);
             }
         }
     }
@@ -95,9 +94,6 @@ public class BlockJukebox extends BlockContainer
 
     /**
      * Spawns this Block's drops into the World as EntityItems.
-     *  
-     * @param chance The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
-     * @param fortune The player's fortune level
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
@@ -150,7 +146,7 @@ public class BlockJukebox extends BlockContainer
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(HAS_RECORD, Boolean.valueOf(meta > 0));
+        return this.getDefaultState().withProperty(HAS_RECORD, meta > 0);
     }
 
     /**
@@ -158,12 +154,12 @@ public class BlockJukebox extends BlockContainer
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Boolean)state.getValue(HAS_RECORD)).booleanValue() ? 1 : 0;
+        return state.getValue(HAS_RECORD) ? 1 : 0;
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {HAS_RECORD});
+        return new BlockState(this, HAS_RECORD);
     }
 
     public static class TileEntityJukebox extends TileEntity

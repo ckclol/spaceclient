@@ -55,9 +55,9 @@ public class EntitySheep extends EntityAnimal
     private int sheepTimer;
     private EntityAIEatGrass entityAIEatGrass = new EntityAIEatGrass(this);
 
-    public static float[] func_175513_a(EnumDyeColor dyeColor)
+    public static float[] getDyeRgb(EnumDyeColor dyeColor)
     {
-        return (float[])DYE_TO_RGB.get(dyeColor);
+        return DYE_TO_RGB.get(dyeColor);
     }
 
     public EntitySheep(World worldIn)
@@ -102,7 +102,7 @@ public class EntitySheep extends EntityAnimal
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue((double)0.23F);
     }
 
     protected void entityInit()
@@ -113,15 +113,19 @@ public class EntitySheep extends EntityAnimal
 
     /**
      * Drop 0-2 items of this living's type
+     *  
+     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
+     * or tameable)
+     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
     {
         if (!this.getSheared())
         {
             this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor().getMetadata()), 0.0F);
         }
 
-        int i = this.rand.nextInt(2) + 1 + this.rand.nextInt(1 + p_70628_2_);
+        int i = this.rand.nextInt(2) + 1 + this.rand.nextInt(1 + lootingModifier);
 
         for (int j = 0; j < i; ++j)
         {
@@ -141,7 +145,7 @@ public class EntitySheep extends EntityAnimal
         return Item.getItemFromBlock(Blocks.wool);
     }
 
-    public void handleHealthUpdate(byte id)
+    public void handleStatusUpdate(byte id)
     {
         if (id == 10)
         {
@@ -149,13 +153,24 @@ public class EntitySheep extends EntityAnimal
         }
         else
         {
-            super.handleHealthUpdate(id);
+            super.handleStatusUpdate(id);
         }
     }
 
     public float getHeadRotationPointY(float p_70894_1_)
     {
-        return this.sheepTimer <= 0 ? 0.0F : (this.sheepTimer >= 4 && this.sheepTimer <= 36 ? 1.0F : (this.sheepTimer < 4 ? ((float)this.sheepTimer - p_70894_1_) / 4.0F : -((float)(this.sheepTimer - 40) - p_70894_1_) / 4.0F));
+        if (this.sheepTimer <= 0)
+        {
+            return 0.0F;
+        }
+        else if (this.sheepTimer >= 4 && this.sheepTimer <= 36)
+        {
+            return 1.0F;
+        }
+        else
+        {
+            return this.sheepTimer < 4 ? ((float)this.sheepTimer - p_70894_1_) / 4.0F : -((float)(this.sheepTimer - 40) - p_70894_1_) / 4.0F;
+        }
     }
 
     public float getHeadRotationAngleX(float p_70890_1_)
@@ -260,13 +275,11 @@ public class EntitySheep extends EntityAnimal
 
     /**
      * Sets the wool color of this sheep
-     *  
-     * @param color The color to make the wool
      */
     public void setFleeceColor(EnumDyeColor color)
     {
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & 240 | color.getMetadata() & 15)));
+        this.dataWatcher.updateObject(16, (byte)(b0 & 240 | color.getMetadata() & 15));
     }
 
     /**
@@ -286,11 +299,11 @@ public class EntitySheep extends EntityAnimal
 
         if (sheared)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 16)));
+            this.dataWatcher.updateObject(16, (byte)(b0 | 16));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -17)));
+            this.dataWatcher.updateObject(16, (byte)(b0 & -17));
         }
     }
 
@@ -300,7 +313,27 @@ public class EntitySheep extends EntityAnimal
     public static EnumDyeColor getRandomSheepColor(Random random)
     {
         int i = random.nextInt(100);
-        return i < 5 ? EnumDyeColor.BLACK : (i < 10 ? EnumDyeColor.GRAY : (i < 15 ? EnumDyeColor.SILVER : (i < 18 ? EnumDyeColor.BROWN : (random.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE))));
+
+        if (i < 5)
+        {
+            return EnumDyeColor.BLACK;
+        }
+        else if (i < 10)
+        {
+            return EnumDyeColor.GRAY;
+        }
+        else if (i < 15)
+        {
+            return EnumDyeColor.SILVER;
+        }
+        else if (i < 18)
+        {
+            return EnumDyeColor.BROWN;
+        }
+        else
+        {
+            return random.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE;
+        }
     }
 
     public EntitySheep createChild(EntityAgeable ageable)
@@ -338,9 +371,6 @@ public class EntitySheep extends EntityAnimal
 
     /**
      * Attempts to mix both parent sheep to come up with a mixed dye color.
-     *  
-     * @param father The father sheep
-     * @param mother The mother sheep
      */
     private EnumDyeColor getDyeColorMixFromParents(EntityAnimal father, EntityAnimal mother)
     {

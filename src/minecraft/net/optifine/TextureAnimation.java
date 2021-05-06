@@ -192,7 +192,7 @@ public class TextureAnimation
                             {
                                 this.imageData.position(i);
                                 GlStateManager.bindTexture(this.dstTextId);
-                                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)this.imageData);
+                                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
                             }
                         }
                     }
@@ -201,29 +201,27 @@ public class TextureAnimation
         }
     }
 
-    private void updateTextureInerpolate(TextureAnimationFrame frame1, TextureAnimationFrame frame2, double dd) {
-        int i = this.frameWidth * this.frameHeight * 4;
-        int j = i * frame1.index;
-
-        if (j + i <= this.imageData.limit()) {
-            int k = i * frame2.index;
-
-            if (k + i <= this.imageData.limit()) {
-                this.interpolateData.clear();
-
-                for (int l = 0; l < i; ++l) {
-                    int i1 = this.imageData.get(j + l) & 255;
-                    int j1 = this.imageData.get(k + l) & 255;
-                    int k1 = this.mix(i1, j1, dd);
-                    byte b0 = (byte) k1;
-                    this.interpolateData.put(b0);
-                }
-
-                this.interpolateData.flip();
-                GlStateManager.bindTexture(this.dstTextId);
-                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) this.interpolateData);
-            }
+    private void updateTextureInerpolate(final TextureAnimationFrame frame1, final TextureAnimationFrame frame2, final double k) {
+        final int frameLen = this.frameWidth * this.frameHeight * 4;
+        final int offset1 = frameLen * frame1.index;
+        if (offset1 + frameLen > this.imageData.limit()) {
+            return;
         }
+        final int offset2 = frameLen * frame2.index;
+        if (offset2 + frameLen > this.imageData.limit()) {
+            return;
+        }
+        this.interpolateData.clear();
+        for (int i = 0; i < frameLen; ++i) {
+            final int c1 = this.imageData.get(offset1 + i) & 0xFF;
+            final int c2 = this.imageData.get(offset2 + i) & 0xFF;
+            final int c3 = this.mix(c1, c2, k);
+            final byte b = (byte)c3;
+            this.interpolateData.put(b);
+        }
+        this.interpolateData.flip();
+        GlStateManager.bindTexture(this.dstTextId);
+        GL11.glTexSubImage2D(3553, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, 6408, 5121, this.interpolateData);
     }
 
     private int mix(int col1, int col2, double k)

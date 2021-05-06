@@ -98,8 +98,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Returns the stack in the given slot.
-     *  
-     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -108,9 +106,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
-     *  
-     * @param index The slot to remove from.
-     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -142,10 +137,8 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Removes a stack from the given slot and returns it.
-     *  
-     * @param index The slot to remove a stack from.
      */
-    public ItemStack getStackInSlotOnClosing(int index)
+    public ItemStack removeStackFromSlot(int index)
     {
         if (this.inventory[index] != null)
         {
@@ -173,9 +166,9 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
         return this.hasCustomName() ? this.customName : "container.hopper";
     }
@@ -206,7 +199,14 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        if (this.worldObj.getTileEntity(this.pos) != this)
+        {
+            return false;
+        }
+        else
+        {
+            return !(player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) > 64.0D);
+        }
     }
 
     public void openInventory(EntityPlayer player)
@@ -344,9 +344,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Returns false if the inventory has any room to place items in
-     *  
-     * @param inventoryIn The inventory to check
-     * @param side The side to check from
      */
     private boolean isInventoryFull(IInventory inventoryIn, EnumFacing side)
     {
@@ -385,9 +382,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Returns false if the specified IInventory contains any items
-     *  
-     * @param inventoryIn The inventory to check
-     * @param side The side to access the inventory from
      */
     private static boolean isInventoryEmpty(IInventory inventoryIn, EnumFacing side)
     {
@@ -476,8 +470,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
     /**
      * Pulls from the specified slot in the inventory and places in any available slot in the hopper. Returns true if
      * the entire stack was moved
-     *  
-     * @param index The slot to pull from
      */
     private static boolean pullItemFromSlot(IHopper hopper, IInventory inventoryIn, int index, EnumFacing direction)
     {
@@ -566,24 +558,21 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Can this hopper insert the specified item from the specified slot on the specified side?
-     *  
-     * @param inventoryIn The inventory to check if insertable
-     * @param stack The stack to check if insertable
-     * @param index The slot to check if insertable
-     * @param side The side to check if insertable
      */
     private static boolean canInsertItemInSlot(IInventory inventoryIn, ItemStack stack, int index, EnumFacing side)
     {
-        return !inventoryIn.isItemValidForSlot(index, stack) ? false : !(inventoryIn instanceof ISidedInventory) || ((ISidedInventory)inventoryIn).canInsertItem(index, stack, side);
+        if (!inventoryIn.isItemValidForSlot(index, stack))
+        {
+            return false;
+        }
+        else
+        {
+            return !(inventoryIn instanceof ISidedInventory) || ((ISidedInventory)inventoryIn).canInsertItem(index, stack, side);
+        }
     }
 
     /**
      * Can this hopper extract the specified item from the specified slot on the specified side?
-     *  
-     * @param inventoryIn The inventory to check
-     * @param stack Item to check if extractable
-     * @param index Slot to check if extractable
-     * @param side Side to check if extractable
      */
     private static boolean canExtractItemFromSlot(IInventory inventoryIn, ItemStack stack, int index, EnumFacing side)
     {
@@ -592,11 +581,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Insert the specified stack to the specified inventory and return any leftover items
-     *  
-     * @param inventoryIn The inventory to insert to
-     * @param stack The stack to try and insert
-     * @param index The slot to try and put items in
-     * @param side The side to insert from
      */
     private static ItemStack insertStack(IInventory inventoryIn, ItemStack stack, int index, EnumFacing side)
     {
@@ -653,8 +637,6 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     /**
      * Returns the IInventory for the specified hopper
-     *  
-     * @param hopper The hopper the return an inventory for
      */
     public static IInventory getHopperInventory(IHopper hopper)
     {
@@ -663,7 +645,7 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     public static List<EntityItem> func_181556_a(World p_181556_0_, double p_181556_1_, double p_181556_3_, double p_181556_5_)
     {
-        return p_181556_0_.<EntityItem>getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p_181556_1_ - 0.5D, p_181556_3_ - 0.5D, p_181556_5_ - 0.5D, p_181556_1_ + 0.5D, p_181556_3_ + 0.5D, p_181556_5_ + 0.5D), EntitySelectors.selectAnything);
+        return p_181556_0_.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p_181556_1_ - 0.5D, p_181556_3_ - 0.5D, p_181556_5_ - 0.5D, p_181556_1_ + 0.5D, p_181556_3_ + 0.5D, p_181556_5_ + 0.5D), EntitySelectors.selectAnything);
     }
 
     /**
@@ -708,7 +690,22 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
 
     private static boolean canCombine(ItemStack stack1, ItemStack stack2)
     {
-        return stack1.getItem() != stack2.getItem() ? false : (stack1.getMetadata() != stack2.getMetadata() ? false : (stack1.stackSize > stack1.getMaxStackSize() ? false : ItemStack.areItemStackTagsEqual(stack1, stack2)));
+        if (stack1.getItem() != stack2.getItem())
+        {
+            return false;
+        }
+        else if (stack1.getMetadata() != stack2.getMetadata())
+        {
+            return false;
+        }
+        else if (stack1.stackSize > stack1.getMaxStackSize())
+        {
+            return false;
+        }
+        else
+        {
+            return ItemStack.areItemStackTagsEqual(stack1, stack2);
+        }
     }
 
     /**

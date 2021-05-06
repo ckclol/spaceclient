@@ -47,7 +47,7 @@ public class TooltipProviderOptions implements TooltipProvider
 
     public static String[] getTooltipLines(String key)
     {
-        List<String> list = new ArrayList();
+        List<String> list = new ArrayList<>();
 
         for (int i = 0; i < 10; ++i)
         {
@@ -68,7 +68,7 @@ public class TooltipProviderOptions implements TooltipProvider
         }
         else
         {
-            String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring = list.toArray(new String[list.size()]);
             return astring;
         }
     }

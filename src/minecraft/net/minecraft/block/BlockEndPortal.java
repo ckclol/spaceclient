@@ -45,8 +45,6 @@ public class BlockEndPortal extends BlockContainer
 
     /**
      * Add all collision boxes of this Block to the list that intersect with the given mask.
-     *  
-     * @param collidingEntity the Entity colliding with this Block
      */
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
@@ -92,12 +90,9 @@ public class BlockEndPortal extends BlockContainer
         double d3 = 0.0D;
         double d4 = 0.0D;
         double d5 = 0.0D;
-        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5, new int[0]);
+        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5);
     }
 
-    /**
-     * Used by pick block on the client to get a block's item form, if it exists.
-     */
     public Item getItem(World worldIn, BlockPos pos)
     {
         return null;

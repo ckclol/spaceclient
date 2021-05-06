@@ -30,7 +30,39 @@ public class ModelAdapterWitch extends ModelAdapter
         else
         {
             ModelWitch modelwitch = (ModelWitch)model;
-            return modelPart.equals("mole") ? (ModelRenderer)Reflector.getFieldValue(modelwitch, Reflector.ModelWitch_mole) : (modelPart.equals("hat") ? (ModelRenderer)Reflector.getFieldValue(modelwitch, Reflector.ModelWitch_hat) : (modelPart.equals("head") ? modelwitch.villagerHead : (modelPart.equals("body") ? modelwitch.villagerBody : (modelPart.equals("arms") ? modelwitch.villagerArms : (modelPart.equals("left_leg") ? modelwitch.leftVillagerLeg : (modelPart.equals("right_leg") ? modelwitch.rightVillagerLeg : (modelPart.equals("nose") ? modelwitch.villagerNose : null)))))));
+
+            if (modelPart.equals("mole"))
+            {
+                return (ModelRenderer)Reflector.getFieldValue(modelwitch, Reflector.ModelWitch_mole);
+            }
+            else if (modelPart.equals("hat"))
+            {
+                return (ModelRenderer)Reflector.getFieldValue(modelwitch, Reflector.ModelWitch_hat);
+            }
+            else if (modelPart.equals("head"))
+            {
+                return modelwitch.villagerHead;
+            }
+            else if (modelPart.equals("body"))
+            {
+                return modelwitch.villagerBody;
+            }
+            else if (modelPart.equals("arms"))
+            {
+                return modelwitch.villagerArms;
+            }
+            else if (modelPart.equals("left_leg"))
+            {
+                return modelwitch.leftVillagerLeg;
+            }
+            else if (modelPart.equals("right_leg"))
+            {
+                return modelwitch.rightVillagerLeg;
+            }
+            else
+            {
+                return modelPart.equals("nose") ? modelwitch.villagerNose : null;
+            }
         }
     }
 

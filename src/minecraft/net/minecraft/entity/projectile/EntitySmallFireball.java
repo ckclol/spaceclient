@@ -55,7 +55,7 @@ public class EntitySmallFireball extends EntityFireball
 
                 if (this.shootingEntity != null && this.shootingEntity instanceof EntityLiving)
                 {
-                    flag1 = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+                    flag1 = this.worldObj.getGameRules().getBoolean("mobGriefing");
                 }
 
                 if (flag1)

@@ -24,7 +24,7 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
         {
             return false;
         }
-        else if (!this.theEntity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+        else if (!this.theEntity.worldObj.getGameRules().getBoolean("mobGriefing"))
         {
             return false;
         }
@@ -50,7 +50,6 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
     public boolean continueExecuting()
     {
         double d0 = this.theEntity.getDistanceSq(this.doorPosition);
-        boolean flag;
 
         if (this.breakingTime <= 240)
         {
@@ -58,13 +57,11 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
 
             if (!BlockDoor.isOpen(this.theEntity.worldObj, this.doorPosition) && d0 < 4.0D)
             {
-                flag = true;
-                return flag;
+                return true;
             }
         }
 
-        flag = false;
-        return flag;
+        return false;
     }
 
     /**

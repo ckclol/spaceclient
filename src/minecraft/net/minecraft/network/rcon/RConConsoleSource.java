@@ -12,13 +12,16 @@ import net.minecraft.world.World;
 
 public class RConConsoleSource implements ICommandSender
 {
-    private static final RConConsoleSource field_70010_a = new RConConsoleSource();
-    private StringBuffer field_70009_b = new StringBuffer();
+    /** Single instance of RConConsoleSource */
+    private static final RConConsoleSource instance = new RConConsoleSource();
+
+    /** RCon string buffer for log. */
+    private StringBuffer buffer = new StringBuffer();
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
         return "Rcon";
     }
@@ -28,24 +31,19 @@ public class RConConsoleSource implements ICommandSender
      */
     public IChatComponent getDisplayName()
     {
-        return new ChatComponentText(this.getCommandSenderName());
+        return new ChatComponentText(this.getName());
     }
 
     /**
      * Send a chat message to the CommandSender
-     *  
-     * @param component The ChatComponent to send
      */
     public void addChatMessage(IChatComponent component)
     {
-        this.field_70009_b.append(component.getUnformattedText());
+        this.buffer.append(component.getUnformattedText());
     }
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
-     *  
-     * @param permLevel The permission level required to execute the command
-     * @param commandName The name of the command
      */
     public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {

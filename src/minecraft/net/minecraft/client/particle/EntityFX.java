@@ -33,7 +33,7 @@ public class EntityFX extends Entity
     protected float particleBlue;
 
     /** Particle alpha */
-    protected float particleAlpha;
+    protected float particleAlpha = 1.0F;
 
     /** The icon field from which the given particle pulls its texture. */
     protected TextureAtlasSprite particleIcon;
@@ -44,7 +44,6 @@ public class EntityFX extends Entity
     protected EntityFX(World worldIn, double posXIn, double posYIn, double posZIn)
     {
         super(worldIn);
-        this.particleAlpha = 1.0F;
         this.setSize(0.2F, 0.2F);
         this.setPosition(posXIn, posYIn, posZIn);
         this.lastTickPosX = this.prevPosX = posXIn;
@@ -61,28 +60,28 @@ public class EntityFX extends Entity
     public EntityFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         this(worldIn, xCoordIn, yCoordIn, zCoordIn);
-        this.motionX = xSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
-        this.motionY = ySpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
-        this.motionZ = zSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
+        this.motionX = xSpeedIn + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
+        this.motionY = ySpeedIn + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
+        this.motionZ = zSpeedIn + (Math.random() * 2.0D - 1.0D) * (double)0.4F;
         float f = (float)(Math.random() + Math.random() + 1.0D) * 0.15F;
         float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-        this.motionX = this.motionX / (double)f1 * (double)f * 0.4000000059604645D;
-        this.motionY = this.motionY / (double)f1 * (double)f * 0.4000000059604645D + 0.10000000149011612D;
-        this.motionZ = this.motionZ / (double)f1 * (double)f * 0.4000000059604645D;
+        this.motionX = this.motionX / (double)f1 * (double)f * (double)0.4F;
+        this.motionY = this.motionY / (double)f1 * (double)f * (double)0.4F + (double)0.1F;
+        this.motionZ = this.motionZ / (double)f1 * (double)f * (double)0.4F;
     }
 
     public EntityFX multiplyVelocity(float multiplier)
     {
         this.motionX *= (double)multiplier;
-        this.motionY = (this.motionY - 0.10000000149011612D) * (double)multiplier + 0.10000000149011612D;
+        this.motionY = (this.motionY - (double)0.1F) * (double)multiplier + (double)0.1F;
         this.motionZ *= (double)multiplier;
         return this;
     }
 
-    public EntityFX multipleParticleScaleBy(float p_70541_1_)
+    public EntityFX multipleParticleScaleBy(float scale)
     {
-        this.setSize(0.2F * p_70541_1_, 0.2F * p_70541_1_);
-        this.particleScale *= p_70541_1_;
+        this.setSize(0.2F * scale, 0.2F * scale);
+        this.particleScale *= scale;
         return this;
     }
 
@@ -159,23 +158,21 @@ public class EntityFX extends Entity
 
         this.motionY -= 0.04D * (double)this.particleGravity;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9800000190734863D;
-        this.motionY *= 0.9800000190734863D;
-        this.motionZ *= 0.9800000190734863D;
+        this.motionX *= (double)0.98F;
+        this.motionY *= (double)0.98F;
+        this.motionZ *= (double)0.98F;
 
         if (this.onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            this.motionX *= (double)0.7F;
+            this.motionZ *= (double)0.7F;
         }
     }
 
     /**
      * Renders the particle
-     *  
-     * @param worldRendererIn The WorldRenderer instance
      */
-    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
+    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = (float)this.particleTextureIndexX / 16.0F;
         float f1 = f + 0.0624375F;
@@ -197,10 +194,10 @@ public class EntityFX extends Entity
         int i = this.getBrightnessForRender(partialTicks);
         int j = i >> 16 & 65535;
         int k = i & 65535;
-        worldRendererIn.func_181662_b((double)(f5 - p_180434_4_ * f4 - p_180434_7_ * f4), (double)(f6 - p_180434_5_ * f4), (double)(f7 - p_180434_6_ * f4 - p_180434_8_ * f4)).func_181673_a((double)f1, (double)f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).func_181675_d();
-        worldRendererIn.func_181662_b((double)(f5 - p_180434_4_ * f4 + p_180434_7_ * f4), (double)(f6 + p_180434_5_ * f4), (double)(f7 - p_180434_6_ * f4 + p_180434_8_ * f4)).func_181673_a((double)f1, (double)f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).func_181675_d();
-        worldRendererIn.func_181662_b((double)(f5 + p_180434_4_ * f4 + p_180434_7_ * f4), (double)(f6 + p_180434_5_ * f4), (double)(f7 + p_180434_6_ * f4 + p_180434_8_ * f4)).func_181673_a((double)f, (double)f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).func_181675_d();
-        worldRendererIn.func_181662_b((double)(f5 + p_180434_4_ * f4 - p_180434_7_ * f4), (double)(f6 - p_180434_5_ * f4), (double)(f7 + p_180434_6_ * f4 - p_180434_8_ * f4)).func_181673_a((double)f, (double)f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).func_181675_d();
+        worldRendererIn.pos((double)(f5 - rotationX * f4 - rotationXY * f4), (double)(f6 - rotationZ * f4), (double)(f7 - rotationYZ * f4 - rotationXZ * f4)).tex((double)f1, (double)f3).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        worldRendererIn.pos((double)(f5 - rotationX * f4 + rotationXY * f4), (double)(f6 + rotationZ * f4), (double)(f7 - rotationYZ * f4 + rotationXZ * f4)).tex((double)f1, (double)f2).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        worldRendererIn.pos((double)(f5 + rotationX * f4 + rotationXY * f4), (double)(f6 + rotationZ * f4), (double)(f7 + rotationYZ * f4 + rotationXZ * f4)).tex((double)f, (double)f2).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        worldRendererIn.pos((double)(f5 + rotationX * f4 - rotationXY * f4), (double)(f6 - rotationZ * f4), (double)(f7 + rotationYZ * f4 - rotationXZ * f4)).tex((double)f, (double)f3).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
     }
 
     public int getFXLayer()
@@ -224,8 +221,6 @@ public class EntityFX extends Entity
 
     /**
      * Sets the particle's icon.
-     *  
-     * @param icon The icon to set for this particle
      */
     public void setParticleIcon(TextureAtlasSprite icon)
     {

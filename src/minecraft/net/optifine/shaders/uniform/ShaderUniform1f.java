@@ -5,7 +5,7 @@ import org.lwjgl.opengl.ARBShaderObjects;
 public class ShaderUniform1f extends ShaderUniformBase
 {
     private float[] programValues;
-    private static final float VALUE_UNKNOWN = -3.4028235E38F;
+    private static final float VALUE_UNKNOWN = -Float.MAX_VALUE;
 
     public ShaderUniform1f(String name)
     {
@@ -48,7 +48,7 @@ public class ShaderUniform1f extends ShaderUniformBase
 
             for (int i = afloat.length; i < afloat1.length; ++i)
             {
-                afloat1[i] = -3.4028235E38F;
+                afloat1[i] = -Float.MAX_VALUE;
             }
 
             this.programValues = afloat1;
@@ -57,6 +57,6 @@ public class ShaderUniform1f extends ShaderUniformBase
 
     protected void resetValue()
     {
-        this.programValues = new float[] { -3.4028235E38F};
+        this.programValues = new float[] {-Float.MAX_VALUE};
     }
 }

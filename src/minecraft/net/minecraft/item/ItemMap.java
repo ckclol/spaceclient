@@ -98,7 +98,7 @@ public class ItemMap extends ItemMapBase
                             boolean flag1 = i2 * i2 + j2 * j2 > (j1 - 2) * (j1 - 2);
                             int k2 = (j / i + k1 - 64) * i;
                             int l2 = (k / i + l1 - 64) * i;
-                            Multiset<MapColor> multiset = HashMultiset.<MapColor>create();
+                            Multiset<MapColor> multiset = HashMultiset.create();
                             Chunk chunk = worldIn.getChunkFromBlockCoords(new BlockPos(k2, 0, l2));
 
                             if (!chunk.isEmpty())
@@ -137,12 +137,12 @@ public class ItemMap extends ItemMapBase
 
                                             if (k4 > 1)
                                             {
-                                                label541:
+                                                label173:
                                                 {
                                                     while (true)
                                                     {
                                                         --k4;
-                                                        iblockstate = chunk.getBlockState(blockpos$mutableblockpos.func_181079_c(i4 + i3, k4, j4 + j3));
+                                                        iblockstate = chunk.getBlockState(blockpos$mutableblockpos.set(i4 + i3, k4, j4 + j3));
 
                                                         if (iblockstate.getBlock().getMapColor(iblockstate) != MapColor.airColor || k4 <= 0)
                                                         {
@@ -161,7 +161,7 @@ public class ItemMap extends ItemMapBase
 
                                                             if (l4 <= 0 || !block.getMaterial().isLiquid())
                                                             {
-                                                                break label541;
+                                                                break label173;
                                                             }
                                                         }
                                                     }
@@ -188,7 +188,7 @@ public class ItemMap extends ItemMapBase
                                     i5 = 0;
                                 }
 
-                                MapColor mapcolor = (MapColor)Iterables.getFirst(Multisets.<MapColor>copyHighestCountFirst(multiset), MapColor.airColor);
+                                MapColor mapcolor = Iterables.getFirst(Multisets.copyHighestCountFirst(multiset), MapColor.airColor);
 
                                 if (mapcolor == MapColor.waterColor)
                                 {
@@ -282,9 +282,6 @@ public class ItemMap extends ItemMapBase
 
     /**
      * allows items to add custom lines of information to the mouseover description
-     *  
-     * @param tooltip All lines to display in the Item's tooltip. This is a List of Strings.
-     * @param advanced Whether the setting "Advanced tooltips" is enabled
      */
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
     {

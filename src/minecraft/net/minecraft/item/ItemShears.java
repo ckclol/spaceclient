@@ -41,8 +41,15 @@ public class ItemShears extends Item
         return blockIn == Blocks.web || blockIn == Blocks.redstone_wire || blockIn == Blocks.tripwire;
     }
 
-    public float getStrVsBlock(ItemStack stack, Block block)
+    public float getStrVsBlock(ItemStack stack, Block state)
     {
-        return block != Blocks.web && block.getMaterial() != Material.leaves ? (block == Blocks.wool ? 5.0F : super.getStrVsBlock(stack, block)) : 15.0F;
+        if (state != Blocks.web && state.getMaterial() != Material.leaves)
+        {
+            return state == Blocks.wool ? 5.0F : super.getStrVsBlock(stack, state);
+        }
+        else
+        {
+            return 15.0F;
+        }
     }
 }

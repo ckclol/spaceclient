@@ -33,7 +33,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomFishable;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
@@ -63,7 +62,7 @@ public class EntityGuardian extends EntityMob
         this.tasks.addTask(9, new EntityAILookIdle(this));
         this.wander.setMutexBits(3);
         entityaimovetowardsrestriction.setMutexBits(3);
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 10, true, false, new EntityGuardian.GuardianTargetSelector(this)));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 10, true, false, new EntityGuardian.GuardianTargetSelector(this)));
         this.moveHelper = new EntityGuardian.GuardianMoveHelper(this);
         this.field_175484_c = this.field_175482_b = this.rand.nextFloat();
     }
@@ -106,8 +105,8 @@ public class EntityGuardian extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Integer.valueOf(0));
-        this.dataWatcher.addObject(17, Integer.valueOf(0));
+        this.dataWatcher.addObject(16, 0);
+        this.dataWatcher.addObject(17, 0);
     }
 
     /**
@@ -120,8 +119,6 @@ public class EntityGuardian extends EntityMob
 
     /**
      * Sets a flag state "on/off" on both sides (client/server) by using DataWatcher
-     *  
-     * @param flagId flag byte
      */
     private void setSyncedFlag(int flagId, boolean state)
     {
@@ -129,11 +126,11 @@ public class EntityGuardian extends EntityMob
 
         if (state)
         {
-            this.dataWatcher.updateObject(16, Integer.valueOf(i | flagId));
+            this.dataWatcher.updateObject(16, i | flagId);
         }
         else
         {
-            this.dataWatcher.updateObject(16, Integer.valueOf(i & ~flagId));
+            this.dataWatcher.updateObject(16, i & ~flagId);
         }
     }
 
@@ -159,8 +156,6 @@ public class EntityGuardian extends EntityMob
 
     /**
      * Sets this Guardian to be an elder or not.
-     *  
-     * @param elder Whether this guardian is an elder or not
      */
     public void setElder(boolean elder)
     {
@@ -169,7 +164,7 @@ public class EntityGuardian extends EntityMob
         if (elder)
         {
             this.setSize(1.9975F, 1.9975F);
-            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30000001192092896D);
+            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue((double)0.3F);
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.0D);
             this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(80.0D);
             this.enablePersistence();
@@ -185,7 +180,7 @@ public class EntityGuardian extends EntityMob
 
     private void setTargetedEntity(int entityId)
     {
-        this.dataWatcher.updateObject(17, Integer.valueOf(entityId));
+        this.dataWatcher.updateObject(17, entityId);
     }
 
     public boolean hasTargetedEntity()
@@ -257,7 +252,14 @@ public class EntityGuardian extends EntityMob
      */
     protected String getLivingSound()
     {
-        return !this.isInWater() ? "mob.guardian.land.idle" : (this.isElder() ? "mob.guardian.elder.idle" : "mob.guardian.idle");
+        if (!this.isInWater())
+        {
+            return "mob.guardian.land.idle";
+        }
+        else
+        {
+            return this.isElder() ? "mob.guardian.elder.idle" : "mob.guardian.idle";
+        }
     }
 
     /**
@@ -265,7 +267,14 @@ public class EntityGuardian extends EntityMob
      */
     protected String getHurtSound()
     {
-        return !this.isInWater() ? "mob.guardian.land.hit" : (this.isElder() ? "mob.guardian.elder.hit" : "mob.guardian.hit");
+        if (!this.isInWater())
+        {
+            return "mob.guardian.land.hit";
+        }
+        else
+        {
+            return this.isElder() ? "mob.guardian.elder.hit" : "mob.guardian.hit";
+        }
     }
 
     /**
@@ -273,7 +282,14 @@ public class EntityGuardian extends EntityMob
      */
     protected String getDeathSound()
     {
-        return !this.isInWater() ? "mob.guardian.land.death" : (this.isElder() ? "mob.guardian.elder.death" : "mob.guardian.death");
+        if (!this.isInWater())
+        {
+            return "mob.guardian.land.death";
+        }
+        else
+        {
+            return this.isElder() ? "mob.guardian.elder.death" : "mob.guardian.death";
+        }
     }
 
     /**
@@ -354,7 +370,7 @@ public class EntityGuardian extends EntityMob
 
                 for (int i = 0; i < 2; ++i)
                 {
-                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width - vec3.xCoord * 1.5D, this.posY + this.rand.nextDouble() * (double)this.height - vec3.yCoord * 1.5D, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width - vec3.zCoord * 1.5D, 0.0D, 0.0D, 0.0D, new int[0]);
+                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width - vec3.xCoord * 1.5D, this.posY + this.rand.nextDouble() * (double)this.height - vec3.yCoord * 1.5D, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width - vec3.zCoord * 1.5D, 0.0D, 0.0D, 0.0D);
                 }
             }
 
@@ -384,7 +400,7 @@ public class EntityGuardian extends EntityMob
                     while (d4 < d3)
                     {
                         d4 += 1.8D - d5 + this.rand.nextDouble() * (1.7D - d5);
-                        this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + d0 * d4, this.posY + d1 * d4 + (double)this.getEyeHeight(), this.posZ + d2 * d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                        this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + d0 * d4, this.posY + d1 * d4 + (double)this.getEyeHeight(), this.posZ + d2 * d4, 0.0D, 0.0D, 0.0D);
                     }
                 }
             }
@@ -467,26 +483,30 @@ public class EntityGuardian extends EntityMob
 
     /**
      * Drop 0-2 items of this living's type
+     *  
+     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
+     * or tameable)
+     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
     {
-        int i = this.rand.nextInt(3) + this.rand.nextInt(p_70628_2_ + 1);
+        int i = this.rand.nextInt(3) + this.rand.nextInt(lootingModifier + 1);
 
         if (i > 0)
         {
             this.entityDropItem(new ItemStack(Items.prismarine_shard, i, 0), 1.0F);
         }
 
-        if (this.rand.nextInt(3 + p_70628_2_) > 1)
+        if (this.rand.nextInt(3 + lootingModifier) > 1)
         {
             this.entityDropItem(new ItemStack(Items.fish, 1, ItemFishFood.FishType.COD.getMetadata()), 1.0F);
         }
-        else if (this.rand.nextInt(3 + p_70628_2_) > 1)
+        else if (this.rand.nextInt(3 + lootingModifier) > 1)
         {
             this.entityDropItem(new ItemStack(Items.prismarine_crystals, 1, 0), 1.0F);
         }
 
-        if (p_70628_1_ && this.isElder())
+        if (wasRecentlyHit && this.isElder())
         {
             this.entityDropItem(new ItemStack(Blocks.sponge, 1, 1), 1.0F);
         }
@@ -497,7 +517,7 @@ public class EntityGuardian extends EntityMob
      */
     protected void addRandomDrop()
     {
-        ItemStack itemstack = ((WeightedRandomFishable)WeightedRandom.getRandomItem(this.rand, EntityFishHook.func_174855_j())).getItemStack(this.rand);
+        ItemStack itemstack = WeightedRandom.getRandomItem(this.rand, EntityFishHook.func_174855_j()).getItemStack(this.rand);
         this.entityDropItem(itemstack, 1.0F);
     }
 
@@ -565,9 +585,9 @@ public class EntityGuardian extends EntityMob
             {
                 this.moveFlying(strafe, forward, 0.1F);
                 this.moveEntity(this.motionX, this.motionY, this.motionZ);
-                this.motionX *= 0.8999999761581421D;
-                this.motionY *= 0.8999999761581421D;
-                this.motionZ *= 0.8999999761581421D;
+                this.motionX *= (double)0.9F;
+                this.motionY *= (double)0.9F;
+                this.motionZ *= (double)0.9F;
 
                 if (!this.func_175472_n() && this.getAttackTarget() == null)
                 {
@@ -590,9 +610,9 @@ public class EntityGuardian extends EntityMob
         private EntityGuardian theEntity;
         private int tickCounter;
 
-        public AIGuardianAttack(EntityGuardian p_i45833_1_)
+        public AIGuardianAttack(EntityGuardian guardian)
         {
-            this.theEntity = p_i45833_1_;
+            this.theEntity = guardian;
             this.setMutexBits(3);
         }
 
@@ -673,10 +693,10 @@ public class EntityGuardian extends EntityMob
     {
         private EntityGuardian entityGuardian;
 
-        public GuardianMoveHelper(EntityGuardian p_i45831_1_)
+        public GuardianMoveHelper(EntityGuardian guardian)
         {
-            super(p_i45831_1_);
-            this.entityGuardian = p_i45831_1_;
+            super(guardian);
+            this.entityGuardian = guardian;
         }
 
         public void onUpdateMoveHelper()
@@ -689,7 +709,7 @@ public class EntityGuardian extends EntityMob
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
                 d3 = (double)MathHelper.sqrt_double(d3);
                 d1 = d1 / d3;
-                float f = (float)(MathHelper.func_181159_b(d2, d0) * 180.0D / Math.PI) - 90.0F;
+                float f = (float)(MathHelper.atan2(d2, d0) * 180.0D / (double)(float)Math.PI) - 90.0F;
                 this.entityGuardian.rotationYaw = this.limitAngle(this.entityGuardian.rotationYaw, f, 30.0F);
                 this.entityGuardian.renderYawOffset = this.entityGuardian.rotationYaw;
                 float f1 = (float)(this.speed * this.entityGuardian.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
@@ -732,9 +752,9 @@ public class EntityGuardian extends EntityMob
     {
         private EntityGuardian parentEntity;
 
-        public GuardianTargetSelector(EntityGuardian p_i45832_1_)
+        public GuardianTargetSelector(EntityGuardian guardian)
         {
-            this.parentEntity = p_i45832_1_;
+            this.parentEntity = guardian;
         }
 
         public boolean apply(EntityLivingBase p_apply_1_)

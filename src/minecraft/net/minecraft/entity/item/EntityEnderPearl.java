@@ -15,9 +15,9 @@ public class EntityEnderPearl extends EntityThrowable
 {
     private EntityLivingBase field_181555_c;
 
-    public EntityEnderPearl(World p_i46455_1_)
+    public EntityEnderPearl(World worldIn)
     {
-        super(p_i46455_1_);
+        super(worldIn);
     }
 
     public EntityEnderPearl(World worldIn, EntityLivingBase p_i1783_2_)
@@ -26,9 +26,9 @@ public class EntityEnderPearl extends EntityThrowable
         this.field_181555_c = p_i1783_2_;
     }
 
-    public EntityEnderPearl(World worldIn, double p_i1784_2_, double p_i1784_4_, double p_i1784_6_)
+    public EntityEnderPearl(World worldIn, double x, double y, double z)
     {
-        super(worldIn, p_i1784_2_, p_i1784_4_, p_i1784_6_);
+        super(worldIn, x, y, z);
     }
 
     /**
@@ -50,7 +50,7 @@ public class EntityEnderPearl extends EntityThrowable
 
         for (int i = 0; i < 32; ++i)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+            this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
         }
 
         if (!this.worldObj.isRemote)
@@ -61,7 +61,7 @@ public class EntityEnderPearl extends EntityThrowable
 
                 if (entityplayermp.playerNetServerHandler.getNetworkManager().isChannelOpen() && entityplayermp.worldObj == this.worldObj && !entityplayermp.isPlayerSleeping())
                 {
-                    if (this.rand.nextFloat() < 0.05F && this.worldObj.getGameRules().getGameRuleBooleanValue("doMobSpawning"))
+                    if (this.rand.nextFloat() < 0.05F && this.worldObj.getGameRules().getBoolean("doMobSpawning"))
                     {
                         EntityEndermite entityendermite = new EntityEndermite(this.worldObj);
                         entityendermite.setSpawnedByPlayer(true);

@@ -19,9 +19,9 @@ public class BiomeGenForest extends BiomeGenBase
     protected static final WorldGenForest field_150630_aD = new WorldGenForest(false, false);
     protected static final WorldGenCanopyTree field_150631_aE = new WorldGenCanopyTree(false);
 
-    public BiomeGenForest(int p_i45377_1_, int p_i45377_2_)
+    public BiomeGenForest(int id, int p_i45377_2_)
     {
-        super(p_i45377_1_);
+        super(id);
         this.field_150632_aF = p_i45377_2_;
         this.theBiomeDecorator.treesPerChunk = 10;
         this.theBiomeDecorator.grassPerChunk = 2;
@@ -54,12 +54,12 @@ public class BiomeGenForest extends BiomeGenBase
         }
     }
 
-    protected BiomeGenBase func_150557_a(int p_150557_1_, boolean p_150557_2_)
+    protected BiomeGenBase func_150557_a(int colorIn, boolean p_150557_2_)
     {
         if (this.field_150632_aF == 2)
         {
             this.field_150609_ah = 353825;
-            this.color = p_150557_1_;
+            this.color = colorIn;
 
             if (p_150557_2_)
             {
@@ -70,13 +70,20 @@ public class BiomeGenForest extends BiomeGenBase
         }
         else
         {
-            return super.func_150557_a(p_150557_1_, p_150557_2_);
+            return super.func_150557_a(colorIn, p_150557_2_);
         }
     }
 
     public WorldGenAbstractTree genBigTreeChance(Random rand)
     {
-        return (WorldGenAbstractTree)(this.field_150632_aF == 3 && rand.nextInt(3) > 0 ? field_150631_aE : (this.field_150632_aF != 2 && rand.nextInt(5) != 0 ? this.worldGeneratorTrees : field_150630_aD));
+        if (this.field_150632_aF == 3 && rand.nextInt(3) > 0)
+        {
+            return field_150631_aE;
+        }
+        else
+        {
+            return (WorldGenAbstractTree)(this.field_150632_aF != 2 && rand.nextInt(5) != 0 ? this.worldGeneratorTrees : field_150630_aD);
+        }
     }
 
     public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos)
@@ -170,7 +177,7 @@ public class BiomeGenForest extends BiomeGenBase
         return this.field_150632_aF == 3 ? (i & 16711422) + 2634762 >> 1 : i;
     }
 
-    protected BiomeGenBase createMutatedBiome(final int p_180277_1_)
+    protected BiomeGenBase createMutatedBiome(int p_180277_1_)
     {
         if (this.biomeID == BiomeGenBase.forest.biomeID)
         {
@@ -189,7 +196,7 @@ public class BiomeGenForest extends BiomeGenBase
                 {
                     this.baseBiome.decorate(worldIn, rand, pos);
                 }
-            }: new BiomeGenMutated(p_180277_1_, this)
+            } : new BiomeGenMutated(p_180277_1_, this)
             {
                 public WorldGenAbstractTree genBigTreeChance(Random rand)
                 {

@@ -54,7 +54,7 @@ public class LayeredTexture extends AbstractTexture
         }
         catch (IOException ioexception)
         {
-            logger.error((String)"Couldn\'t load layered image", (Throwable)ioexception);
+            logger.error("Couldn't load layered image", (Throwable)ioexception);
             return;
         }
 

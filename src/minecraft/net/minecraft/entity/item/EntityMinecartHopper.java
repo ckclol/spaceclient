@@ -28,9 +28,9 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         super(worldIn);
     }
 
-    public EntityMinecartHopper(World worldIn, double p_i1721_2_, double p_i1721_4_, double p_i1721_6_)
+    public EntityMinecartHopper(World worldIn, double x, double y, double z)
     {
-        super(worldIn, p_i1721_2_, p_i1721_4_, p_i1721_6_);
+        super(worldIn, x, y, z);
     }
 
     public EntityMinecart.EnumMinecartType getMinecartType()
@@ -171,22 +171,22 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         }
         else
         {
-            List<EntityItem> list = this.worldObj.<EntityItem>getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), EntitySelectors.selectAnything);
+            List<EntityItem> list = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), EntitySelectors.selectAnything);
 
             if (list.size() > 0)
             {
-                TileEntityHopper.putDropInInventoryAllSlots(this, (EntityItem)list.get(0));
+                TileEntityHopper.putDropInInventoryAllSlots(this, list.get(0));
             }
 
             return false;
         }
     }
 
-    public void killMinecart(DamageSource p_94095_1_)
+    public void killMinecart(DamageSource source)
     {
-        super.killMinecart(p_94095_1_);
+        super.killMinecart(source);
 
-        if (this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops"))
+        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
         {
             this.dropItemWithOffset(Item.getItemFromBlock(Blocks.hopper), 1, 0.0F);
         }

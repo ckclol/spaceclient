@@ -31,8 +31,6 @@ public class CommandTrigger extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -41,15 +39,12 @@ public class CommandTrigger extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 3)
         {
-            throw new WrongUsageException("commands.trigger.usage", new Object[0]);
+            throw new WrongUsageException("commands.trigger.usage");
         }
         else
         {
@@ -65,7 +60,7 @@ public class CommandTrigger extends CommandBase
 
                 if (!(entity instanceof EntityPlayerMP))
                 {
-                    throw new CommandException("commands.trigger.invalidPlayer", new Object[0]);
+                    throw new CommandException("commands.trigger.invalidPlayer");
                 }
 
                 entityplayermp = (EntityPlayerMP)entity;
@@ -78,17 +73,17 @@ public class CommandTrigger extends CommandBase
             {
                 int i = parseInt(args[2]);
 
-                if (!scoreboard.entityHasObjective(entityplayermp.getCommandSenderName(), scoreobjective))
+                if (!scoreboard.entityHasObjective(entityplayermp.getName(), scoreobjective))
                 {
-                    throw new CommandException("commands.trigger.invalidObjective", new Object[] {args[0]});
+                    throw new CommandException("commands.trigger.invalidObjective", args[0]);
                 }
                 else
                 {
-                    Score score = scoreboard.getValueFromObjective(entityplayermp.getCommandSenderName(), scoreobjective);
+                    Score score = scoreboard.getValueFromObjective(entityplayermp.getName(), scoreobjective);
 
                     if (score.isLocked())
                     {
-                        throw new CommandException("commands.trigger.disabled", new Object[] {args[0]});
+                        throw new CommandException("commands.trigger.disabled", args[0]);
                     }
                     else
                     {
@@ -100,7 +95,7 @@ public class CommandTrigger extends CommandBase
                         {
                             if (!"add".equals(args[1]))
                             {
-                                throw new CommandException("commands.trigger.invalidMode", new Object[] {args[1]});
+                                throw new CommandException("commands.trigger.invalidMode", args[1]);
                             }
 
                             score.increseScore(i);
@@ -117,7 +112,7 @@ public class CommandTrigger extends CommandBase
             }
             else
             {
-                throw new CommandException("commands.trigger.invalidObjective", new Object[] {args[0]});
+                throw new CommandException("commands.trigger.invalidObjective", args[0]);
             }
         }
     }
@@ -127,7 +122,7 @@ public class CommandTrigger extends CommandBase
         if (args.length == 1)
         {
             Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
-            List<String> list = Lists.<String>newArrayList();
+            List<String> list = Lists.newArrayList();
 
             for (ScoreObjective scoreobjective : scoreboard.getScoreObjectives())
             {
@@ -137,11 +132,11 @@ public class CommandTrigger extends CommandBase
                 }
             }
 
-            return getListOfStringsMatchingLastWord(args, (String[])list.toArray(new String[list.size()]));
+            return getListOfStringsMatchingLastWord(args, list.toArray(new String[list.size()]));
         }
         else
         {
-            return args.length == 2 ? getListOfStringsMatchingLastWord(args, new String[] {"add", "set"}): null;
+            return args.length == 2 ? getListOfStringsMatchingLastWord(args, new String[] {"add", "set"}) : null;
         }
     }
 }

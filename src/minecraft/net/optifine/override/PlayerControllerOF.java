@@ -27,9 +27,6 @@ public class PlayerControllerOF extends PlayerControllerMP
 
     /**
      * Called when the player is hitting a block with an item.
-     *  
-     * @param loc location of the block being clicked
-     * @param face Blockface being clicked
      */
     public boolean clickBlock(BlockPos loc, EnumFacing face)
     {
@@ -78,10 +75,17 @@ public class PlayerControllerOF extends PlayerControllerMP
         return super.interactWithEntitySendPacket(player, target);
     }
 
-    public boolean func_178894_a(EntityPlayer player, Entity target, MovingObjectPosition ray)
+    /**
+     * Return true when the player rightclick on an entity
+     *  
+     * @param player The player's instance
+     * @param entityIn The entity clicked
+     * @param movingObject The object clicked
+     */
+    public boolean isPlayerRightClickingOnEntity(EntityPlayer player, Entity target, MovingObjectPosition ray)
     {
         this.lastClickEntity = target;
-        return super.func_178894_a(player, target, ray);
+        return super.isPlayerRightClickingOnEntity(player, target, ray);
     }
 
     public boolean isActing()

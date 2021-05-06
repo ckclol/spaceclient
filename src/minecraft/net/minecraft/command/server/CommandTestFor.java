@@ -33,8 +33,6 @@ public class CommandTestFor extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -43,19 +41,16 @@ public class CommandTestFor extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.testfor.usage", new Object[0]);
+            throw new WrongUsageException("commands.testfor.usage");
         }
         else
         {
-            Entity entity = func_175768_b(sender, args[0]);
+            Entity entity = getEntity(sender, args[0]);
             NBTTagCompound nbttagcompound = null;
 
             if (args.length >= 2)
@@ -66,7 +61,7 @@ public class CommandTestFor extends CommandBase
                 }
                 catch (NBTException nbtexception)
                 {
-                    throw new CommandException("commands.testfor.tagError", new Object[] {nbtexception.getMessage()});
+                    throw new CommandException("commands.testfor.tagError", nbtexception.getMessage());
                 }
             }
 
@@ -77,19 +72,16 @@ public class CommandTestFor extends CommandBase
 
                 if (!NBTUtil.func_181123_a(nbttagcompound, nbttagcompound1, true))
                 {
-                    throw new CommandException("commands.testfor.failure", new Object[] {entity.getCommandSenderName()});
+                    throw new CommandException("commands.testfor.failure", entity.getName());
                 }
             }
 
-            notifyOperators(sender, this, "commands.testfor.success", new Object[] {entity.getCommandSenderName()});
+            notifyOperators(sender, this, "commands.testfor.success", new Object[] {entity.getName()});
         }
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

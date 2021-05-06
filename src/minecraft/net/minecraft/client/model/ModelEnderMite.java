@@ -8,11 +8,10 @@ public class ModelEnderMite extends ModelBase
     private static final int[][] field_178716_a = new int[][] {{4, 3, 2}, {6, 4, 5}, {3, 3, 1}, {1, 2, 1}};
     private static final int[][] field_178714_b = new int[][] {{0, 0}, {0, 5}, {0, 14}, {0, 18}};
     private static final int field_178715_c = field_178716_a.length;
-    private final ModelRenderer[] field_178713_d;
+    private final ModelRenderer[] field_178713_d = new ModelRenderer[field_178715_c];
 
     public ModelEnderMite()
     {
-        this.field_178713_d = new ModelRenderer[field_178715_c];
         float f = -3.5F;
 
         for (int i = 0; i < this.field_178713_d.length; ++i)
@@ -46,12 +45,12 @@ public class ModelEnderMite extends ModelBase
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
         for (int i = 0; i < this.field_178713_d.length; ++i)
         {
-            this.field_178713_d[i].rotateAngleY = MathHelper.cos(p_78087_3_ * 0.9F + (float)i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.01F * (float)(1 + Math.abs(i - 2));
-            this.field_178713_d[i].rotationPointX = MathHelper.sin(p_78087_3_ * 0.9F + (float)i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.1F * (float)Math.abs(i - 2);
+            this.field_178713_d[i].rotateAngleY = MathHelper.cos(ageInTicks * 0.9F + (float)i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.01F * (float)(1 + Math.abs(i - 2));
+            this.field_178713_d[i].rotationPointX = MathHelper.sin(ageInTicks * 0.9F + (float)i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.1F * (float)Math.abs(i - 2);
         }
     }
 }

@@ -57,8 +57,6 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 
     /**
      * Returns the stack in the given slot.
-     *  
-     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -67,9 +65,6 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
-     *  
-     * @param index The slot to remove from.
-     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -101,10 +96,8 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 
     /**
      * Removes a stack from the given slot and returns it.
-     *  
-     * @param index The slot to remove a stack from.
      */
-    public ItemStack getStackInSlotOnClosing(int index)
+    public ItemStack removeStackFromSlot(int index)
     {
         if (this.furnaceItemStacks[index] != null)
         {
@@ -140,9 +133,9 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
         return this.hasCustomName() ? this.furnaceCustomName : "container.furnace";
     }
@@ -326,7 +319,27 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
         else
         {
             ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks[0]);
-            return itemstack == null ? false : (this.furnaceItemStacks[2] == null ? true : (!this.furnaceItemStacks[2].isItemEqual(itemstack) ? false : (this.furnaceItemStacks[2].stackSize < this.getInventoryStackLimit() && this.furnaceItemStacks[2].stackSize < this.furnaceItemStacks[2].getMaxStackSize() ? true : this.furnaceItemStacks[2].stackSize < itemstack.getMaxStackSize())));
+
+            if (itemstack == null)
+            {
+                return false;
+            }
+            else if (this.furnaceItemStacks[2] == null)
+            {
+                return true;
+            }
+            else if (!this.furnaceItemStacks[2].isItemEqual(itemstack))
+            {
+                return false;
+            }
+            else if (this.furnaceItemStacks[2].stackSize < this.getInventoryStackLimit() && this.furnaceItemStacks[2].stackSize < this.furnaceItemStacks[2].getMaxStackSize())
+            {
+                return true;
+            }
+            else
+            {
+                return this.furnaceItemStacks[2].stackSize < itemstack.getMaxStackSize();
+            }
         }
     }
 
@@ -396,7 +409,38 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
                 }
             }
 
-            return item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD") ? 200 : (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD") ? 200 : (item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD") ? 200 : (item == Items.stick ? 100 : (item == Items.coal ? 1600 : (item == Items.lava_bucket ? 20000 : (item == Item.getItemFromBlock(Blocks.sapling) ? 100 : (item == Items.blaze_rod ? 2400 : 0)))))));
+            if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD"))
+            {
+                return 200;
+            }
+            else if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD"))
+            {
+                return 200;
+            }
+            else if (item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD"))
+            {
+                return 200;
+            }
+            else if (item == Items.stick)
+            {
+                return 100;
+            }
+            else if (item == Items.coal)
+            {
+                return 1600;
+            }
+            else if (item == Items.lava_bucket)
+            {
+                return 20000;
+            }
+            else if (item == Item.getItemFromBlock(Blocks.sapling))
+            {
+                return 100;
+            }
+            else
+            {
+                return item == Items.blaze_rod ? 2400 : 0;
+            }
         }
     }
 
@@ -410,7 +454,14 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        if (this.worldObj.getTileEntity(this.pos) != this)
+        {
+            return false;
+        }
+        else
+        {
+            return !(player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) > 64.0D);
+        }
     }
 
     public void openInventory(EntityPlayer player)
@@ -426,12 +477,30 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
      */
     public boolean isItemValidForSlot(int index, ItemStack stack)
     {
-        return index == 2 ? false : (index != 1 ? true : isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack));
+        if (index == 2)
+        {
+            return false;
+        }
+        else if (index != 1)
+        {
+            return true;
+        }
+        else
+        {
+            return isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack);
+        }
     }
 
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return side == EnumFacing.DOWN ? slotsBottom : (side == EnumFacing.UP ? slotsTop : slotsSides);
+        if (side == EnumFacing.DOWN)
+        {
+            return slotsBottom;
+        }
+        else
+        {
+            return side == EnumFacing.UP ? slotsTop : slotsSides;
+        }
     }
 
     /**

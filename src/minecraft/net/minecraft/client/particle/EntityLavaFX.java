@@ -13,9 +13,9 @@ public class EntityLavaFX extends EntityFX
     protected EntityLavaFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
-        this.motionX *= 0.800000011920929D;
-        this.motionY *= 0.800000011920929D;
-        this.motionZ *= 0.800000011920929D;
+        this.motionX *= (double)0.8F;
+        this.motionY *= (double)0.8F;
+        this.motionZ *= (double)0.8F;
         this.motionY = (double)(this.rand.nextFloat() * 0.4F + 0.05F);
         this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
         this.particleScale *= this.rand.nextFloat() * 2.0F + 0.2F;
@@ -45,14 +45,12 @@ public class EntityLavaFX extends EntityFX
 
     /**
      * Renders the particle
-     *  
-     * @param worldRendererIn The WorldRenderer instance
      */
-    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
+    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
         this.particleScale = this.lavaParticleScale * (1.0F - f * f);
-        super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     /**
@@ -73,19 +71,19 @@ public class EntityLavaFX extends EntityFX
 
         if (this.rand.nextFloat() > f)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, new int[0]);
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ);
         }
 
         this.motionY -= 0.03D;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9990000128746033D;
-        this.motionY *= 0.9990000128746033D;
-        this.motionZ *= 0.9990000128746033D;
+        this.motionX *= (double)0.999F;
+        this.motionY *= (double)0.999F;
+        this.motionZ *= (double)0.999F;
 
         if (this.onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            this.motionX *= (double)0.7F;
+            this.motionZ *= (double)0.7F;
         }
     }
 

@@ -11,8 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class WorldVertexBufferUploader
 {
-    @SuppressWarnings("incomplete-switch")
-    public void func_181679_a(WorldRenderer p_181679_1_)
+    public void draw(WorldRenderer p_181679_1_)
     {
         if (p_181679_1_.getVertexCount() > 0)
         {
@@ -30,18 +29,18 @@ public class WorldVertexBufferUploader
 
             for (int j = 0; j < list.size(); ++j)
             {
-                VertexFormatElement vertexformatelement = (VertexFormatElement)list.get(j);
+                VertexFormatElement vertexformatelement = list.get(j);
                 VertexFormatElement.EnumUsage vertexformatelement$enumusage = vertexformatelement.getUsage();
 
                 if (flag)
                 {
-                    Reflector.callVoid(vertexformatelement$enumusage, Reflector.ForgeVertexFormatElementEnumUseage_preDraw, new Object[] {vertexformat, Integer.valueOf(j), Integer.valueOf(i), bytebuffer});
+                    Reflector.callVoid(vertexformatelement$enumusage, Reflector.ForgeVertexFormatElementEnumUseage_preDraw, vertexformat, j, i, bytebuffer);
                 }
                 else
                 {
                     int k = vertexformatelement.getType().getGlConstant();
                     int l = vertexformatelement.getIndex();
-                    bytebuffer.position(vertexformat.func_181720_d(j));
+                    bytebuffer.position(vertexformat.getOffset(j));
 
                     switch (vertexformatelement$enumusage)
                     {
@@ -86,12 +85,12 @@ public class WorldVertexBufferUploader
 
             for (int k1 = list.size(); j1 < k1; ++j1)
             {
-                VertexFormatElement vertexformatelement1 = (VertexFormatElement)list.get(j1);
+                VertexFormatElement vertexformatelement1 = list.get(j1);
                 VertexFormatElement.EnumUsage vertexformatelement$enumusage1 = vertexformatelement1.getUsage();
 
                 if (flag1)
                 {
-                    Reflector.callVoid(vertexformatelement$enumusage1, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, new Object[] {vertexformat, Integer.valueOf(j1), Integer.valueOf(i), bytebuffer});
+                    Reflector.callVoid(vertexformatelement$enumusage1, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, vertexformat, j1, i, bytebuffer);
                 }
                 else
                 {

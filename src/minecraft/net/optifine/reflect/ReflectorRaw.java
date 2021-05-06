@@ -8,6 +8,10 @@ import java.util.List;
 
 public class ReflectorRaw
 {
+    private ReflectorRaw()
+    {
+    }
+
     public static Field getField(Class cls, Class fieldType)
     {
         try
@@ -63,7 +67,7 @@ public class ReflectorRaw
                 }
             }
 
-            Field[] afield = (Field[])((Field[])list.toArray(new Field[list.size()]));
+            Field[] afield = (Field[]) list.toArray(new Field[list.size()]);
             return afield;
         }
         catch (Exception var5)
@@ -77,7 +81,7 @@ public class ReflectorRaw
         try
         {
             Field[] afield = cls.getDeclaredFields();
-            List<Field> list = Arrays.<Field>asList(afield);
+            List<Field> list = Arrays.asList(afield);
             int i = list.indexOf(field);
 
             if (i < 0)
@@ -87,7 +91,7 @@ public class ReflectorRaw
             else
             {
                 List<Field> list1 = list.subList(i + 1, list.size());
-                Field[] afield1 = (Field[])((Field[])list1.toArray(new Field[list1.size()]));
+                Field[] afield1 = list1.toArray(new Field[list1.size()]);
                 return getFields(afield1, fieldType);
             }
         }
@@ -101,7 +105,7 @@ public class ReflectorRaw
     {
         try
         {
-            List<Field> list = new ArrayList();
+            List<Field> list = new ArrayList<>();
 
             for (int i = 0; i < fields.length; ++i)
             {
@@ -128,7 +132,7 @@ public class ReflectorRaw
                 }
             }
 
-            Field[] afield = (Field[])((Field[])list.toArray(new Field[list.size()]));
+            Field[] afield = list.toArray(new Field[list.size()]);
             return afield;
         }
         catch (Exception var9)
@@ -152,25 +156,57 @@ public class ReflectorRaw
     public static Object getFieldValue(Object obj, Class cls, Class fieldType)
     {
         ReflectorField reflectorfield = getReflectorField(cls, fieldType);
-        return reflectorfield == null ? null : (!reflectorfield.exists() ? null : Reflector.getFieldValue(obj, reflectorfield));
+
+        if (reflectorfield == null)
+        {
+            return null;
+        }
+        else
+        {
+            return !reflectorfield.exists() ? null : Reflector.getFieldValue(obj, reflectorfield);
+        }
     }
 
     public static Object getFieldValue(Object obj, Class cls, Class fieldType, int index)
     {
         ReflectorField reflectorfield = getReflectorField(cls, fieldType, index);
-        return reflectorfield == null ? null : (!reflectorfield.exists() ? null : Reflector.getFieldValue(obj, reflectorfield));
+
+        if (reflectorfield == null)
+        {
+            return null;
+        }
+        else
+        {
+            return !reflectorfield.exists() ? null : Reflector.getFieldValue(obj, reflectorfield);
+        }
     }
 
     public static boolean setFieldValue(Object obj, Class cls, Class fieldType, Object value)
     {
         ReflectorField reflectorfield = getReflectorField(cls, fieldType);
-        return reflectorfield == null ? false : (!reflectorfield.exists() ? false : Reflector.setFieldValue(obj, reflectorfield, value));
+
+        if (reflectorfield == null)
+        {
+            return false;
+        }
+        else
+        {
+            return !reflectorfield.exists() ? false : Reflector.setFieldValue(obj, reflectorfield, value);
+        }
     }
 
     public static boolean setFieldValue(Object obj, Class cls, Class fieldType, int index, Object value)
     {
         ReflectorField reflectorfield = getReflectorField(cls, fieldType, index);
-        return reflectorfield == null ? false : (!reflectorfield.exists() ? false : Reflector.setFieldValue(obj, reflectorfield, value));
+
+        if (reflectorfield == null)
+        {
+            return false;
+        }
+        else
+        {
+            return !reflectorfield.exists() ? false : Reflector.setFieldValue(obj, reflectorfield, value);
+        }
     }
 
     public static ReflectorField getReflectorField(Class cls, Class fieldType)

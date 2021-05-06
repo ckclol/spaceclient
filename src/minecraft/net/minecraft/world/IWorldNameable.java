@@ -5,9 +5,9 @@ import net.minecraft.util.IChatComponent;
 public interface IWorldNameable
 {
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    String getCommandSenderName();
+    String getName();
 
     /**
      * Returns true if this thing is named

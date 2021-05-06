@@ -51,7 +51,7 @@ public class CustomPanorama
 
     private static String[] getPanoramaFolders()
     {
-        List<String> list = new ArrayList();
+        List<String> list = new ArrayList<>();
         list.add("textures/gui/title/background");
 
         for (int i = 0; i < 100; ++i)
@@ -66,7 +66,7 @@ public class CustomPanorama
             }
         }
 
-        String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] astring = list.toArray(new String[list.size()]);
         return astring;
     }
 
@@ -111,31 +111,22 @@ public class CustomPanorama
         return aproperties;
     }
 
-    private static int[] getWeights(Properties[] propertiess)
-    {
-        int[] aint = new int[propertiess.length];
-
-        for (int i = 0; i < aint.length; ++i)
-        {
-            Properties properties = propertiess[i];
-
-            if (properties == null)
-            {
-                properties = propertiess[0];
+    private static int[] getWeights(final Properties[] properties) {
+        final int[] weights = new int[properties.length];
+        for (int i = 0; i < weights.length; ++i) {
+            Properties prop = properties[i];
+            if (prop == null) {
+                prop = properties[0];
             }
-
-            if (properties == null)
-            {
-                aint[i] = 1;
+            if (prop == null) {
+                weights[i] = 1;
             }
-            else
-            {
-                String s = properties.getProperty("weight", (String)null);
-                aint[i] = Config.parseInt(s, 1);
+            else {
+                final String str = prop.getProperty("weight", null);
+                weights[i] = Config.parseInt(str, 1);
             }
         }
-
-        return aint;
+        return weights;
     }
 
     private static int getRandomIndex(int[] weights)

@@ -13,7 +13,7 @@ public class TokenParser
     {
         Reader reader = new StringReader(str);
         PushbackReader pushbackreader = new PushbackReader(reader);
-        List<Token> list = new ArrayList();
+        List<Token> list = new ArrayList<>();
 
         while (true)
         {
@@ -21,7 +21,7 @@ public class TokenParser
 
             if (i < 0)
             {
-                Token[] atoken = (Token[])((Token[])list.toArray(new Token[list.size()]));
+                Token[] atoken = list.toArray(new Token[list.size()]);
                 return atoken;
             }
 
@@ -33,7 +33,7 @@ public class TokenParser
 
                 if (tokentype == null)
                 {
-                    throw new ParseException("Invalid character: \'" + c0 + "\', in: " + str);
+                    throw new ParseException("Invalid character: '" + c0 + "', in: " + str);
                 }
 
                 Token token = readToken(c0, tokentype, pushbackreader);

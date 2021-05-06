@@ -29,17 +29,17 @@ public class ResUtils
 
     public static String[] collectFiles(String[] prefixes, String[] suffixes)
     {
-        Set<String> set = new LinkedHashSet();
+        Set<String> set = new LinkedHashSet<>();
         IResourcePack[] airesourcepack = Config.getResourcePacks();
 
         for (int i = 0; i < airesourcepack.length; ++i)
         {
             IResourcePack iresourcepack = airesourcepack[i];
-            String[] astring = collectFiles(iresourcepack, (String[])prefixes, (String[])suffixes, (String[])null);
-            set.addAll(Arrays.<String>asList(astring));
+            String[] astring = collectFiles(iresourcepack, prefixes, suffixes, (String[])null);
+            set.addAll(Arrays.asList(astring));
         }
 
-        String[] astring1 = (String[])set.toArray(new String[set.size()]);
+        String[] astring1 = set.toArray(new String[set.size()]);
         return astring1;
     }
 
@@ -50,7 +50,7 @@ public class ResUtils
 
     public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes)
     {
-        return collectFiles(rp, (String[])prefixes, (String[])suffixes, (String[])null);
+        return collectFiles(rp, prefixes, suffixes, (String[])null);
     }
 
     public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes, String[] defaultPaths)
@@ -110,7 +110,7 @@ public class ResUtils
                 }
             }
 
-            String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring = (String[]) list.toArray(new String[list.size()]);
             return astring;
         }
     }
@@ -158,7 +158,7 @@ public class ResUtils
                 }
             }
 
-            String[] astring1 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring1 = (String[]) list.toArray(new String[list.size()]);
             return astring1;
         }
     }
@@ -190,7 +190,7 @@ public class ResUtils
             }
 
             zipfile.close();
-            String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] astring = (String[]) list.toArray(new String[list.size()]);
             return astring;
         }
         catch (IOException ioexception)

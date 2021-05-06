@@ -28,12 +28,29 @@ public class BlockOre extends Block
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return this == Blocks.coal_ore ? Items.coal : (this == Blocks.diamond_ore ? Items.diamond : (this == Blocks.lapis_ore ? Items.dye : (this == Blocks.emerald_ore ? Items.emerald : (this == Blocks.quartz_ore ? Items.quartz : Item.getItemFromBlock(this)))));
+        if (this == Blocks.coal_ore)
+        {
+            return Items.coal;
+        }
+        else if (this == Blocks.diamond_ore)
+        {
+            return Items.diamond;
+        }
+        else if (this == Blocks.lapis_ore)
+        {
+            return Items.dye;
+        }
+        else if (this == Blocks.emerald_ore)
+        {
+            return Items.emerald;
+        }
+        else
+        {
+            return this == Blocks.quartz_ore ? Items.quartz : Item.getItemFromBlock(this);
+        }
     }
 
     /**
@@ -49,7 +66,7 @@ public class BlockOre extends Block
      */
     public int quantityDroppedWithBonus(int fortune, Random random)
     {
-        if (fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped((IBlockState)this.getBlockState().getValidStates().iterator().next(), random, fortune))
+        if (fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(this.getBlockState().getValidStates().iterator().next(), random, fortune))
         {
             int i = random.nextInt(fortune + 2) - 1;
 
@@ -68,9 +85,6 @@ public class BlockOre extends Block
 
     /**
      * Spawns this Block's drops into the World as EntityItems.
-     *  
-     * @param chance The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
-     * @param fortune The player's fortune level
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
@@ -105,6 +119,9 @@ public class BlockOre extends Block
         }
     }
 
+    /**
+     * Gets the meta to use for the Pick Block ItemStack result
+     */
     public int getDamageValue(World worldIn, BlockPos pos)
     {
         return 0;

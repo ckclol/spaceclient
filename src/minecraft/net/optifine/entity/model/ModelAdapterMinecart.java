@@ -36,7 +36,31 @@ public class ModelAdapterMinecart extends ModelAdapter
         else
         {
             ModelMinecart modelminecart = (ModelMinecart)model;
-            return modelPart.equals("bottom") ? modelminecart.sideModels[0] : (modelPart.equals("back") ? modelminecart.sideModels[1] : (modelPart.equals("front") ? modelminecart.sideModels[2] : (modelPart.equals("right") ? modelminecart.sideModels[3] : (modelPart.equals("left") ? modelminecart.sideModels[4] : (modelPart.equals("dirt") ? modelminecart.sideModels[5] : null)))));
+
+            if (modelPart.equals("bottom"))
+            {
+                return modelminecart.sideModels[0];
+            }
+            else if (modelPart.equals("back"))
+            {
+                return modelminecart.sideModels[1];
+            }
+            else if (modelPart.equals("front"))
+            {
+                return modelminecart.sideModels[2];
+            }
+            else if (modelPart.equals("right"))
+            {
+                return modelminecart.sideModels[3];
+            }
+            else if (modelPart.equals("left"))
+            {
+                return modelminecart.sideModels[4];
+            }
+            else
+            {
+                return modelPart.equals("dirt") ? modelminecart.sideModels[5] : null;
+            }
         }
     }
 

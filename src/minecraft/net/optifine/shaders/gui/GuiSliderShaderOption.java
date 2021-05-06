@@ -8,13 +8,14 @@ import net.optifine.shaders.config.ShaderOption;
 
 public class GuiSliderShaderOption extends GuiButtonShaderOption
 {
-    private float sliderValue = 1.0F;
+    private float sliderValue;
     public boolean dragging;
     private ShaderOption shaderOption = null;
 
     public GuiSliderShaderOption(int buttonId, int x, int y, int w, int h, ShaderOption shaderOption, String text)
     {
         super(buttonId, x, y, w, h, shaderOption, text);
+        this.sliderValue = 1.0F;
         this.shaderOption = shaderOption;
         this.sliderValue = shaderOption.getIndexNormalized();
         this.displayString = GuiShaderOptions.getButtonText(shaderOption, this.width);

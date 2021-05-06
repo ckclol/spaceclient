@@ -7,11 +7,11 @@ import net.minecraft.src.Config;
 
 public class ReflectorMethod
 {
-    private ReflectorClass reflectorClass;
-    private String targetMethodName;
-    private Class[] targetMethodParameterTypes;
-    private boolean checked;
-    private Method targetMethod;
+    private ReflectorClass reflectorClass = null;
+    private String targetMethodName = null;
+    private Class[] targetMethodParameterTypes = null;
+    private boolean checked = false;
+    private Method targetMethod = null;
 
     public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName)
     {
@@ -25,11 +25,6 @@ public class ReflectorMethod
 
     public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName, Class[] targetMethodParameterTypes, boolean lazyResolve)
     {
-        this.reflectorClass = null;
-        this.targetMethodName = null;
-        this.targetMethodParameterTypes = null;
-        this.checked = false;
-        this.targetMethod = null;
         this.reflectorClass = reflectorClass;
         this.targetMethodName = targetMethodName;
         this.targetMethodParameterTypes = targetMethodParameterTypes;
@@ -111,7 +106,14 @@ public class ReflectorMethod
 
     public boolean exists()
     {
-        return this.checked ? this.targetMethod != null : this.getTargetMethod() != null;
+        if (this.checked)
+        {
+            return this.targetMethod != null;
+        }
+        else
+        {
+            return this.getTargetMethod() != null;
+        }
     }
 
     public Class getReturnType()
@@ -163,7 +165,7 @@ public class ReflectorMethod
             }
         }
 
-        Method[] amethod1 = (Method[])((Method[])list.toArray(new Method[list.size()]));
+        Method[] amethod1 = (Method[]) list.toArray(new Method[list.size()]);
         return amethod1;
     }
 }

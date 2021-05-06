@@ -20,12 +20,11 @@ public class RenderDragon extends RenderLiving<EntityDragon>
     private static final ResourceLocation enderDragonTextures = new ResourceLocation("textures/entity/enderdragon/dragon.png");
 
     /** An instance of the dragon model in RenderDragon */
-    protected ModelDragon modelDragon;
+    protected ModelDragon modelDragon = (ModelDragon)this.mainModel;
 
     public RenderDragon(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelDragon(0.0F), 0.5F);
-        this.modelDragon = (ModelDragon)this.mainModel;
         this.addLayer(new LayerEnderDragonEyes(this));
         this.addLayer(new LayerEnderDragonDeath());
     }
@@ -55,7 +54,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
     /**
      * Renders the model in RenderLiving
      */
-    protected void renderModel(EntityDragon entitylivingbaseIn, float p_77036_2_, float p_77036_3_, float p_77036_4_, float p_77036_5_, float p_77036_6_, float p_77036_7_)
+    protected void renderModel(EntityDragon entitylivingbaseIn, float p_77036_2_, float p_77036_3_, float p_77036_4_, float p_77036_5_, float p_77036_6_, float scaleFactor)
     {
         if (entitylivingbaseIn.deathTicks > 0)
         {
@@ -64,13 +63,13 @@ public class RenderDragon extends RenderLiving<EntityDragon>
             GlStateManager.enableAlpha();
             GlStateManager.alphaFunc(516, f);
             this.bindTexture(enderDragonExplodingTextures);
-            this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
+            this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, scaleFactor);
             GlStateManager.alphaFunc(516, 0.1F);
             GlStateManager.depthFunc(514);
         }
 
         this.bindEntityTexture(entitylivingbaseIn);
-        this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
+        this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, scaleFactor);
 
         if (entitylivingbaseIn.hurtTime > 0)
         {
@@ -79,7 +78,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(770, 771);
             GlStateManager.color(1.0F, 0.0F, 0.0F, 0.5F);
-            this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
+            this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, scaleFactor);
             GlStateManager.enableTexture2D();
             GlStateManager.disableBlend();
             GlStateManager.depthFunc(515);
@@ -87,12 +86,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
     }
 
     /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doe
-     *  
-     * @param entityYaw The yaw rotation of the passed entity
+     * Renders the desired {@code T} type Entity.
      */
     public void doRender(EntityDragon entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
@@ -130,7 +124,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         GlStateManager.shadeModel(7425);
         float f7 = 0.0F - ((float)dragon.ticksExisted + p_180574_8_) * 0.01F;
         float f8 = MathHelper.sqrt_float(f2 * f2 + f3 * f3 + f4 * f4) / 32.0F - ((float)dragon.ticksExisted + p_180574_8_) * 0.01F;
-        worldrenderer.func_181668_a(5, DefaultVertexFormats.field_181709_i);
+        worldrenderer.begin(5, DefaultVertexFormats.POSITION_TEX_COLOR);
         int i = 8;
 
         for (int j = 0; j <= 8; ++j)
@@ -138,8 +132,8 @@ public class RenderDragon extends RenderLiving<EntityDragon>
             float f9 = MathHelper.sin((float)(j % 8) * (float)Math.PI * 2.0F / 8.0F) * 0.75F;
             float f10 = MathHelper.cos((float)(j % 8) * (float)Math.PI * 2.0F / 8.0F) * 0.75F;
             float f11 = (float)(j % 8) * 1.0F / 8.0F;
-            worldrenderer.func_181662_b((double)(f9 * 0.2F), (double)(f10 * 0.2F), 0.0D).func_181673_a((double)f11, (double)f8).func_181669_b(0, 0, 0, 255).func_181675_d();
-            worldrenderer.func_181662_b((double)f9, (double)f10, (double)f6).func_181673_a((double)f11, (double)f7).func_181669_b(255, 255, 255, 255).func_181675_d();
+            worldrenderer.pos((double)(f9 * 0.2F), (double)(f10 * 0.2F), 0.0D).tex((double)f11, (double)f8).color(0, 0, 0, 255).endVertex();
+            worldrenderer.pos((double)f9, (double)f10, (double)f6).tex((double)f11, (double)f7).color(255, 255, 255, 255).endVertex();
         }
 
         tessellator.draw();

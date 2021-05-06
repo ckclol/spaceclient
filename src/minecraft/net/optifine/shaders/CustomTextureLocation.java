@@ -84,6 +84,6 @@ public class CustomTextureLocation implements ICustomTexture
 
     public String toString()
     {
-        return "textureUnit: " + this.textureUnit + ", location: " + this.location + ", glTextureId: " + (this.texture != null ? Integer.valueOf(this.texture.getGlTextureId()) : "");
+        return "textureUnit: " + this.textureUnit + ", location: " + this.location + ", glTextureId: " + (this.texture != null ? this.texture.getGlTextureId() : "");
     }
 }

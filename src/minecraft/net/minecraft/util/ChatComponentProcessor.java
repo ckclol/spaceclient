@@ -20,17 +20,17 @@ public class ChatComponentProcessor
 
             if (PlayerSelector.hasArguments(s))
             {
-                List<Entity> list = PlayerSelector.<Entity>matchEntities(commandSender, s, Entity.class);
+                List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
 
                 if (list.size() != 1)
                 {
                     throw new EntityNotFoundException();
                 }
 
-                s = ((Entity)list.get(0)).getCommandSenderName();
+                s = list.get(0).getName();
             }
 
-            ichatcomponent = entityIn != null && s.equals("*") ? new ChatComponentScore(entityIn.getCommandSenderName(), chatcomponentscore.getObjective()) : new ChatComponentScore(s, chatcomponentscore.getObjective());
+            ichatcomponent = entityIn != null && s.equals("*") ? new ChatComponentScore(entityIn.getName(), chatcomponentscore.getObjective()) : new ChatComponentScore(s, chatcomponentscore.getObjective());
             ((ChatComponentScore)ichatcomponent).setValue(chatcomponentscore.getUnformattedTextForChat());
         }
         else if (component instanceof ChatComponentSelector)

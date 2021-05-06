@@ -18,12 +18,11 @@ public class BiomeGenHills extends BiomeGenBase
     private int field_150635_aE = 0;
     private int field_150636_aF = 1;
     private int field_150637_aG = 2;
-    private int field_150638_aH;
+    private int field_150638_aH = this.field_150635_aE;
 
-    protected BiomeGenHills(int p_i45373_1_, boolean p_i45373_2_)
+    protected BiomeGenHills(int id, boolean p_i45373_2_)
     {
-        super(p_i45373_1_);
-        this.field_150638_aH = this.field_150635_aE;
+        super(id);
 
         if (p_i45373_2_)
         {
@@ -55,32 +54,32 @@ public class BiomeGenHills extends BiomeGenBase
             }
         }
 
-        for (i = 0; i < 7; ++i)
+        for (int j1 = 0; j1 < 7; ++j1)
         {
-            int j1 = rand.nextInt(16);
-            int k1 = rand.nextInt(64);
-            int l1 = rand.nextInt(16);
-            this.theWorldGenerator.generate(worldIn, rand, pos.add(j1, k1, l1));
+            int k1 = rand.nextInt(16);
+            int l1 = rand.nextInt(64);
+            int i2 = rand.nextInt(16);
+            this.theWorldGenerator.generate(worldIn, rand, pos.add(k1, l1, i2));
         }
     }
 
-    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_)
+    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal)
     {
         this.topBlock = Blocks.grass.getDefaultState();
         this.fillerBlock = Blocks.dirt.getDefaultState();
 
-        if ((p_180622_6_ < -1.0D || p_180622_6_ > 2.0D) && this.field_150638_aH == this.field_150637_aG)
+        if ((noiseVal < -1.0D || noiseVal > 2.0D) && this.field_150638_aH == this.field_150637_aG)
         {
             this.topBlock = Blocks.gravel.getDefaultState();
             this.fillerBlock = Blocks.gravel.getDefaultState();
         }
-        else if (p_180622_6_ > 1.0D && this.field_150638_aH != this.field_150636_aF)
+        else if (noiseVal > 1.0D && this.field_150638_aH != this.field_150636_aF)
         {
             this.topBlock = Blocks.stone.getDefaultState();
             this.fillerBlock = Blocks.stone.getDefaultState();
         }
 
-        this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, p_180622_4_, p_180622_5_, p_180622_6_);
+        this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
     }
 
     /**

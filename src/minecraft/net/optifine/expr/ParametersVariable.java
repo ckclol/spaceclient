@@ -9,7 +9,7 @@ public class ParametersVariable implements IParameters
     private ExpressionType[] first;
     private ExpressionType[] repeat;
     private ExpressionType[] last;
-    private int maxCount;
+    private int maxCount = Integer.MAX_VALUE;
     private static final ExpressionType[] EMPTY = new ExpressionType[0];
 
     public ParametersVariable()
@@ -24,7 +24,6 @@ public class ParametersVariable implements IParameters
 
     public ParametersVariable(ExpressionType[] first, ExpressionType[] repeat, ExpressionType[] last, int maxCount)
     {
-        this.maxCount = Integer.MAX_VALUE;
         this.first = normalize(first);
         this.repeat = normalize(repeat);
         this.last = normalize(last);
@@ -67,16 +66,16 @@ public class ParametersVariable implements IParameters
             ++k;
         }
 
-        List<ExpressionType> list = new ArrayList();
-        list.addAll(Arrays.<ExpressionType>asList(this.first));
+        List<ExpressionType> list = new ArrayList<>();
+        list.addAll(Arrays.asList(this.first));
 
         for (int i1 = 0; i1 < k; ++i1)
         {
-            list.addAll(Arrays.<ExpressionType>asList(this.repeat));
+            list.addAll(Arrays.asList(this.repeat));
         }
 
-        list.addAll(Arrays.<ExpressionType>asList(this.last));
-        ExpressionType[] aexpressiontype = (ExpressionType[])list.toArray(new ExpressionType[list.size()]);
+        list.addAll(Arrays.asList(this.last));
+        ExpressionType[] aexpressiontype = list.toArray(new ExpressionType[list.size()]);
         return aexpressiontype;
     }
 

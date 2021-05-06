@@ -71,10 +71,10 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
                 GlStateManager.texGen(GlStateManager.TexGen.T, 9217);
                 GlStateManager.texGen(GlStateManager.TexGen.R, 9217);
                 GlStateManager.texGen(GlStateManager.TexGen.Q, 9216);
-                GlStateManager.func_179105_a(GlStateManager.TexGen.S, 9473, this.func_147525_a(1.0F, 0.0F, 0.0F, 0.0F));
-                GlStateManager.func_179105_a(GlStateManager.TexGen.T, 9473, this.func_147525_a(0.0F, 0.0F, 1.0F, 0.0F));
-                GlStateManager.func_179105_a(GlStateManager.TexGen.R, 9473, this.func_147525_a(0.0F, 0.0F, 0.0F, 1.0F));
-                GlStateManager.func_179105_a(GlStateManager.TexGen.Q, 9474, this.func_147525_a(0.0F, 1.0F, 0.0F, 0.0F));
+                GlStateManager.texGen(GlStateManager.TexGen.S, 9473, this.func_147525_a(1.0F, 0.0F, 0.0F, 0.0F));
+                GlStateManager.texGen(GlStateManager.TexGen.T, 9473, this.func_147525_a(0.0F, 0.0F, 1.0F, 0.0F));
+                GlStateManager.texGen(GlStateManager.TexGen.R, 9473, this.func_147525_a(0.0F, 0.0F, 0.0F, 1.0F));
+                GlStateManager.texGen(GlStateManager.TexGen.Q, 9474, this.func_147525_a(0.0F, 1.0F, 0.0F, 0.0F));
                 GlStateManager.enableTexGenCoord(GlStateManager.TexGen.S);
                 GlStateManager.enableTexGenCoord(GlStateManager.TexGen.T);
                 GlStateManager.enableTexGenCoord(GlStateManager.TexGen.R);
@@ -93,7 +93,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
                 GlStateManager.translate((float)ActiveRenderInfo.getPosition().xCoord * f4 / f8, (float)ActiveRenderInfo.getPosition().zCoord * f4 / f8, -f1);
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
+                worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
                 float f11 = (field_147527_e.nextFloat() * 0.5F + 0.1F) * f6;
                 float f12 = (field_147527_e.nextFloat() * 0.5F + 0.4F) * f6;
                 float f13 = (field_147527_e.nextFloat() * 0.5F + 0.5F) * f6;
@@ -103,10 +103,10 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
                     f11 = f12 = f13 = 1.0F * f6;
                 }
 
-                worldrenderer.func_181662_b(x, y + (double)f3, z).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
-                worldrenderer.func_181662_b(x, y + (double)f3, z + 1.0D).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
-                worldrenderer.func_181662_b(x + 1.0D, y + (double)f3, z + 1.0D).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
-                worldrenderer.func_181662_b(x + 1.0D, y + (double)f3, z).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
+                worldrenderer.pos(x, y + (double)f3, z).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x, y + (double)f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x + 1.0D, y + (double)f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x + 1.0D, y + (double)f3, z).color(f11, f12, f13, 1.0F).endVertex();
                 tessellator.draw();
                 GlStateManager.popMatrix();
                 GlStateManager.matrixMode(5888);

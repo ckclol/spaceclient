@@ -24,12 +24,7 @@ public class RenderFallingBlock extends Render<EntityFallingBlock>
     }
 
     /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doe
-     *  
-     * @param entityYaw The yaw rotation of the passed entity
+     * Renders the desired {@code T} type Entity.
      */
     public void doRender(EntityFallingBlock entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
@@ -50,7 +45,7 @@ public class RenderFallingBlock extends Render<EntityFallingBlock>
                     GlStateManager.disableLighting();
                     Tessellator tessellator = Tessellator.getInstance();
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                    worldrenderer.func_181668_a(7, DefaultVertexFormats.BLOCK);
+                    worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
                     int i = blockpos.getX();
                     int j = blockpos.getY();
                     int k = blockpos.getZ();

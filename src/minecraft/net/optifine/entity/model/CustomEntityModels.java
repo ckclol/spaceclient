@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.entity.model.anim.ModelResolver;
@@ -140,7 +139,7 @@ public class CustomEntityModels
             }
         }
 
-        ResourceLocation[] aresourcelocation = (ResourceLocation[])((ResourceLocation[])list.toArray(new ResourceLocation[list.size()]));
+        ResourceLocation[] aresourcelocation = list.toArray(new ResourceLocation[list.size()]);
         return aresourcelocation;
     }
 
@@ -278,8 +277,8 @@ public class CustomEntityModels
                 if (modelrenderer.childModels != null)
                 {
                     ModelRenderer[] amodelrenderer = modelAdapter.getModelRenderers(model);
-                    Set<ModelRenderer> set = Collections.<ModelRenderer>newSetFromMap(new IdentityHashMap());
-                    set.addAll(Arrays.<ModelRenderer>asList(amodelrenderer));
+                    Set<ModelRenderer> set = Collections.newSetFromMap(new IdentityHashMap<>());
+                    set.addAll(Arrays.asList(amodelrenderer));
                     List<ModelRenderer> list = modelrenderer.childModels;
                     Iterator iterator = list.iterator();
 

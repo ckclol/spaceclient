@@ -17,7 +17,7 @@ import net.optifine.reflect.ReflectorForge;
 
 public class DefaultResourcePack implements IResourcePack
 {
-    public static final Set<String> defaultResourceDomains = ImmutableSet.<String>of("minecraft", "realms");
+    public static final Set<String> defaultResourceDomains = ImmutableSet.of("minecraft", "realms");
     private final Map<String, File> mapAssets;
 
     public DefaultResourcePack(Map<String, File> mapAssetsIn)
@@ -50,7 +50,7 @@ public class DefaultResourcePack implements IResourcePack
 
     public InputStream getInputStreamAssets(ResourceLocation location) throws IOException, FileNotFoundException
     {
-        File file1 = (File)this.mapAssets.get(location.toString());
+        File file1 = this.mapAssets.get(location.toString());
         return file1 != null && file1.isFile() ? new FileInputStream(file1) : null;
     }
 
@@ -71,20 +71,20 @@ public class DefaultResourcePack implements IResourcePack
         return defaultResourceDomains;
     }
 
-    public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer p_135058_1_, String p_135058_2_) throws IOException
+    public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer metadataSerializer, String metadataSectionName) throws IOException
     {
         try
         {
-            InputStream inputstream = new FileInputStream((File)this.mapAssets.get("pack.mcmeta"));
-            return AbstractResourcePack.readMetadata(p_135058_1_, inputstream, p_135058_2_);
+            InputStream inputstream = new FileInputStream(this.mapAssets.get("pack.mcmeta"));
+            return AbstractResourcePack.readMetadata(metadataSerializer, inputstream, metadataSectionName);
         }
         catch (RuntimeException var4)
         {
-            return (T)((IMetadataSection)null);
+            return (T)(null);
         }
-        catch (FileNotFoundException var5)
+        catch (FileNotFoundException var51)
         {
-            return (T)((IMetadataSection)null);
+            return (T)(null);
         }
     }
 

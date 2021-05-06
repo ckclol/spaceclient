@@ -64,11 +64,18 @@ public class InventoryLargeChest implements ILockableContainer
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
-        return this.upperChest.hasCustomName() ? this.upperChest.getCommandSenderName() : (this.lowerChest.hasCustomName() ? this.lowerChest.getCommandSenderName() : this.name);
+        if (this.upperChest.hasCustomName())
+        {
+            return this.upperChest.getName();
+        }
+        else
+        {
+            return this.lowerChest.hasCustomName() ? this.lowerChest.getName() : this.name;
+        }
     }
 
     /**
@@ -84,13 +91,11 @@ public class InventoryLargeChest implements ILockableContainer
      */
     public IChatComponent getDisplayName()
     {
-        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]));
+        return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName()));
     }
 
     /**
      * Returns the stack in the given slot.
-     *  
-     * @param index The slot to retrieve from.
      */
     public ItemStack getStackInSlot(int index)
     {
@@ -99,9 +104,6 @@ public class InventoryLargeChest implements ILockableContainer
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
-     *  
-     * @param index The slot to remove from.
-     * @param count The maximum amount of items to remove.
      */
     public ItemStack decrStackSize(int index, int count)
     {
@@ -110,12 +112,10 @@ public class InventoryLargeChest implements ILockableContainer
 
     /**
      * Removes a stack from the given slot and returns it.
-     *  
-     * @param index The slot to remove a stack from.
      */
-    public ItemStack getStackInSlotOnClosing(int index)
+    public ItemStack removeStackFromSlot(int index)
     {
-        return index >= this.upperChest.getSizeInventory() ? this.lowerChest.getStackInSlotOnClosing(index - this.upperChest.getSizeInventory()) : this.upperChest.getStackInSlotOnClosing(index);
+        return index >= this.upperChest.getSizeInventory() ? this.lowerChest.removeStackFromSlot(index - this.upperChest.getSizeInventory()) : this.upperChest.removeStackFromSlot(index);
     }
 
     /**

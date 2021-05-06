@@ -31,7 +31,27 @@ public class ModelAdapterBoat extends ModelAdapter
         else
         {
             ModelBoat modelboat = (ModelBoat)model;
-            return modelPart.equals("bottom") ? modelboat.boatSides[0] : (modelPart.equals("back") ? modelboat.boatSides[1] : (modelPart.equals("front") ? modelboat.boatSides[2] : (modelPart.equals("right") ? modelboat.boatSides[3] : (modelPart.equals("left") ? modelboat.boatSides[4] : null))));
+
+            if (modelPart.equals("bottom"))
+            {
+                return modelboat.boatSides[0];
+            }
+            else if (modelPart.equals("back"))
+            {
+                return modelboat.boatSides[1];
+            }
+            else if (modelPart.equals("front"))
+            {
+                return modelboat.boatSides[2];
+            }
+            else if (modelPart.equals("right"))
+            {
+                return modelboat.boatSides[3];
+            }
+            else
+            {
+                return modelPart.equals("left") ? modelboat.boatSides[4] : null;
+            }
         }
     }
 

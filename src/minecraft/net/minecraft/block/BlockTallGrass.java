@@ -3,7 +3,6 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -23,7 +22,7 @@ import net.minecraft.world.World;
 
 public class BlockTallGrass extends BlockBush implements IGrowable
 {
-    public static final PropertyEnum<BlockTallGrass.EnumType> TYPE = PropertyEnum.<BlockTallGrass.EnumType>create("type", BlockTallGrass.EnumType.class);
+    public static final PropertyEnum<BlockTallGrass.EnumType> TYPE = PropertyEnum.create("type", BlockTallGrass.EnumType.class);
 
     protected BlockTallGrass()
     {
@@ -59,7 +58,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable
         }
         else
         {
-            BlockTallGrass.EnumType blocktallgrass$enumtype = (BlockTallGrass.EnumType)state.getValue(TYPE);
+            BlockTallGrass.EnumType blocktallgrass$enumtype = state.getValue(TYPE);
             return blocktallgrass$enumtype == BlockTallGrass.EnumType.DEAD_BUSH ? 16777215 : ColorizerGrass.getGrassColor(0.5D, 1.0D);
         }
     }
@@ -71,8 +70,6 @@ public class BlockTallGrass extends BlockBush implements IGrowable
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
@@ -92,7 +89,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable
         if (!worldIn.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
         {
             player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-            spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 1, ((BlockTallGrass.EnumType)state.getValue(TYPE)).getMeta()));
+            spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 1, state.getValue(TYPE).getMeta()));
         }
         else
         {
@@ -100,6 +97,9 @@ public class BlockTallGrass extends BlockBush implements IGrowable
         }
     }
 
+    /**
+     * Gets the meta to use for the Pick Block ItemStack result
+     */
     public int getDamageValue(World worldIn, BlockPos pos)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
@@ -158,12 +158,12 @@ public class BlockTallGrass extends BlockBush implements IGrowable
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockTallGrass.EnumType)state.getValue(TYPE)).getMeta();
+        return state.getValue(TYPE).getMeta();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {TYPE});
+        return new BlockState(this, TYPE);
     }
 
     /**
