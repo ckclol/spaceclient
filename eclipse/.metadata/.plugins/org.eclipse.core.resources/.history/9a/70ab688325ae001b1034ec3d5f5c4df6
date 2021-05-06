@@ -261,7 +261,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     		this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
     		break;
     	case 7:
-    		
     	}
     }  
     
