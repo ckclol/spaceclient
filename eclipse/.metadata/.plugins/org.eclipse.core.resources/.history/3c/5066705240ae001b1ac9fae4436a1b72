@@ -1,0 +1,38 @@
+package space.mod;
+
+import space.util.ModDraggable;
+import space.hud.ScreenPos;
+
+public class ModExample extends ModDraggable{
+
+	p
+	
+	@Override
+	public int getWidth() {
+		
+		return font.getStringWidth("HEllo mama mia");
+		
+	}
+
+	@Override
+	public int getHeight() {	
+		return font.FONT_HEIGHT;	
+	}
+
+	@Override
+	public void render(ScreenPos pos) {
+    }
+	
+	@
+
+	@Override
+	public void save(ScreenPos pos) {
+		this.pos = pos;
+	}
+
+	@Override
+	public ScreenPos load() {
+		// TODO Auto-generated method stub
+		return pos;
+	}
+}

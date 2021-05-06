@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="password"/>
+		<item key="selection" value="runTick"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="serverIPField"/>
-			<item value="serverNameField"/>
-			<item value="resourcelocation"/>
-			<item value="bg.png"/>
-			<item value="Resource"/>
-			<item value="(Row.si)"/>
-			<item value="(Row,si)"/>
-			<item value="(Row.s),"/>
-			<item value="(Row.t),"/>
-			<item value="(Row.fo),"/>
-			<item value="(Row.f),"/>
-			<item value="(Row.fi),"/>
-			<item value=";"/>
-			<item value=","/>
-			<item value="i"/>
+			<item value="runtick"/>
+			<item value="run"/>
+			<item value="call"/>
+			<item value="ClientTickEvent"/>
+			<item value="tick"/>
+			<item value="ClientMain"/>
+			<item value="registerrender"/>
+			<item value="Irender"/>
+			<item value="ScreenPosition"/>
+			<item value="renderer"/>
+			<item value="renderers"/>
+			<item value="IRenderer"/>
+			<item value="makeEn"/>
+			<item value="Scale Fact"/>
+			<item value="pendingConnection"/>
 		</list>
 		<list key="replacehistory">
+			<item value="IRender"/>
+			<item value="ScreenPos"/>
+			<item value="render"/>
+			<item value="renders"/>
+			<item value="iRender"/>
 			<item value="password"/>
 			<item value="email"/>
 			<item value="="/>

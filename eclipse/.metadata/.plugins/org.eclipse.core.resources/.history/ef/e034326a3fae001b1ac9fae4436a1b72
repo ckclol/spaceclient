@@ -1,0 +1,8 @@
+package space.util;
+
+import space.hud.IRender;
+
+public abstract class ModDraggable extends Mod implements IRender {
+	
+	
+}

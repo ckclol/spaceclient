@@ -1,0 +1,51 @@
+package space.hud;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+
+public class ScreenPos {
+	
+	private static final Minecraft mc = Minecraft.getMinecraft();
+	
+	private double x ,y;
+	
+	public ScreenPos(double x, double y) {
+		setRelative(x, y);
+	}
+	
+	private void setRelative(double x2, double y2) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public static ScreenPos fromRelativePosition(double x, double y) {
+		return new ScreenPos(x, y);
+	}
+	
+	public static ScreenPos fromAbsolutePosition(int x, int y) {
+		return new ScreenPos(x, y);
+	}
+
+	public ScreenPos(int x, int y) {
+		setAbsolute(x, y);
+	}
+
+	private void setAbsolute(int x2, int y2) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public int getAbsoluteX() {
+		ScaledResolution r = new ScaledResolution(mc);
+		return (int) (x * r.getScaledWidth());
+	}
+	
+	public int getAbsoluteY() {
+		ScaledResolution r = new ScaledResolution(mc);
+		return (int) (y * r.getScaledHeight());
+	}
+	
+	public double getRelativeX() {
+	}
+	
+}

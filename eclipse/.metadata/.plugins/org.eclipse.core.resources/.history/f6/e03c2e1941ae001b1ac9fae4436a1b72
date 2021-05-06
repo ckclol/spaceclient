@@ -1,0 +1,12 @@
+package space.mod;
+
+public class ModInstances {
+
+	private static ModCPS cps;
+	private static ModExample exa;
+	
+	public static void register(HUDManager api) {
+		
+	}
+
+}

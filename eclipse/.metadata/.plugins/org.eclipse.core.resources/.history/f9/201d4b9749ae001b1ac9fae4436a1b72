@@ -1,0 +1,10 @@
+package space.tests;
+
+import space.event.EventTarget;
+
+public class TestLad {
+	@EventTarget
+	public onTick(ClientTickEvent e) {
+		
+	}
+}

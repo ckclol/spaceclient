@@ -30,6 +30,8 @@ import net.minecraft.world.storage.WorldInfo;
 import net.optifine.CustomPanorama;
 import net.optifine.CustomPanoramaProperties;
 import net.optifine.reflect.Reflector;
+import space.gui.GuiAltLogin;
+
 import org.apache.commons.io.Charsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -261,7 +263,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     		this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
     		break;
     	case 7:
-    		
+    		this.mc.displayGuiScreen(new GuiAltLogin(this));
     	}
     }  
     

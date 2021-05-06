@@ -1,0 +1,5 @@
+package space.login;
+
+public class LoginManager {
+
+}

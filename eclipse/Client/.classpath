@@ -51,5 +51,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/org/lwjgl/native/windows"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/github/discord-rpc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

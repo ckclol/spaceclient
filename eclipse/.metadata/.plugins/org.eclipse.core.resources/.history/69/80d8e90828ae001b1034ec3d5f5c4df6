@@ -1,0 +1,36 @@
+package client.gui;
+
+import com.google.common.base.Preconditions;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+
+ public class GuiPasswordInput extends Gui {
+  
+  private char[] password;
+  private Minecraft mc;
+  
+  GuiPasswordInput(FontRenderer renderer, int posx, int posy, int x, int y, char[] password) {
+    super();
+    this.password = password;
+  }
+
+  
+  public final void setPassword(int passwordlength, char[] password) {
+    if (password.length == 0) return; 
+    else {
+    	this.password = password;
+    	if (password.length >= passwordlength) {
+    		this.mc.displayGuiScreen(new GuiMainMenu());
+    	}
+    }
+  }
+  public final char[] getPassword() {
+    char[] pw = new char[this.password.length];
+    System.arraycopy(this.password, 0, pw, 0, this.password.length);
+    return pw;
+  }
+}
