@@ -229,7 +229,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private Entity renderViewEntity;
     public Entity pointedEntity;
     public EffectRenderer effectRenderer;
-    private final Session session;
+    public Session session;
     private boolean isGamePaused;
 
     /** The font renderer used for displaying and measuring text */
@@ -368,8 +368,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.proxy = gameConfig.userInfo.proxy == null ? Proxy.NO_PROXY : gameConfig.userInfo.proxy;
         this.sessionService = (new YggdrasilAuthenticationService(gameConfig.userInfo.proxy, UUID.randomUUID().toString())).createMinecraftSessionService();
         this.session = gameConfig.userInfo.session;
-        logger.info("Setting user: " + this.session.getUsername());
-        logger.info("(Session ID is " + this.session.getSessionID() + ")");
+        logger.info("Setting user: " + this.getSession().getUsername());
+        logger.info("(Session ID is " + this.getSession().getSessionID() + ")");
         this.isDemo = gameConfig.gameInfo.isDemo;
         this.displayWidth = gameConfig.displayInfo.width > 0 ? gameConfig.displayInfo.width : 1;
         this.displayHeight = gameConfig.displayInfo.height > 0 ? gameConfig.displayInfo.height : 1;
@@ -3017,7 +3017,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     {
         if (this.field_181038_N.isEmpty())
         {
-            GameProfile gameprofile = this.getSessionService().fillProfileProperties(this.session.getProfile(), false);
+            GameProfile gameprofile = this.getSessionService().fillProfileProperties(this.getSession().getProfile(), false);
             this.field_181038_N.putAll(gameprofile.getProperties());
         }
 
