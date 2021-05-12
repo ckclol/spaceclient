@@ -1,5 +1,0 @@
-package client.cmd;
-
-public class CommandExecutor {
-
-}

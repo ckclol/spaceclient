@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="client.event.EventTarget"/>
     <fullyQualifiedTypeName name="net.minecraft.command.CommandBase"/>
     <fullyQualifiedTypeName name="client.discord.DiscordRP"/>
     <fullyQualifiedTypeName name="client.event.events.ClientTickEvent"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="net.arikia.dev.drpc.DiscordUser"/>
     <fullyQualifiedTypeName name="net.arikia.dev.drpc.callbacks.ReadyCallback"/>
     <fullyQualifiedTypeName name="space.event.ClientTickEvent"/>
+    <fullyQualifiedTypeName name="net.optifine.player.CapeImageBuffer"/>
 </qualifiedTypeNameHistroy>

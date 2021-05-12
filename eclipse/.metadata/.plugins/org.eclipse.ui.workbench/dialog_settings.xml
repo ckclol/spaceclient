@@ -6,18 +6,22 @@
 		<item key="org.eclipse.ui.internal.quickaccess.QuickAccessDialogDIALOG_USE_PERSISTED_SIZE" value="true"/>
 		<item key="org.eclipse.ui.internal.quickaccess.QuickAccessDialogDIALOG_USE_PERSISTED_LOCATION" value="false"/>
 		<list key="orderedElements">
+			<item value="/Client/src/net/optifine/player/CapeUtils.java"/>
 			<item value="/Client/src/net/minecraft/client/renderer/texture/AbstractTexture.java"/>
 			<item value="/Client/src/net/minecraft/client/entity/EntityPlayerSP.java"/>
 		</list>
 		<list key="orderedProviders">
 			<item value="org.eclipse.ui.ide/org.eclipse.ui.internal.ide.dialogs.OpenResourceQuickAccessComputer"/>
 			<item value="org.eclipse.ui.ide/org.eclipse.ui.internal.ide.dialogs.OpenResourceQuickAccessComputer"/>
+			<item value="org.eclipse.ui.ide/org.eclipse.ui.internal.ide.dialogs.OpenResourceQuickAccessComputer"/>
 		</list>
 		<list key="textEntries">
 			<item value="1"/>
 			<item value="1"/>
+			<item value="1"/>
 		</list>
 		<list key="textArray">
+			<item value="cape"/>
 			<item value="abs"/>
 			<item value="entitypla"/>
 		</list>

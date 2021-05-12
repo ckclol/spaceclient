@@ -1,5 +1,0 @@
-package client.event.events;
-
-public class ClientTickEvent {
-
-}
