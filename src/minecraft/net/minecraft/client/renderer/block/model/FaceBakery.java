@@ -17,8 +17,8 @@ import org.lwjgl.util.vector.Vector4f;
 
 public class FaceBakery
 {
-    private static final float field_178418_a = 1.0F / (float)Math.cos(0.39269909262657166D) - 1.0F;
-    private static final float field_178417_b = 1.0F / (float)Math.cos((Math.PI / 4D)) - 1.0F;
+    private static final float SCALE_ROTATION_22_5 = 1.0F / (float)Math.cos((double)((float)Math.PI / 8F)) - 1.0F;
+    private static final float SCALE_ROTATION_GENERAL = 1.0F / (float)Math.cos((Math.PI / 4D)) - 1.0F;
 
     public BakedQuad makeBakedQuad(Vector3f posFrom, Vector3f posTo, BlockPartFace face, TextureAtlasSprite sprite, EnumFacing facing, ModelRotation modelRotationIn, BlockPartRotation partRotation, boolean uvLocked, boolean shade)
     {
@@ -32,17 +32,17 @@ public class FaceBakery
 
         if (p_makeBakedQuad_8_)
         {
-            this.func_178409_a(aint, enumfacing, p_makeBakedQuad_3_.blockFaceUV, p_makeBakedQuad_4_);
+            this.lockUv(aint, enumfacing, p_makeBakedQuad_3_.blockFaceUV, p_makeBakedQuad_4_);
         }
 
         if (p_makeBakedQuad_7_ == null)
         {
-            this.func_178408_a(aint, enumfacing);
+            this.applyFacing(aint, enumfacing);
         }
 
         if (Reflector.ForgeHooksClient_fillNormal.exists())
         {
-            Reflector.call(Reflector.ForgeHooksClient_fillNormal, new Object[] {aint, enumfacing});
+            Reflector.call(Reflector.ForgeHooksClient_fillNormal, aint, enumfacing);
         }
 
         return new BakedQuad(aint, p_makeBakedQuad_3_.tintIndex, enumfacing);
@@ -128,9 +128,9 @@ public class FaceBakery
     {
         EnumFacing enumfacing = p_fillVertexData_7_.rotate(p_fillVertexData_3_);
         int i = p_fillVertexData_10_ ? this.getFaceShadeColor(enumfacing) : -1;
-        EnumFaceDirection.VertexInformation enumfacedirection$vertexinformation = EnumFaceDirection.getFacing(p_fillVertexData_3_).func_179025_a(p_fillVertexData_2_);
-        Vector3f vector3f = new Vector3f(p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179184_a], p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179182_b], p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179183_c]);
-        this.func_178407_a(vector3f, p_fillVertexData_8_);
+        EnumFaceDirection.VertexInformation enumfacedirection$vertexinformation = EnumFaceDirection.getFacing(p_fillVertexData_3_).getVertexInformation(p_fillVertexData_2_);
+        Vector3f vector3f = new Vector3f(p_fillVertexData_5_[enumfacedirection$vertexinformation.xIndex], p_fillVertexData_5_[enumfacedirection$vertexinformation.yIndex], p_fillVertexData_5_[enumfacedirection$vertexinformation.zIndex]);
+        this.rotatePart(vector3f, p_fillVertexData_8_);
         int j = this.rotateVertex(vector3f, p_fillVertexData_3_, p_fillVertexData_2_, p_fillVertexData_7_, p_fillVertexData_9_);
         BlockModelUtils.snapVertexPosition(vector3f);
         this.storeVertexData(p_fillVertexData_1_, j, p_fillVertexData_2_, vector3f, i, p_fillVertexData_6_, p_fillVertexData_4_.blockFaceUV);
@@ -148,7 +148,7 @@ public class FaceBakery
         faceData[j + 4 + 1] = Float.floatToRawIntBits(sprite.getInterpolatedV((double)faceUV.func_178346_b(vertexIndex) * 0.999D + (double)faceUV.func_178346_b((vertexIndex + 2) % 4) * 0.001D));
     }
 
-    private void func_178407_a(Vector3f p_178407_1_, BlockPartRotation partRotation)
+    private void rotatePart(Vector3f p_178407_1_, BlockPartRotation partRotation)
     {
         if (partRotation != null)
         {
@@ -158,17 +158,17 @@ public class FaceBakery
             switch (partRotation.axis)
             {
                 case X:
-                    Matrix4f.rotate(partRotation.angle * 0.017453292F, new Vector3f(1.0F, 0.0F, 0.0F), matrix4f, matrix4f);
+                    Matrix4f.rotate(partRotation.angle * ((float)Math.PI / 180F), new Vector3f(1.0F, 0.0F, 0.0F), matrix4f, matrix4f);
                     vector3f.set(0.0F, 1.0F, 1.0F);
                     break;
 
                 case Y:
-                    Matrix4f.rotate(partRotation.angle * 0.017453292F, new Vector3f(0.0F, 1.0F, 0.0F), matrix4f, matrix4f);
+                    Matrix4f.rotate(partRotation.angle * ((float)Math.PI / 180F), new Vector3f(0.0F, 1.0F, 0.0F), matrix4f, matrix4f);
                     vector3f.set(1.0F, 0.0F, 1.0F);
                     break;
 
                 case Z:
-                    Matrix4f.rotate(partRotation.angle * 0.017453292F, new Vector3f(0.0F, 0.0F, 1.0F), matrix4f, matrix4f);
+                    Matrix4f.rotate(partRotation.angle * ((float)Math.PI / 180F), new Vector3f(0.0F, 0.0F, 1.0F), matrix4f, matrix4f);
                     vector3f.set(1.0F, 1.0F, 0.0F);
             }
 
@@ -176,11 +176,11 @@ public class FaceBakery
             {
                 if (Math.abs(partRotation.angle) == 22.5F)
                 {
-                    vector3f.scale(field_178418_a);
+                    vector3f.scale(SCALE_ROTATION_22_5);
                 }
                 else
                 {
-                    vector3f.scale(field_178417_b);
+                    vector3f.scale(SCALE_ROTATION_GENERAL);
                 }
 
                 Vector3f.add(vector3f, new Vector3f(1.0F, 1.0F, 1.0F), vector3f);
@@ -209,7 +209,7 @@ public class FaceBakery
         {
             if (Reflector.ForgeHooksClient_transform.exists())
             {
-                Reflector.call(Reflector.ForgeHooksClient_transform, new Object[] {p_rotateVertex_1_, p_rotateVertex_4_.getMatrix()});
+                Reflector.call(Reflector.ForgeHooksClient_transform, p_rotateVertex_1_, p_rotateVertex_4_.getMatrix());
             }
             else
             {
@@ -271,25 +271,18 @@ public class FaceBakery
             }
         }
 
-        if (enumfacing == null)
-        {
-            return EnumFacing.UP;
-        }
-        else
-        {
-            return enumfacing;
-        }
+        return enumfacing == null ? EnumFacing.UP : enumfacing;
     }
 
-    public void func_178409_a(int[] p_178409_1_, EnumFacing facing, BlockFaceUV p_178409_3_, TextureAtlasSprite p_178409_4_)
+    public void lockUv(int[] p_178409_1_, EnumFacing facing, BlockFaceUV p_178409_3_, TextureAtlasSprite p_178409_4_)
     {
         for (int i = 0; i < 4; ++i)
         {
-            this.func_178401_a(i, p_178409_1_, facing, p_178409_3_, p_178409_4_);
+            this.lockVertexUv(i, p_178409_1_, facing, p_178409_3_, p_178409_4_);
         }
     }
 
-    private void func_178408_a(int[] p_178408_1_, EnumFacing p_178408_2_)
+    private void applyFacing(int[] p_178408_1_, EnumFacing p_178408_2_)
     {
         int[] aint = new int[p_178408_1_.length];
         System.arraycopy(p_178408_1_, 0, aint, 0, p_178408_1_.length);
@@ -345,10 +338,10 @@ public class FaceBakery
         for (int j1 = 0; j1 < 4; ++j1)
         {
             int k1 = i * j1;
-            EnumFaceDirection.VertexInformation enumfacedirection$vertexinformation = enumfacedirection.func_179025_a(j1);
-            float f8 = afloat[enumfacedirection$vertexinformation.field_179184_a];
-            float f3 = afloat[enumfacedirection$vertexinformation.field_179182_b];
-            float f4 = afloat[enumfacedirection$vertexinformation.field_179183_c];
+            EnumFaceDirection.VertexInformation enumfacedirection$vertexinformation = enumfacedirection.getVertexInformation(j1);
+            float f8 = afloat[enumfacedirection$vertexinformation.xIndex];
+            float f3 = afloat[enumfacedirection$vertexinformation.yIndex];
+            float f4 = afloat[enumfacedirection$vertexinformation.zIndex];
             p_178408_1_[k1] = Float.floatToRawIntBits(f8);
             p_178408_1_[k1 + 1] = Float.floatToRawIntBits(f3);
             p_178408_1_[k1 + 2] = Float.floatToRawIntBits(f4);
@@ -369,7 +362,7 @@ public class FaceBakery
         }
     }
 
-    private void func_178401_a(int p_178401_1_, int[] p_178401_2_, EnumFacing facing, BlockFaceUV p_178401_4_, TextureAtlasSprite p_178401_5_)
+    private void lockVertexUv(int p_178401_1_, int[] p_178401_2_, EnumFacing facing, BlockFaceUV p_178401_4_, TextureAtlasSprite p_178401_5_)
     {
         int i = p_178401_2_.length / 4;
         int j = i * p_178401_1_;

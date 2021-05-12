@@ -29,7 +29,31 @@ public class ModelAdapterVillager extends ModelAdapter
         else
         {
             ModelVillager modelvillager = (ModelVillager)model;
-            return modelPart.equals("head") ? modelvillager.villagerHead : (modelPart.equals("body") ? modelvillager.villagerBody : (modelPart.equals("arms") ? modelvillager.villagerArms : (modelPart.equals("left_leg") ? modelvillager.leftVillagerLeg : (modelPart.equals("right_leg") ? modelvillager.rightVillagerLeg : (modelPart.equals("nose") ? modelvillager.villagerNose : null)))));
+
+            if (modelPart.equals("head"))
+            {
+                return modelvillager.villagerHead;
+            }
+            else if (modelPart.equals("body"))
+            {
+                return modelvillager.villagerBody;
+            }
+            else if (modelPart.equals("arms"))
+            {
+                return modelvillager.villagerArms;
+            }
+            else if (modelPart.equals("left_leg"))
+            {
+                return modelvillager.leftVillagerLeg;
+            }
+            else if (modelPart.equals("right_leg"))
+            {
+                return modelvillager.rightVillagerLeg;
+            }
+            else
+            {
+                return modelPart.equals("nose") ? modelvillager.villagerNose : null;
+            }
         }
     }
 

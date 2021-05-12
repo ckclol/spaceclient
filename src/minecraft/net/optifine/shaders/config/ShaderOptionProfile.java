@@ -159,7 +159,7 @@ public class ShaderOptionProfile extends ShaderOption
 
     private static String[] getProfileNames(ShaderProfile[] profs)
     {
-        List<String> list = new ArrayList();
+        List<String> list = new ArrayList<>();
 
         for (int i = 0; i < profs.length; ++i)
         {
@@ -168,7 +168,7 @@ public class ShaderOptionProfile extends ShaderOption
         }
 
         list.add("<custom>");
-        String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] astring = list.toArray(new String[list.size()]);
         return astring;
     }
 }

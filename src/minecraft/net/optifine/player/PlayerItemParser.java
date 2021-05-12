@@ -57,6 +57,10 @@ public class PlayerItemParser
     public static final String ITEM_TYPE_MODEL = "PlayerItem";
     public static final String MODEL_TYPE_BOX = "ModelBox";
 
+    private PlayerItemParser()
+    {
+    }
+
     public static PlayerItemModel parseItemModel(JsonObject obj)
     {
         String s = Json.getString(obj, "type");
@@ -94,9 +98,9 @@ public class PlayerItemParser
 
                     for (Entry<String, JsonElement> entry : jsonobject1.entrySet())
                     {
-                        if (!jsonobject.has((String)entry.getKey()))
+                        if (!jsonobject.has(entry.getKey()))
                         {
-                            jsonobject.add((String)entry.getKey(), (JsonElement)entry.getValue());
+                            jsonobject.add(entry.getKey(), entry.getValue());
                         }
                     }
                 }
@@ -123,7 +127,7 @@ public class PlayerItemParser
                 }
             }
 
-            PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[])((PlayerItemRenderer[])list.toArray(new PlayerItemRenderer[list.size()]));
+            PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[]) list.toArray(new PlayerItemRenderer[list.size()]);
             return new PlayerItemModel(dimension, flag, aplayeritemrenderer);
         }
     }
@@ -465,13 +469,6 @@ public class PlayerItemParser
             }
         }
 
-        if (!flag)
-        {
-            return (int[][])null;
-        }
-        else
-        {
-            return aint;
-        }
+        return !flag ? (int[][])null : aint;
     }
 }

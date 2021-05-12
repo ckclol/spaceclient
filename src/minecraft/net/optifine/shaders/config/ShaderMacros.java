@@ -67,7 +67,23 @@ public class ShaderMacros
         else
         {
             s = s.toLowerCase();
-            return s.startsWith("ati") ? "MC_GL_VENDOR_ATI" : (s.startsWith("intel") ? "MC_GL_VENDOR_INTEL" : (s.startsWith("nvidia") ? "MC_GL_VENDOR_NVIDIA" : (s.startsWith("x.org") ? "MC_GL_VENDOR_XORG" : "MC_GL_VENDOR_OTHER")));
+
+            if (s.startsWith("ati"))
+            {
+                return "MC_GL_VENDOR_ATI";
+            }
+            else if (s.startsWith("intel"))
+            {
+                return "MC_GL_VENDOR_INTEL";
+            }
+            else if (s.startsWith("nvidia"))
+            {
+                return "MC_GL_VENDOR_NVIDIA";
+            }
+            else
+            {
+                return s.startsWith("x.org") ? "MC_GL_VENDOR_XORG" : "MC_GL_VENDOR_OTHER";
+            }
         }
     }
 
@@ -82,7 +98,47 @@ public class ShaderMacros
         else
         {
             s = s.toLowerCase();
-            return s.startsWith("amd") ? "MC_GL_RENDERER_RADEON" : (s.startsWith("ati") ? "MC_GL_RENDERER_RADEON" : (s.startsWith("radeon") ? "MC_GL_RENDERER_RADEON" : (s.startsWith("gallium") ? "MC_GL_RENDERER_GALLIUM" : (s.startsWith("intel") ? "MC_GL_RENDERER_INTEL" : (s.startsWith("geforce") ? "MC_GL_RENDERER_GEFORCE" : (s.startsWith("nvidia") ? "MC_GL_RENDERER_GEFORCE" : (s.startsWith("quadro") ? "MC_GL_RENDERER_QUADRO" : (s.startsWith("nvs") ? "MC_GL_RENDERER_QUADRO" : (s.startsWith("mesa") ? "MC_GL_RENDERER_MESA" : "MC_GL_RENDERER_OTHER")))))))));
+
+            if (s.startsWith("amd"))
+            {
+                return "MC_GL_RENDERER_RADEON";
+            }
+            else if (s.startsWith("ati"))
+            {
+                return "MC_GL_RENDERER_RADEON";
+            }
+            else if (s.startsWith("radeon"))
+            {
+                return "MC_GL_RENDERER_RADEON";
+            }
+            else if (s.startsWith("gallium"))
+            {
+                return "MC_GL_RENDERER_GALLIUM";
+            }
+            else if (s.startsWith("intel"))
+            {
+                return "MC_GL_RENDERER_INTEL";
+            }
+            else if (s.startsWith("geforce"))
+            {
+                return "MC_GL_RENDERER_GEFORCE";
+            }
+            else if (s.startsWith("nvidia"))
+            {
+                return "MC_GL_RENDERER_GEFORCE";
+            }
+            else if (s.startsWith("quadro"))
+            {
+                return "MC_GL_RENDERER_QUADRO";
+            }
+            else if (s.startsWith("nvs"))
+            {
+                return "MC_GL_RENDERER_QUADRO";
+            }
+            else
+            {
+                return s.startsWith("mesa") ? "MC_GL_RENDERER_MESA" : "MC_GL_RENDERER_OTHER";
+            }
         }
     }
 

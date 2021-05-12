@@ -30,7 +30,7 @@ public class MacroExpressionResolver implements IExpressionResolver
         {
             while (this.mapMacroValues.containsKey(name))
             {
-                String s1 = (String)this.mapMacroValues.get(name);
+                String s1 = this.mapMacroValues.get(name);
 
                 if (s1 == null || s1.equals(name))
                 {

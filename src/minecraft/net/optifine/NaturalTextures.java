@@ -95,7 +95,7 @@ public class NaturalTextures
                                     {
                                         while (arraylist.size() <= j)
                                         {
-                                            arraylist.add(null);
+                                            arraylist.add((Object)null);
                                         }
 
                                         arraylist.set(j, naturalproperties);
@@ -107,7 +107,7 @@ public class NaturalTextures
                     }
                 }
 
-                propertiesByIndex = (NaturalProperties[])((NaturalProperties[])arraylist.toArray(new NaturalProperties[arraylist.size()]));
+                propertiesByIndex = (NaturalProperties[]) arraylist.toArray(new NaturalProperties[arraylist.size()]);
             }
             catch (FileNotFoundException var17)
             {

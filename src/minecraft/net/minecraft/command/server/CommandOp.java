@@ -30,8 +30,6 @@ public class CommandOp extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -40,9 +38,6 @@ public class CommandOp extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -53,7 +48,7 @@ public class CommandOp extends CommandBase
 
             if (gameprofile == null)
             {
-                throw new CommandException("commands.op.failed", new Object[] {args[0]});
+                throw new CommandException("commands.op.failed", args[0]);
             }
             else
             {
@@ -63,7 +58,7 @@ public class CommandOp extends CommandBase
         }
         else
         {
-            throw new WrongUsageException("commands.op.usage", new Object[0]);
+            throw new WrongUsageException("commands.op.usage");
         }
     }
 
@@ -72,7 +67,7 @@ public class CommandOp extends CommandBase
         if (args.length == 1)
         {
             String s = args[args.length - 1];
-            List<String> list = Lists.<String>newArrayList();
+            List<String> list = Lists.newArrayList();
 
             for (GameProfile gameprofile : MinecraftServer.getServer().getGameProfiles())
             {

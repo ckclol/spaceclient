@@ -31,7 +31,19 @@ public class ModelAdapterBanner extends ModelAdapter
         else
         {
             ModelBanner modelbanner = (ModelBanner)model;
-            return modelPart.equals("slate") ? modelbanner.bannerSlate : (modelPart.equals("stand") ? modelbanner.bannerStand : (modelPart.equals("top") ? modelbanner.bannerTop : null));
+
+            if (modelPart.equals("slate"))
+            {
+                return modelbanner.bannerSlate;
+            }
+            else if (modelPart.equals("stand"))
+            {
+                return modelbanner.bannerStand;
+            }
+            else
+            {
+                return modelPart.equals("top") ? modelbanner.bannerTop : null;
+            }
         }
     }
 

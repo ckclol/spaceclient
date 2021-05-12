@@ -42,8 +42,6 @@ public class EnchantmentThorns extends Enchantment
 
     /**
      * Determines if this enchantment can be applied to a specific ItemStack.
-     *  
-     * @param stack The ItemStack that is attempting to become enchanted with with enchantment.
      */
     public boolean canApply(ItemStack stack)
     {
@@ -53,10 +51,6 @@ public class EnchantmentThorns extends Enchantment
     /**
      * Whenever an entity that has this enchantment on one of its associated items is damaged this method will be
      * called.
-     *  
-     * @param user An instance of the entity that is associated with this enchantment.
-     * @param attacker An instance of the entity that has attacked the using entity.
-     * @param level The level of the enchantment used.
      */
     public void onUserHurt(EntityLivingBase user, Entity attacker, int level)
     {
@@ -84,7 +78,14 @@ public class EnchantmentThorns extends Enchantment
 
     public static boolean func_92094_a(int p_92094_0_, Random p_92094_1_)
     {
-        return p_92094_0_ <= 0 ? false : p_92094_1_.nextFloat() < 0.15F * (float)p_92094_0_;
+        if (p_92094_0_ <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            return p_92094_1_.nextFloat() < 0.15F * (float)p_92094_0_;
+        }
     }
 
     public static int func_92095_b(int p_92095_0_, Random p_92095_1_)

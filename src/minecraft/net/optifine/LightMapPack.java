@@ -90,7 +90,14 @@ public class LightMapPack
                         ++j;
                     }
 
-                    return j == 2 ? this.blend(aint[0], afloat[0], aint[1], afloat[1]) : (j == 3 ? this.blend(aint[0], afloat[0], aint[1], afloat[1], aint[2], afloat[2]) : true);
+                    if (j == 2)
+                    {
+                        return this.blend(aint[0], afloat[0], aint[1], afloat[1]);
+                    }
+                    else
+                    {
+                        return j == 3 ? this.blend(aint[0], afloat[0], aint[1], afloat[1], aint[2], afloat[2]) : true;
+                    }
                 }
             }
             else

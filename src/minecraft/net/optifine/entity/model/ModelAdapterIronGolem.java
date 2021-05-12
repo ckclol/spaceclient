@@ -29,7 +29,31 @@ public class ModelAdapterIronGolem extends ModelAdapter
         else
         {
             ModelIronGolem modelirongolem = (ModelIronGolem)model;
-            return modelPart.equals("head") ? modelirongolem.ironGolemHead : (modelPart.equals("body") ? modelirongolem.ironGolemBody : (modelPart.equals("left_arm") ? modelirongolem.ironGolemLeftArm : (modelPart.equals("right_arm") ? modelirongolem.ironGolemRightArm : (modelPart.equals("left_leg") ? modelirongolem.ironGolemLeftLeg : (modelPart.equals("right_leg") ? modelirongolem.ironGolemRightLeg : null)))));
+
+            if (modelPart.equals("head"))
+            {
+                return modelirongolem.ironGolemHead;
+            }
+            else if (modelPart.equals("body"))
+            {
+                return modelirongolem.ironGolemBody;
+            }
+            else if (modelPart.equals("left_arm"))
+            {
+                return modelirongolem.ironGolemLeftArm;
+            }
+            else if (modelPart.equals("right_arm"))
+            {
+                return modelirongolem.ironGolemRightArm;
+            }
+            else if (modelPart.equals("left_leg"))
+            {
+                return modelirongolem.ironGolemLeftLeg;
+            }
+            else
+            {
+                return modelPart.equals("right_leg") ? modelirongolem.ironGolemRightLeg : null;
+            }
         }
     }
 

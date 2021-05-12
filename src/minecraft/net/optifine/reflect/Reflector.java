@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-import net.minecraft.util.Matrix4f;
+import javax.vecmath.Matrix4f;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -432,7 +432,7 @@ public class Reflector
             else
             {
                 Boolean obool = (Boolean)method.invoke((Object)null, params);
-                return obool.booleanValue();
+                return obool;
             }
         }
         catch (Throwable throwable)
@@ -455,7 +455,7 @@ public class Reflector
             else
             {
                 Integer integer = (Integer)method.invoke((Object)null, params);
-                return integer.intValue();
+                return integer;
             }
         }
         catch (Throwable throwable)
@@ -478,7 +478,7 @@ public class Reflector
             else
             {
                 Float f = (Float)method.invoke((Object)null, params);
-                return f.floatValue();
+                return f;
             }
         }
         catch (Throwable throwable)
@@ -501,7 +501,7 @@ public class Reflector
             else
             {
                 Double d0 = (Double)method.invoke((Object)null, params);
-                return d0.doubleValue();
+                return d0;
             }
         }
         catch (Throwable throwable)
@@ -594,7 +594,7 @@ public class Reflector
             else
             {
                 Boolean obool = (Boolean)method.invoke(obj, params);
-                return obool.booleanValue();
+                return obool;
             }
         }
         catch (Throwable throwable)
@@ -617,7 +617,7 @@ public class Reflector
             else
             {
                 Integer integer = (Integer)method.invoke(obj, params);
-                return integer.intValue();
+                return integer;
             }
         }
         catch (Throwable throwable)
@@ -640,7 +640,7 @@ public class Reflector
             else
             {
                 Float f = (Float)method.invoke(obj, params);
-                return f.floatValue();
+                return f;
             }
         }
         catch (Throwable throwable)
@@ -663,7 +663,7 @@ public class Reflector
             else
             {
                 Double d0 = (Double)method.invoke(obj, params);
-                return d0.doubleValue();
+                return d0;
             }
         }
         catch (Throwable throwable)
@@ -952,7 +952,7 @@ public class Reflector
             }
             else
             {
-                Object object1 = call(object, EventBus_post, new Object[] {event});
+                Object object1 = call(object, EventBus_post, event);
 
                 if (!(object1 instanceof Boolean))
                 {
@@ -961,7 +961,7 @@ public class Reflector
                 else
                 {
                     Boolean obool = (Boolean)object1;
-                    return obool.booleanValue();
+                    return obool;
                 }
             }
         }

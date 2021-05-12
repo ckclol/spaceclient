@@ -1,0 +1,5 @@
+package space.tests;
+
+public class TestLad {
+	@EventTarget
+}

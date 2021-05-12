@@ -29,7 +29,35 @@ public class ModelAdapterCreeper extends ModelAdapter
         else
         {
             ModelCreeper modelcreeper = (ModelCreeper)model;
-            return modelPart.equals("head") ? modelcreeper.head : (modelPart.equals("armor") ? modelcreeper.creeperArmor : (modelPart.equals("body") ? modelcreeper.body : (modelPart.equals("leg1") ? modelcreeper.leg1 : (modelPart.equals("leg2") ? modelcreeper.leg2 : (modelPart.equals("leg3") ? modelcreeper.leg3 : (modelPart.equals("leg4") ? modelcreeper.leg4 : null))))));
+
+            if (modelPart.equals("head"))
+            {
+                return modelcreeper.head;
+            }
+            else if (modelPart.equals("armor"))
+            {
+                return modelcreeper.creeperArmor;
+            }
+            else if (modelPart.equals("body"))
+            {
+                return modelcreeper.body;
+            }
+            else if (modelPart.equals("leg1"))
+            {
+                return modelcreeper.leg1;
+            }
+            else if (modelPart.equals("leg2"))
+            {
+                return modelcreeper.leg2;
+            }
+            else if (modelPart.equals("leg3"))
+            {
+                return modelcreeper.leg3;
+            }
+            else
+            {
+                return modelPart.equals("leg4") ? modelcreeper.leg4 : null;
+            }
         }
     }
 

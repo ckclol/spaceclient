@@ -51,9 +51,9 @@ public class FontUtils
 
     public static void readCustomCharWidths(Properties props, float[] charWidth)
     {
-        for (Object e : props.keySet())
+        for (Object o : props.keySet())
         {
-            String s = (String) e;
+        	String s = (String)o;
             String s1 = "width.";
 
             if (s.startsWith(s1))

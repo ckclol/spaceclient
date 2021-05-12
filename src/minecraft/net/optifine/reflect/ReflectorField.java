@@ -4,13 +4,13 @@ import java.lang.reflect.Field;
 
 public class ReflectorField
 {
-    private IFieldLocator fieldLocator;
-    private boolean checked;
-    private Field targetField;
+    private IFieldLocator fieldLocator = null;
+    private boolean checked = false;
+    private Field targetField = null;
 
     public ReflectorField(ReflectorClass reflectorClass, String targetFieldName)
     {
-        this((IFieldLocator)(new FieldLocatorName(reflectorClass, targetFieldName)));
+        this(new FieldLocatorName(reflectorClass, targetFieldName));
     }
 
     public ReflectorField(ReflectorClass reflectorClass, String targetFieldName, boolean lazyResolve)
@@ -25,12 +25,12 @@ public class ReflectorField
 
     public ReflectorField(ReflectorClass reflectorClass, Class targetFieldType, int targetFieldIndex)
     {
-        this((IFieldLocator)(new FieldLocatorType(reflectorClass, targetFieldType, targetFieldIndex)));
+        this(new FieldLocatorType(reflectorClass, targetFieldType, targetFieldIndex));
     }
 
     public ReflectorField(Field field)
     {
-        this((IFieldLocator)(new FieldLocatorFixed(field)));
+        this(new FieldLocatorFixed(field));
     }
 
     public ReflectorField(IFieldLocator fieldLocator)
@@ -40,9 +40,6 @@ public class ReflectorField
 
     public ReflectorField(IFieldLocator fieldLocator, boolean lazyResolve)
     {
-        this.fieldLocator = null;
-        this.checked = false;
-        this.targetField = null;
         this.fieldLocator = fieldLocator;
 
         if (!lazyResolve)

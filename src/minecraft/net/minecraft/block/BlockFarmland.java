@@ -2,7 +2,6 @@ package net.minecraft.block;
 
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -24,7 +23,7 @@ public class BlockFarmland extends Block
     protected BlockFarmland()
     {
         super(Material.ground);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(MOISTURE, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(MOISTURE, 0));
         this.setTickRandomly(true);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
         this.setLightOpacity(255);
@@ -50,13 +49,13 @@ public class BlockFarmland extends Block
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        int i = ((Integer)state.getValue(MOISTURE)).intValue();
+        int i = state.getValue(MOISTURE);
 
-        if (!this.hasWater(worldIn, pos) && !worldIn.canLightningStrike(pos.up()))
+        if (!this.hasWater(worldIn, pos) && !worldIn.isRainingAt(pos.up()))
         {
             if (i > 0)
             {
-                worldIn.setBlockState(pos, state.withProperty(MOISTURE, Integer.valueOf(i - 1)), 2);
+                worldIn.setBlockState(pos, state.withProperty(MOISTURE, i - 1), 2);
             }
             else if (!this.hasCrops(worldIn, pos))
             {
@@ -65,14 +64,12 @@ public class BlockFarmland extends Block
         }
         else if (i < 7)
         {
-            worldIn.setBlockState(pos, state.withProperty(MOISTURE, Integer.valueOf(7)), 2);
+            worldIn.setBlockState(pos, state.withProperty(MOISTURE, 7), 2);
         }
     }
 
     /**
      * Block's chance to react to a living entity falling on it.
-     *  
-     * @param fallDistance The distance the entity has fallen before landing
      */
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance)
     {
@@ -80,7 +77,7 @@ public class BlockFarmland extends Block
         {
             if (!worldIn.isRemote && worldIn.rand.nextFloat() < fallDistance - 0.5F)
             {
-                if (!(entityIn instanceof EntityPlayer) && !worldIn.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+                if (!(entityIn instanceof EntityPlayer) && !worldIn.getGameRules().getBoolean("mobGriefing"))
                 {
                     return;
                 }
@@ -145,17 +142,12 @@ public class BlockFarmland extends Block
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return Blocks.dirt.getItemDropped(Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), rand, fortune);
     }
 
-    /**
-     * Used by pick block on the client to get a block's item form, if it exists.
-     */
     public Item getItem(World worldIn, BlockPos pos)
     {
         return Item.getItemFromBlock(Blocks.dirt);
@@ -166,7 +158,7 @@ public class BlockFarmland extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(MOISTURE, Integer.valueOf(meta & 7));
+        return this.getDefaultState().withProperty(MOISTURE, meta & 7);
     }
 
     /**
@@ -174,11 +166,11 @@ public class BlockFarmland extends Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(MOISTURE)).intValue();
+        return state.getValue(MOISTURE);
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {MOISTURE});
+        return new BlockState(this, MOISTURE);
     }
 }

@@ -1,0 +1,7 @@
+package space.hud;
+
+public interface IRender {
+	
+	
+	
+}

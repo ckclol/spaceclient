@@ -51,13 +51,13 @@ public class TileEntitySign extends TileEntity
         super.readFromNBT(compound);
         ICommandSender icommandsender = new ICommandSender()
         {
-            public String getCommandSenderName()
+            public String getName()
             {
                 return "Sign";
             }
             public IChatComponent getDisplayName()
             {
-                return new ChatComponentText(this.getCommandSenderName());
+                return new ChatComponentText(this.getName());
             }
             public void addChatMessage(IChatComponent component)
             {
@@ -165,9 +165,9 @@ public class TileEntitySign extends TileEntity
     {
         ICommandSender icommandsender = new ICommandSender()
         {
-            public String getCommandSenderName()
+            public String getName()
             {
-                return playerIn.getCommandSenderName();
+                return playerIn.getName();
             }
             public IChatComponent getDisplayName()
             {
@@ -202,7 +202,7 @@ public class TileEntitySign extends TileEntity
             }
             public void setCommandStat(CommandResultStats.Type type, int amount)
             {
-                TileEntitySign.this.stats.func_179672_a(this, type, amount);
+                TileEntitySign.this.stats.setCommandStatScore(this, type, amount);
             }
         };
 

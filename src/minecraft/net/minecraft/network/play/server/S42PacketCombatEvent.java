@@ -19,7 +19,6 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient>
     {
     }
 
-    @SuppressWarnings("incomplete-switch")
     public S42PacketCombatEvent(CombatTracker combatTrackerIn, S42PacketCombatEvent.Event combatEventType)
     {
         this.eventType = combatEventType;
@@ -44,7 +43,7 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.eventType = (S42PacketCombatEvent.Event)buf.readEnumValue(S42PacketCombatEvent.Event.class);
+        this.eventType = buf.readEnumValue(S42PacketCombatEvent.Event.class);
 
         if (this.eventType == S42PacketCombatEvent.Event.END_COMBAT)
         {

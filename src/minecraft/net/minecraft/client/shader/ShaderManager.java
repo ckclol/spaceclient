@@ -30,12 +30,12 @@ public class ShaderManager
     private static ShaderManager staticShaderManager = null;
     private static int currentProgram = -1;
     private static boolean field_148000_e = true;
-    private final Map<String, Object> shaderSamplers = Maps.<String, Object>newHashMap();
-    private final List<String> samplerNames = Lists.<String>newArrayList();
-    private final List<Integer> shaderSamplerLocations = Lists.<Integer>newArrayList();
-    private final List<ShaderUniform> shaderUniforms = Lists.<ShaderUniform>newArrayList();
-    private final List<Integer> shaderUniformLocations = Lists.<Integer>newArrayList();
-    private final Map<String, ShaderUniform> mappedShaderUniforms = Maps.<String, ShaderUniform>newHashMap();
+    private final Map<String, Object> shaderSamplers = Maps.newHashMap();
+    private final List<String> samplerNames = Lists.newArrayList();
+    private final List<Integer> shaderSamplerLocations = Lists.newArrayList();
+    private final List<ShaderUniform> shaderUniforms = Lists.newArrayList();
+    private final List<Integer> shaderUniformLocations = Lists.newArrayList();
+    private final Map<String, ShaderUniform> mappedShaderUniforms = Maps.newHashMap();
     private final int program;
     private final String programFilename;
     private final boolean useFaceCulling;
@@ -87,8 +87,8 @@ public class ShaderManager
             if (jsonarray1 != null)
             {
                 int j = 0;
-                this.attribLocations = Lists.<Integer>newArrayListWithCapacity(jsonarray1.size());
-                this.attributes = Lists.<String>newArrayListWithCapacity(jsonarray1.size());
+                this.attribLocations = Lists.newArrayListWithCapacity(jsonarray1.size());
+                this.attributes = Lists.newArrayListWithCapacity(jsonarray1.size());
 
                 for (JsonElement jsonelement1 : jsonarray1)
                 {
@@ -148,7 +148,7 @@ public class ShaderManager
                 for (String s2 : this.attributes)
                 {
                     int l = OpenGlHelper.glGetAttribLocation(this.program, s2);
-                    this.attribLocations.add(Integer.valueOf(l));
+                    this.attribLocations.add(l);
                 }
             }
         }
@@ -228,13 +228,13 @@ public class ShaderManager
                 }
                 else if (object instanceof Integer)
                 {
-                    j = ((Integer)object).intValue();
+                    j = (int) object;
                 }
 
                 if (j != -1)
                 {
                     GlStateManager.bindTexture(j);
-                    OpenGlHelper.glUniform1i(OpenGlHelper.glGetUniformLocation(this.program, (CharSequence)this.samplerNames.get(i)), i);
+                    OpenGlHelper.glUniform1i(OpenGlHelper.glGetUniformLocation(this.program, this.samplerNames.get(i)), i);
                 }
             }
         }
@@ -255,7 +255,7 @@ public class ShaderManager
      */
     public ShaderUniform getShaderUniform(String p_147991_1_)
     {
-        return this.mappedShaderUniforms.containsKey(p_147991_1_) ? (ShaderUniform)this.mappedShaderUniforms.get(p_147991_1_) : null;
+        return this.mappedShaderUniforms.containsKey(p_147991_1_) ? this.mappedShaderUniforms.get(p_147991_1_) : null;
     }
 
     /**
@@ -263,7 +263,7 @@ public class ShaderManager
      */
     public ShaderUniform getShaderUniformOrDefault(String p_147984_1_)
     {
-        return (ShaderUniform)(this.mappedShaderUniforms.containsKey(p_147984_1_) ? (ShaderUniform)this.mappedShaderUniforms.get(p_147984_1_) : defaultShaderUniform);
+        return (ShaderUniform)(this.mappedShaderUniforms.containsKey(p_147984_1_) ? this.mappedShaderUniforms.get(p_147984_1_) : defaultShaderUniform);
     }
 
     /**
@@ -275,7 +275,7 @@ public class ShaderManager
 
         for (int j = 0; i < this.samplerNames.size(); ++j)
         {
-            String s = (String)this.samplerNames.get(i);
+            String s = this.samplerNames.get(i);
             int k = OpenGlHelper.glGetUniformLocation(this.program, s);
 
             if (k == -1)
@@ -287,7 +287,7 @@ public class ShaderManager
             }
             else
             {
-                this.shaderSamplerLocations.add(Integer.valueOf(k));
+                this.shaderSamplerLocations.add(k);
             }
 
             ++i;
@@ -304,7 +304,7 @@ public class ShaderManager
             }
             else
             {
-                this.shaderUniformLocations.add(Integer.valueOf(l));
+                this.shaderUniformLocations.add(l);
                 shaderuniform.setUniformLocation(l);
                 this.mappedShaderUniforms.put(s1, shaderuniform);
             }

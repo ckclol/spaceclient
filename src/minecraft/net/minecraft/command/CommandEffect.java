@@ -28,8 +28,6 @@ public class CommandEffect extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -38,30 +36,27 @@ public class CommandEffect extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.effect.usage", new Object[0]);
+            throw new WrongUsageException("commands.effect.usage");
         }
         else
         {
-            EntityLivingBase entitylivingbase = (EntityLivingBase)getEntity(sender, args[0], EntityLivingBase.class);
+            EntityLivingBase entitylivingbase = getEntity(sender, args[0], EntityLivingBase.class);
 
             if (args[1].equals("clear"))
             {
                 if (entitylivingbase.getActivePotionEffects().isEmpty())
                 {
-                    throw new CommandException("commands.effect.failure.notActive.all", new Object[] {entitylivingbase.getCommandSenderName()});
+                    throw new CommandException("commands.effect.failure.notActive.all", entitylivingbase.getName());
                 }
                 else
                 {
                     entitylivingbase.clearActivePotions();
-                    notifyOperators(sender, this, "commands.effect.success.removed.all", new Object[] {entitylivingbase.getCommandSenderName()});
+                    notifyOperators(sender, this, "commands.effect.success.removed.all", new Object[] {entitylivingbase.getName()});
                 }
             }
             else
@@ -126,21 +121,21 @@ public class CommandEffect extends CommandBase
                     {
                         PotionEffect potioneffect = new PotionEffect(i, j, k, false, flag);
                         entitylivingbase.addPotionEffect(potioneffect);
-                        notifyOperators(sender, this, "commands.effect.success", new Object[] {new ChatComponentTranslation(potioneffect.getEffectName(), new Object[0]), Integer.valueOf(i), Integer.valueOf(k), entitylivingbase.getCommandSenderName(), Integer.valueOf(l)});
+                        notifyOperators(sender, this, "commands.effect.success", new Object[] {new ChatComponentTranslation(potioneffect.getEffectName()), i, k, entitylivingbase.getName(), l});
                     }
                     else if (entitylivingbase.isPotionActive(i))
                     {
                         entitylivingbase.removePotionEffect(i);
-                        notifyOperators(sender, this, "commands.effect.success.removed", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getCommandSenderName()});
+                        notifyOperators(sender, this, "commands.effect.success.removed", new Object[] {new ChatComponentTranslation(potion1.getName()), entitylivingbase.getName()});
                     }
                     else
                     {
-                        throw new CommandException("commands.effect.failure.notActive", new Object[] {new ChatComponentTranslation(potion1.getName(), new Object[0]), entitylivingbase.getCommandSenderName()});
+                        throw new CommandException("commands.effect.failure.notActive", new ChatComponentTranslation(potion1.getName()), entitylivingbase.getName());
                     }
                 }
                 else
                 {
-                    throw new NumberInvalidException("commands.effect.notFound", new Object[] {Integer.valueOf(i)});
+                    throw new NumberInvalidException("commands.effect.notFound", i);
                 }
             }
         }
@@ -148,7 +143,18 @@ public class CommandEffect extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getAllUsernames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Potion.func_181168_c()) : (args.length == 5 ? getListOfStringsMatchingLastWord(args, new String[] {"true", "false"}): null));
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, this.getAllUsernames());
+        }
+        else if (args.length == 2)
+        {
+            return getListOfStringsMatchingLastWord(args, Potion.getPotionLocations());
+        }
+        else
+        {
+            return args.length == 5 ? getListOfStringsMatchingLastWord(args, new String[] {"true", "false"}) : null;
+        }
     }
 
     protected String[] getAllUsernames()
@@ -158,9 +164,6 @@ public class CommandEffect extends CommandBase
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

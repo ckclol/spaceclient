@@ -37,7 +37,7 @@ public class ContainerBeacon extends Container
     public void onCraftGuiOpened(ICrafting listener)
     {
         super.onCraftGuiOpened(listener);
-        listener.func_175173_a(this, this.tileBeacon);
+        listener.sendAllWindowProperties(this, this.tileBeacon);
     }
 
     public void updateProgressBar(int id, int data)
@@ -79,7 +79,7 @@ public class ContainerBeacon extends Container
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
         ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
         {
@@ -150,7 +150,14 @@ public class ContainerBeacon extends Container
 
         public boolean isItemValid(ItemStack stack)
         {
-            return stack == null ? false : stack.getItem() == Items.emerald || stack.getItem() == Items.diamond || stack.getItem() == Items.gold_ingot || stack.getItem() == Items.iron_ingot;
+            if (stack == null)
+            {
+                return false;
+            }
+            else
+            {
+                return stack.getItem() == Items.emerald || stack.getItem() == Items.diamond || stack.getItem() == Items.gold_ingot || stack.getItem() == Items.iron_ingot;
+            }
         }
 
         public int getSlotStackLimit()

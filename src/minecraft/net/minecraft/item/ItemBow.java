@@ -22,8 +22,6 @@ public class ItemBow extends Item
 
     /**
      * Called when the player stops using an Item (stops holding the right mouse button).
-     *  
-     * @param timeLeft The amount of ticks left before the using would have been complete
      */
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft)
     {

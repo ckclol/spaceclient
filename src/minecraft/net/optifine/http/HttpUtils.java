@@ -88,9 +88,9 @@ public class HttpUtils
 
             if (headers != null)
             {
-                for (Object e: headers.keySet())
+                for (Object o  : headers.keySet())
                 {
-                    String s = (String) e;
+                	String s = (String)o;
                     String s1 = "" + headers.get(s);
                     httpurlconnection.setRequestProperty(s, s1);
                 }

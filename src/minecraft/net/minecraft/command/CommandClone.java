@@ -34,8 +34,6 @@ public class CommandClone extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -44,15 +42,12 @@ public class CommandClone extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 9)
         {
-            throw new WrongUsageException("commands.clone.usage", new Object[0]);
+            throw new WrongUsageException("commands.clone.usage");
         }
         else
         {
@@ -66,7 +61,7 @@ public class CommandClone extends CommandBase
 
             if (i > 32768)
             {
-                throw new CommandException("commands.clone.tooManyBlocks", new Object[] {Integer.valueOf(i), Integer.valueOf(32768)});
+                throw new CommandException("commands.clone.tooManyBlocks", i, 32768);
             }
             else
             {
@@ -76,7 +71,7 @@ public class CommandClone extends CommandBase
 
                 if ((args.length < 11 || !args[10].equals("force") && !args[10].equals("move")) && structureboundingbox.intersectsWith(structureboundingbox1))
                 {
-                    throw new CommandException("commands.clone.noOverlap", new Object[0]);
+                    throw new CommandException("commands.clone.noOverlap");
                 }
                 else
                 {
@@ -103,7 +98,7 @@ public class CommandClone extends CommandBase
                                 {
                                     if (args.length < 12)
                                     {
-                                        throw new WrongUsageException("commands.clone.usage", new Object[0]);
+                                        throw new WrongUsageException("commands.clone.usage");
                                     }
 
                                     block = getBlockByText(sender, args[11]);
@@ -115,10 +110,10 @@ public class CommandClone extends CommandBase
                                 }
                             }
 
-                            List<CommandClone.StaticCloneData> list = Lists.<CommandClone.StaticCloneData>newArrayList();
-                            List<CommandClone.StaticCloneData> list1 = Lists.<CommandClone.StaticCloneData>newArrayList();
-                            List<CommandClone.StaticCloneData> list2 = Lists.<CommandClone.StaticCloneData>newArrayList();
-                            LinkedList<BlockPos> linkedlist = Lists.<BlockPos>newLinkedList();
+                            List<CommandClone.StaticCloneData> list = Lists.newArrayList();
+                            List<CommandClone.StaticCloneData> list1 = Lists.newArrayList();
+                            List<CommandClone.StaticCloneData> list2 = Lists.newArrayList();
+                            LinkedList<BlockPos> linkedlist = Lists.newLinkedList();
                             BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX, structureboundingbox1.minY - structureboundingbox.minY, structureboundingbox1.minZ - structureboundingbox.minZ);
 
                             for (int k = structureboundingbox.minZ; k <= structureboundingbox.maxZ; ++k)
@@ -177,29 +172,29 @@ public class CommandClone extends CommandBase
                                 }
                             }
 
-                            List<CommandClone.StaticCloneData> list3 = Lists.<CommandClone.StaticCloneData>newArrayList();
+                            List<CommandClone.StaticCloneData> list3 = Lists.newArrayList();
                             list3.addAll(list);
                             list3.addAll(list1);
                             list3.addAll(list2);
-                            List<CommandClone.StaticCloneData> list4 = Lists.<CommandClone.StaticCloneData>reverse(list3);
+                            List<CommandClone.StaticCloneData> list4 = Lists.reverse(list3);
 
                             for (CommandClone.StaticCloneData commandclone$staticclonedata : list4)
                             {
-                                TileEntity tileentity2 = world.getTileEntity(commandclone$staticclonedata.field_179537_a);
+                                TileEntity tileentity2 = world.getTileEntity(commandclone$staticclonedata.pos);
 
                                 if (tileentity2 instanceof IInventory)
                                 {
                                     ((IInventory)tileentity2).clear();
                                 }
 
-                                world.setBlockState(commandclone$staticclonedata.field_179537_a, Blocks.barrier.getDefaultState(), 2);
+                                world.setBlockState(commandclone$staticclonedata.pos, Blocks.barrier.getDefaultState(), 2);
                             }
 
                             i = 0;
 
                             for (CommandClone.StaticCloneData commandclone$staticclonedata1 : list3)
                             {
-                                if (world.setBlockState(commandclone$staticclonedata1.field_179537_a, commandclone$staticclonedata1.blockState, 2))
+                                if (world.setBlockState(commandclone$staticclonedata1.pos, commandclone$staticclonedata1.blockState, 2))
                                 {
                                     ++i;
                                 }
@@ -207,23 +202,23 @@ public class CommandClone extends CommandBase
 
                             for (CommandClone.StaticCloneData commandclone$staticclonedata2 : list1)
                             {
-                                TileEntity tileentity3 = world.getTileEntity(commandclone$staticclonedata2.field_179537_a);
+                                TileEntity tileentity3 = world.getTileEntity(commandclone$staticclonedata2.pos);
 
-                                if (commandclone$staticclonedata2.field_179536_c != null && tileentity3 != null)
+                                if (commandclone$staticclonedata2.compound != null && tileentity3 != null)
                                 {
-                                    commandclone$staticclonedata2.field_179536_c.setInteger("x", commandclone$staticclonedata2.field_179537_a.getX());
-                                    commandclone$staticclonedata2.field_179536_c.setInteger("y", commandclone$staticclonedata2.field_179537_a.getY());
-                                    commandclone$staticclonedata2.field_179536_c.setInteger("z", commandclone$staticclonedata2.field_179537_a.getZ());
-                                    tileentity3.readFromNBT(commandclone$staticclonedata2.field_179536_c);
+                                    commandclone$staticclonedata2.compound.setInteger("x", commandclone$staticclonedata2.pos.getX());
+                                    commandclone$staticclonedata2.compound.setInteger("y", commandclone$staticclonedata2.pos.getY());
+                                    commandclone$staticclonedata2.compound.setInteger("z", commandclone$staticclonedata2.pos.getZ());
+                                    tileentity3.readFromNBT(commandclone$staticclonedata2.compound);
                                     tileentity3.markDirty();
                                 }
 
-                                world.setBlockState(commandclone$staticclonedata2.field_179537_a, commandclone$staticclonedata2.blockState, 2);
+                                world.setBlockState(commandclone$staticclonedata2.pos, commandclone$staticclonedata2.blockState, 2);
                             }
 
                             for (CommandClone.StaticCloneData commandclone$staticclonedata3 : list4)
                             {
-                                world.notifyNeighborsRespectDebug(commandclone$staticclonedata3.field_179537_a, commandclone$staticclonedata3.blockState.getBlock());
+                                world.notifyNeighborsRespectDebug(commandclone$staticclonedata3.pos, commandclone$staticclonedata3.blockState.getBlock());
                             }
 
                             List<NextTickListEntry> list5 = world.func_175712_a(structureboundingbox, false);
@@ -242,22 +237,22 @@ public class CommandClone extends CommandBase
 
                             if (i <= 0)
                             {
-                                throw new CommandException("commands.clone.failed", new Object[0]);
+                                throw new CommandException("commands.clone.failed");
                             }
                             else
                             {
                                 sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, i);
-                                notifyOperators(sender, this, "commands.clone.success", new Object[] {Integer.valueOf(i)});
+                                notifyOperators(sender, this, "commands.clone.success", new Object[] {i});
                             }
                         }
                         else
                         {
-                            throw new CommandException("commands.clone.outOfWorld", new Object[0]);
+                            throw new CommandException("commands.clone.outOfWorld");
                         }
                     }
                     else
                     {
-                        throw new CommandException("commands.clone.outOfWorld", new Object[0]);
+                        throw new CommandException("commands.clone.outOfWorld");
                     }
                 }
             }
@@ -266,20 +261,43 @@ public class CommandClone extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : (args.length > 3 && args.length <= 6 ? func_175771_a(args, 3, pos) : (args.length > 6 && args.length <= 9 ? func_175771_a(args, 6, pos) : (args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] {"replace", "masked", "filtered"}): (args.length == 11 ? getListOfStringsMatchingLastWord(args, new String[] {"normal", "force", "move"}): (args.length == 12 && "filtered".equals(args[9]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null)))));
+        if (args.length > 0 && args.length <= 3)
+        {
+            return func_175771_a(args, 0, pos);
+        }
+        else if (args.length > 3 && args.length <= 6)
+        {
+            return func_175771_a(args, 3, pos);
+        }
+        else if (args.length > 6 && args.length <= 9)
+        {
+            return func_175771_a(args, 6, pos);
+        }
+        else if (args.length == 10)
+        {
+            return getListOfStringsMatchingLastWord(args, new String[] {"replace", "masked", "filtered"});
+        }
+        else if (args.length == 11)
+        {
+            return getListOfStringsMatchingLastWord(args, new String[] {"normal", "force", "move"});
+        }
+        else
+        {
+            return args.length == 12 && "filtered".equals(args[9]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null;
+        }
     }
 
     static class StaticCloneData
     {
-        public final BlockPos field_179537_a;
+        public final BlockPos pos;
         public final IBlockState blockState;
-        public final NBTTagCompound field_179536_c;
+        public final NBTTagCompound compound;
 
-        public StaticCloneData(BlockPos p_i46037_1_, IBlockState p_i46037_2_, NBTTagCompound p_i46037_3_)
+        public StaticCloneData(BlockPos posIn, IBlockState stateIn, NBTTagCompound compoundIn)
         {
-            this.field_179537_a = p_i46037_1_;
-            this.blockState = p_i46037_2_;
-            this.field_179536_c = p_i46037_3_;
+            this.pos = posIn;
+            this.blockState = stateIn;
+            this.compound = compoundIn;
         }
     }
 }

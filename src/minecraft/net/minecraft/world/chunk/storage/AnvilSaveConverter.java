@@ -29,9 +29,9 @@ public class AnvilSaveConverter extends SaveFormatOld
 {
     private static final Logger logger = LogManager.getLogger();
 
-    public AnvilSaveConverter(File p_i2144_1_)
+    public AnvilSaveConverter(File savesDirectoryIn)
     {
-        super(p_i2144_1_);
+        super(savesDirectoryIn);
     }
 
     /**
@@ -46,7 +46,7 @@ public class AnvilSaveConverter extends SaveFormatOld
     {
         if (this.savesDirectory != null && this.savesDirectory.exists() && this.savesDirectory.isDirectory())
         {
-            List<SaveFormatComparator> list = Lists.<SaveFormatComparator>newArrayList();
+            List<SaveFormatComparator> list = Lists.newArrayList();
             File[] afile = this.savesDirectory.listFiles();
 
             for (File file1 : afile)
@@ -98,7 +98,7 @@ public class AnvilSaveConverter extends SaveFormatOld
         return new AnvilSaveHandler(this.savesDirectory, saveName, storePlayerdata);
     }
 
-    public boolean func_154334_a(String saveName)
+    public boolean isConvertible(String saveName)
     {
         WorldInfo worldinfo = this.getWorldInfo(saveName);
         return worldinfo != null && worldinfo.getSaveVersion() == 19132;
@@ -106,8 +106,6 @@ public class AnvilSaveConverter extends SaveFormatOld
 
     /**
      * gets if the map is old chunk saving (true) or McRegion (false)
-     *  
-     * @param saveName The name of the directory containing the world
      */
     public boolean isOldMapFormat(String saveName)
     {
@@ -117,15 +115,13 @@ public class AnvilSaveConverter extends SaveFormatOld
 
     /**
      * converts the map to mcRegion
-     *  
-     * @param filename Filename for the level.dat_mcr backup
      */
     public boolean convertMapFormat(String filename, IProgressUpdate progressCallback)
     {
         progressCallback.setLoadingProgress(0);
-        List<File> list = Lists.<File>newArrayList();
-        List<File> list1 = Lists.<File>newArrayList();
-        List<File> list2 = Lists.<File>newArrayList();
+        List<File> list = Lists.newArrayList();
+        List<File> list1 = Lists.newArrayList();
+        List<File> list2 = Lists.newArrayList();
         File file1 = new File(this.savesDirectory, filename);
         File file2 = new File(file1, "DIM-1");
         File file3 = new File(file1, "DIM1");
@@ -174,8 +170,6 @@ public class AnvilSaveConverter extends SaveFormatOld
 
     /**
      * par: filename for the level.dat_mcr backup
-     *  
-     * @param filename Filename for the level.dat_mcr backup
      */
     private void createFile(String filename)
     {

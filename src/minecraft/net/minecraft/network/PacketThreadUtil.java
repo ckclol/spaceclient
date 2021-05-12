@@ -22,7 +22,7 @@ public class PacketThreadUtil
                     p_180031_0_.processPacket(p_180031_1_);
                 }
             });
-            throw ThreadQuickExitException.field_179886_a;
+            throw ThreadQuickExitException.INSTANCE;
         }
         else
         {

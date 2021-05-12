@@ -46,7 +46,7 @@ public class GuiShaders extends GuiScreen
      */
     public void initGui()
     {
-        this.screenTitle = I18n.format("of.options.shadersTitle", new Object[0]);
+        this.screenTitle = I18n.format("of.options.shadersTitle");
 
         if (Shaders.shadersConfig == null)
         {
@@ -74,7 +74,7 @@ public class GuiShaders extends GuiScreen
         int i2 = this.height - 25;
         this.buttonList.add(new GuiButton(201, l1, i2, k1 - 22 + 1, j, Lang.get("of.options.shaders.shadersFolder")));
         this.buttonList.add(new GuiButtonDownloadShaders(210, l1 + k1 - 22 - 1, i2));
-        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(203, k, this.height - 25, i, j, Lang.get("of.options.shaders.shaderOptions")));
         this.updateButtons();
     }
@@ -275,7 +275,7 @@ public class GuiShaders extends GuiScreen
                         switch (getOSType())
                         {
                             case 1:
-                                String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {Shaders.shaderPacksDir.getAbsolutePath()});
+                                String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", Shaders.shaderPacksDir.getAbsolutePath());
 
                                 try
                                 {
@@ -305,8 +305,8 @@ public class GuiShaders extends GuiScreen
                         try
                         {
                             Class oclass1 = Class.forName("java.awt.Desktop");
-                            Object object1 = oclass1.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                            oclass1.getMethod("browse", new Class[] {URI.class}).invoke(object1, new Object[] {(new File(this.mc.mcDataDir, "shaderpacks")).toURI()});
+                            Object object1 = oclass1.getMethod("getDesktop").invoke((Object)null);
+                            oclass1.getMethod("browse", URI.class).invoke(object1, (new File(this.mc.mcDataDir, "shaderpacks")).toURI());
                         }
                         catch (Throwable throwable1)
                         {
@@ -337,8 +337,8 @@ public class GuiShaders extends GuiScreen
                         try
                         {
                             Class<?> oclass = Class.forName("java.awt.Desktop");
-                            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {new URI("http://optifine.net/shaderPacks")});
+                            Object object = oclass.getMethod("getDesktop").invoke((Object)null);
+                            oclass.getMethod("browse", URI.class).invoke(object, new URI("http://optifine.net/shaderPacks"));
                         }
                         catch (Throwable throwable)
                         {
@@ -430,7 +430,14 @@ public class GuiShaders extends GuiScreen
 
     public static String toStringAa(int value)
     {
-        return value == 2 ? "FXAA 2x" : (value == 4 ? "FXAA 4x" : Lang.getOff());
+        if (value == 2)
+        {
+            return "FXAA 2x";
+        }
+        else
+        {
+            return value == 4 ? "FXAA 4x" : Lang.getOff();
+        }
     }
 
     public static String toStringValue(float val, float[] values, String[] names)
@@ -467,6 +474,30 @@ public class GuiShaders extends GuiScreen
     public static int getOSType()
     {
         String s = System.getProperty("os.name").toLowerCase();
-        return s.contains("win") ? 1 : (s.contains("mac") ? 2 : (s.contains("solaris") ? 3 : (s.contains("sunos") ? 3 : (s.contains("linux") ? 4 : (s.contains("unix") ? 4 : 0)))));
+
+        if (s.contains("win"))
+        {
+            return 1;
+        }
+        else if (s.contains("mac"))
+        {
+            return 2;
+        }
+        else if (s.contains("solaris"))
+        {
+            return 3;
+        }
+        else if (s.contains("sunos"))
+        {
+            return 3;
+        }
+        else if (s.contains("linux"))
+        {
+            return 4;
+        }
+        else
+        {
+            return s.contains("unix") ? 4 : 0;
+        }
     }
 }

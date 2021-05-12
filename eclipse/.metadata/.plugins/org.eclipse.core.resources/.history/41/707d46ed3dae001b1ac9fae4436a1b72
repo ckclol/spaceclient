@@ -1,0 +1,18 @@
+package space.util;
+
+import java.util.function.Predicate;
+
+import space.hud.IRender;
+
+public class MouseOverFinder implements Predicate<IRender> {
+
+	public MouseOverFinder(int x, int y) {
+	}
+	
+	@Override
+	public boolean test(IRender t) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+}

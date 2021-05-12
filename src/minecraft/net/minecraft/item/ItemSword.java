@@ -34,15 +34,15 @@ public class ItemSword extends Item
         return this.material.getDamageVsEntity();
     }
 
-    public float getStrVsBlock(ItemStack stack, Block block)
+    public float getStrVsBlock(ItemStack stack, Block state)
     {
-        if (block == Blocks.web)
+        if (state == Blocks.web)
         {
             return 15.0F;
         }
         else
         {
-            Material material = block.getMaterial();
+            Material material = state.getMaterial();
             return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? 1.0F : 1.5F;
         }
     }
@@ -50,9 +50,6 @@ public class ItemSword extends Item
     /**
      * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
      * the damage on the stack.
-     *  
-     * @param target The Entity being hit
-     * @param attacker the attacking entity
      */
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
@@ -132,9 +129,6 @@ public class ItemSword extends Item
 
     /**
      * Return whether this item is repairable in an anvil.
-     *  
-     * @param toRepair The ItemStack to be repaired
-     * @param repair The ItemStack that should repair this Item (leather for leather armor, etc.)
      */
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {

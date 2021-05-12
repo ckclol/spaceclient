@@ -17,9 +17,9 @@ public class EntityNoteFX extends EntityFX
     protected EntityNoteFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double p_i1217_8_, double p_i1217_10_, double p_i1217_12_, float p_i1217_14_)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
-        this.motionX *= 0.009999999776482582D;
-        this.motionY *= 0.009999999776482582D;
-        this.motionZ *= 0.009999999776482582D;
+        this.motionX *= (double)0.01F;
+        this.motionY *= (double)0.01F;
+        this.motionZ *= (double)0.01F;
         this.motionY += 0.2D;
         this.particleRed = MathHelper.sin(((float)p_i1217_8_ + 0.0F) * (float)Math.PI * 2.0F) * 0.65F + 0.35F;
         this.particleGreen = MathHelper.sin(((float)p_i1217_8_ + 0.33333334F) * (float)Math.PI * 2.0F) * 0.65F + 0.35F;
@@ -34,15 +34,13 @@ public class EntityNoteFX extends EntityFX
 
     /**
      * Renders the particle
-     *  
-     * @param worldRendererIn The WorldRenderer instance
      */
-    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
+    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
         this.particleScale = this.noteParticleScale * f;
-        super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     /**
@@ -67,14 +65,14 @@ public class EntityNoteFX extends EntityFX
             this.motionZ *= 1.1D;
         }
 
-        this.motionX *= 0.6600000262260437D;
-        this.motionY *= 0.6600000262260437D;
-        this.motionZ *= 0.6600000262260437D;
+        this.motionX *= (double)0.66F;
+        this.motionY *= (double)0.66F;
+        this.motionZ *= (double)0.66F;
 
         if (this.onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            this.motionX *= (double)0.7F;
+            this.motionZ *= (double)0.7F;
         }
     }
 

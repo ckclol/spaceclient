@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public abstract class StructureStart
 {
-    protected LinkedList<StructureComponent> components = new LinkedList();
+    protected LinkedList<StructureComponent> components = new LinkedList<>();
     protected StructureBoundingBox boundingBox;
     private int chunkPosX;
     private int chunkPosZ;
@@ -44,7 +44,7 @@ public abstract class StructureStart
 
         while (iterator.hasNext())
         {
-            StructureComponent structurecomponent = (StructureComponent)iterator.next();
+            StructureComponent structurecomponent = iterator.next();
 
             if (structurecomponent.getBoundingBox().intersectsWith(structurebb) && !structurecomponent.addComponentParts(worldIn, rand, structurebb))
             {
@@ -118,7 +118,7 @@ public abstract class StructureStart
      */
     protected void markAvailableHeight(World worldIn, Random rand, int p_75067_3_)
     {
-        int i = worldIn.func_181545_F() - p_75067_3_;
+        int i = worldIn.getSeaLevel() - p_75067_3_;
         int j = this.boundingBox.getYSize() + 1;
 
         if (j < i)

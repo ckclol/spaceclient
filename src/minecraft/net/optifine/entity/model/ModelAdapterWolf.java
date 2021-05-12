@@ -30,7 +30,39 @@ public class ModelAdapterWolf extends ModelAdapter
         else
         {
             ModelWolf modelwolf = (ModelWolf)model;
-            return modelPart.equals("head") ? modelwolf.wolfHeadMain : (modelPart.equals("body") ? modelwolf.wolfBody : (modelPart.equals("leg1") ? modelwolf.wolfLeg1 : (modelPart.equals("leg2") ? modelwolf.wolfLeg2 : (modelPart.equals("leg3") ? modelwolf.wolfLeg3 : (modelPart.equals("leg4") ? modelwolf.wolfLeg4 : (modelPart.equals("tail") ? (ModelRenderer)Reflector.getFieldValue(modelwolf, Reflector.ModelWolf_tail) : (modelPart.equals("mane") ? (ModelRenderer)Reflector.getFieldValue(modelwolf, Reflector.ModelWolf_mane) : null)))))));
+
+            if (modelPart.equals("head"))
+            {
+                return modelwolf.wolfHeadMain;
+            }
+            else if (modelPart.equals("body"))
+            {
+                return modelwolf.wolfBody;
+            }
+            else if (modelPart.equals("leg1"))
+            {
+                return modelwolf.wolfLeg1;
+            }
+            else if (modelPart.equals("leg2"))
+            {
+                return modelwolf.wolfLeg2;
+            }
+            else if (modelPart.equals("leg3"))
+            {
+                return modelwolf.wolfLeg3;
+            }
+            else if (modelPart.equals("leg4"))
+            {
+                return modelwolf.wolfLeg4;
+            }
+            else if (modelPart.equals("tail"))
+            {
+                return (ModelRenderer)Reflector.getFieldValue(modelwolf, Reflector.ModelWolf_tail);
+            }
+            else
+            {
+                return modelPart.equals("mane") ? (ModelRenderer)Reflector.getFieldValue(modelwolf, Reflector.ModelWolf_mane) : null;
+            }
         }
     }
 

@@ -43,8 +43,8 @@ public class CustomLoadingScreens
         screens = null;
         screensMinDimensionId = 0;
         Pair<CustomLoadingScreen[], Integer> pair = parseScreens();
-        screens = (CustomLoadingScreen[])pair.getLeft();
-        screensMinDimensionId = ((Integer)pair.getRight()).intValue();
+        screens = pair.getLeft();
+        screensMinDimensionId = pair.getRight();
     }
 
     private static Pair<CustomLoadingScreen[], Integer> parseScreens()
@@ -52,7 +52,7 @@ public class CustomLoadingScreens
         String s = "optifine/gui/loading/background";
         String s1 = ".png";
         String[] astring = ResUtils.collectFiles(s, s1);
-        Map<Integer, String> map = new HashMap();
+        Map<Integer, String> map = new HashMap<>();
 
         for (int i = 0; i < astring.length; ++i)
         {
@@ -66,35 +66,35 @@ public class CustomLoadingScreens
             }
             else
             {
-                map.put(Integer.valueOf(j), s2);
+                map.put(j, s2);
             }
         }
 
         Set<Integer> set = map.keySet();
-        Integer[] ainteger = (Integer[])set.toArray(new Integer[set.size()]);
+        Integer[] ainteger = set.toArray(new Integer[set.size()]);
         Arrays.sort((Object[])ainteger);
 
         if (ainteger.length <= 0)
         {
-            return new ImmutablePair((Object)null, Integer.valueOf(0));
+            return new ImmutablePair<>((CustomLoadingScreen[])null, 0);
         }
         else
         {
             String s5 = "optifine/gui/loading/loading.properties";
             Properties properties = ResUtils.readProperties(s5, "CustomLoadingScreens");
-            int k = ainteger[0].intValue();
-            int l = ainteger[ainteger.length - 1].intValue();
+            int k = ainteger[0];
+            int l = ainteger[ainteger.length - 1];
             int i1 = l - k + 1;
             CustomLoadingScreen[] acustomloadingscreen = new CustomLoadingScreen[i1];
 
             for (int j1 = 0; j1 < ainteger.length; ++j1)
             {
                 Integer integer = ainteger[j1];
-                String s4 = (String)map.get(integer);
-                acustomloadingscreen[integer.intValue() - k] = CustomLoadingScreen.parseScreen(s4, integer.intValue(), properties);
+                String s4 = map.get(integer);
+                acustomloadingscreen[integer - k] = CustomLoadingScreen.parseScreen(s4, integer, properties);
             }
 
-            return new ImmutablePair(acustomloadingscreen, Integer.valueOf(k));
+            return new ImmutablePair<>(acustomloadingscreen, k);
         }
     }
 

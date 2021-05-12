@@ -11,9 +11,9 @@ public class BiomeGenPlains extends BiomeGenBase
 {
     protected boolean field_150628_aC;
 
-    protected BiomeGenPlains(int p_i1986_1_)
+    protected BiomeGenPlains(int id)
     {
-        super(p_i1986_1_);
+        super(id);
         this.setTemperatureRainfall(0.8F, 0.4F);
         this.setHeight(height_LowPlains);
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityHorse.class, 5, 2, 6));
@@ -49,7 +49,15 @@ public class BiomeGenPlains extends BiomeGenBase
         else if (rand.nextInt(3) > 0)
         {
             int i = rand.nextInt(3);
-            return i == 0 ? BlockFlower.EnumFlowerType.POPPY : (i == 1 ? BlockFlower.EnumFlowerType.HOUSTONIA : BlockFlower.EnumFlowerType.OXEYE_DAISY);
+
+            if (i == 0)
+            {
+                return BlockFlower.EnumFlowerType.POPPY;
+            }
+            else
+            {
+                return i == 1 ? BlockFlower.EnumFlowerType.HOUSTONIA : BlockFlower.EnumFlowerType.OXEYE_DAISY;
+            }
         }
         else
         {

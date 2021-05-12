@@ -78,7 +78,14 @@ public class ReflectorConstructor
 
     public boolean exists()
     {
-        return this.checked ? this.targetConstructor != null : this.getTargetConstructor() != null;
+        if (this.checked)
+        {
+            return this.targetConstructor != null;
+        }
+        else
+        {
+            return this.getTargetConstructor() != null;
+        }
     }
 
     public void deactivate()

@@ -43,7 +43,15 @@ public class EntityAIEatGrass extends EntityAIBase
         else
         {
             BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
-            return field_179505_b.apply(this.entityWorld.getBlockState(blockpos)) ? true : this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
+
+            if (field_179505_b.apply(this.entityWorld.getBlockState(blockpos)))
+            {
+                return true;
+            }
+            else
+            {
+                return this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
+            }
         }
     }
 
@@ -94,7 +102,7 @@ public class EntityAIEatGrass extends EntityAIBase
 
             if (field_179505_b.apply(this.entityWorld.getBlockState(blockpos)))
             {
-                if (this.entityWorld.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+                if (this.entityWorld.getGameRules().getBoolean("mobGriefing"))
                 {
                     this.entityWorld.destroyBlock(blockpos, false);
                 }
@@ -107,7 +115,7 @@ public class EntityAIEatGrass extends EntityAIBase
 
                 if (this.entityWorld.getBlockState(blockpos1).getBlock() == Blocks.grass)
                 {
-                    if (this.entityWorld.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+                    if (this.entityWorld.getGameRules().getBoolean("mobGriefing"))
                     {
                         this.entityWorld.playAuxSFX(2001, blockpos1, Block.getIdFromBlock(Blocks.grass));
                         this.entityWorld.setBlockState(blockpos1, Blocks.dirt.getDefaultState(), 2);

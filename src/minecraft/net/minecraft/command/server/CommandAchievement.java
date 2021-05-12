@@ -36,8 +36,6 @@ public class CommandAchievement extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -46,15 +44,12 @@ public class CommandAchievement extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.achievement.usage", new Object[0]);
+            throw new WrongUsageException("commands.achievement.usage");
         }
         else
         {
@@ -62,7 +57,7 @@ public class CommandAchievement extends CommandBase
 
             if (statbase == null && !args[1].equals("*"))
             {
-                throw new CommandException("commands.achievement.unknownAchievement", new Object[] {args[1]});
+                throw new CommandException("commands.achievement.unknownAchievement", args[1]);
             }
             else
             {
@@ -81,7 +76,7 @@ public class CommandAchievement extends CommandBase
                                 entityplayermp.triggerAchievement(achievement4);
                             }
 
-                            notifyOperators(sender, this, "commands.achievement.give.success.all", new Object[] {entityplayermp.getCommandSenderName()});
+                            notifyOperators(sender, this, "commands.achievement.give.success.all", new Object[] {entityplayermp.getName()});
                         }
                         else if (flag1)
                         {
@@ -90,7 +85,7 @@ public class CommandAchievement extends CommandBase
                                 entityplayermp.func_175145_a(achievement5);
                             }
 
-                            notifyOperators(sender, this, "commands.achievement.take.success.all", new Object[] {entityplayermp.getCommandSenderName()});
+                            notifyOperators(sender, this, "commands.achievement.take.success.all", new Object[] {entityplayermp.getName()});
                         }
                     }
                     else
@@ -103,12 +98,12 @@ public class CommandAchievement extends CommandBase
                             {
                                 if (entityplayermp.getStatFile().hasAchievementUnlocked(achievement))
                                 {
-                                    throw new CommandException("commands.achievement.alreadyHave", new Object[] {entityplayermp.getCommandSenderName(), statbase.func_150955_j()});
+                                    throw new CommandException("commands.achievement.alreadyHave", entityplayermp.getName(), statbase.createChatComponent());
                                 }
 
                                 List<Achievement> list;
 
-                                for (list = Lists.<Achievement>newArrayList(); achievement.parentAchievement != null && !entityplayermp.getStatFile().hasAchievementUnlocked(achievement.parentAchievement); achievement = achievement.parentAchievement)
+                                for (list = Lists.newArrayList(); achievement.parentAchievement != null && !entityplayermp.getStatFile().hasAchievementUnlocked(achievement.parentAchievement); achievement = achievement.parentAchievement)
                                 {
                                     list.add(achievement.parentAchievement);
                                 }
@@ -122,7 +117,7 @@ public class CommandAchievement extends CommandBase
                             {
                                 if (!entityplayermp.getStatFile().hasAchievementUnlocked(achievement))
                                 {
-                                    throw new CommandException("commands.achievement.dontHave", new Object[] {entityplayermp.getCommandSenderName(), statbase.func_150955_j()});
+                                    throw new CommandException("commands.achievement.dontHave", entityplayermp.getName(), statbase.createChatComponent());
                                 }
 
                                 List<Achievement> list1 = Lists.newArrayList(Iterators.filter(AchievementList.achievementList.iterator(), new Predicate<Achievement>()
@@ -149,7 +144,7 @@ public class CommandAchievement extends CommandBase
 
                                     if (!flag2)
                                     {
-                                        for (achievement3 = achievement2; achievement3 != null; achievement3 = achievement3.parentAchievement)
+                                        for (Achievement achievement7 = achievement2; achievement7 != null; achievement7 = achievement7.parentAchievement)
                                         {
                                             list2.remove(achievement2);
                                         }
@@ -166,12 +161,12 @@ public class CommandAchievement extends CommandBase
                         if (flag)
                         {
                             entityplayermp.triggerAchievement(statbase);
-                            notifyOperators(sender, this, "commands.achievement.give.success.one", new Object[] {entityplayermp.getCommandSenderName(), statbase.func_150955_j()});
+                            notifyOperators(sender, this, "commands.achievement.give.success.one", new Object[] {entityplayermp.getName(), statbase.createChatComponent()});
                         }
                         else if (flag1)
                         {
                             entityplayermp.func_175145_a(statbase);
-                            notifyOperators(sender, this, "commands.achievement.take.success.one", new Object[] {statbase.func_150955_j(), entityplayermp.getCommandSenderName()});
+                            notifyOperators(sender, this, "commands.achievement.take.success.one", new Object[] {statbase.createChatComponent(), entityplayermp.getName()});
                         }
                     }
                 }
@@ -191,7 +186,7 @@ public class CommandAchievement extends CommandBase
         }
         else
         {
-            List<String> list = Lists.<String>newArrayList();
+            List<String> list = Lists.newArrayList();
 
             for (StatBase statbase : StatList.allStats)
             {
@@ -204,9 +199,6 @@ public class CommandAchievement extends CommandBase
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

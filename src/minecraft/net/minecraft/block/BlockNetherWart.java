@@ -3,7 +3,6 @@ package net.minecraft.block;
 import java.util.Random;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -22,7 +21,7 @@ public class BlockNetherWart extends BlockBush
     protected BlockNetherWart()
     {
         super(Material.plants, MapColor.redColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
         this.setTickRandomly(true);
         float f = 0.5F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
@@ -44,11 +43,11 @@ public class BlockNetherWart extends BlockBush
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        int i = ((Integer)state.getValue(AGE)).intValue();
+        int i = state.getValue(AGE);
 
         if (i < 3 && rand.nextInt(10) == 0)
         {
-            state = state.withProperty(AGE, Integer.valueOf(i + 1));
+            state = state.withProperty(AGE, i + 1);
             worldIn.setBlockState(pos, state, 2);
         }
 
@@ -57,9 +56,6 @@ public class BlockNetherWart extends BlockBush
 
     /**
      * Spawns this Block's drops into the World as EntityItems.
-     *  
-     * @param chance The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
-     * @param fortune The player's fortune level
      */
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
     {
@@ -67,7 +63,7 @@ public class BlockNetherWart extends BlockBush
         {
             int i = 1;
 
-            if (((Integer)state.getValue(AGE)).intValue() >= 3)
+            if (state.getValue(AGE) >= 3)
             {
                 i = 2 + worldIn.rand.nextInt(3);
 
@@ -86,8 +82,6 @@ public class BlockNetherWart extends BlockBush
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
@@ -102,9 +96,6 @@ public class BlockNetherWart extends BlockBush
         return 0;
     }
 
-    /**
-     * Used by pick block on the client to get a block's item form, if it exists.
-     */
     public Item getItem(World worldIn, BlockPos pos)
     {
         return Items.nether_wart;
@@ -115,7 +106,7 @@ public class BlockNetherWart extends BlockBush
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(AGE, meta);
     }
 
     /**
@@ -123,11 +114,11 @@ public class BlockNetherWart extends BlockBush
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(AGE)).intValue();
+        return state.getValue(AGE);
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {AGE});
+        return new BlockState(this, AGE);
     }
 }

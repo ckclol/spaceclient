@@ -73,7 +73,7 @@ public enum ShaderParameterFloat
         this.name = uniform.getName();
         this.uniform = uniform;
 
-        if (!instanceOf(uniform, new Class[] {ShaderUniform1f.class, ShaderUniform1i.class}))
+        if (!instanceOf(uniform, ShaderUniform1f.class, ShaderUniform1i.class))
         {
             throw new IllegalArgumentException("Invalid uniform type for enum: " + this + ", uniform: " + uniform.getClass().getName());
         }
@@ -85,7 +85,7 @@ public enum ShaderParameterFloat
         this.uniform = uniform;
         this.indexNames1 = indexNames1;
 
-        if (!instanceOf(uniform, new Class[] {ShaderUniform2i.class, ShaderUniform2f.class, ShaderUniform3f.class, ShaderUniform4f.class}))
+        if (!instanceOf(uniform, ShaderUniform2i.class, ShaderUniform2f.class, ShaderUniform3f.class, ShaderUniform4f.class))
         {
             throw new IllegalArgumentException("Invalid uniform type for enum: " + this + ", uniform: " + uniform.getClass().getName());
         }
@@ -98,7 +98,7 @@ public enum ShaderParameterFloat
         this.indexNames1 = indexNames1;
         this.indexNames2 = indexNames2;
 
-        if (!instanceOf(uniform, new Class[] {ShaderUniformM4.class}))
+        if (!instanceOf(uniform, ShaderUniformM4.class))
         {
             throw new IllegalArgumentException("Invalid uniform type for enum: " + this + ", uniform: " + uniform.getClass().getName());
         }

@@ -34,8 +34,6 @@ public class CommandTitle extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -44,15 +42,12 @@ public class CommandTitle extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.title.usage", new Object[0]);
+            throw new WrongUsageException("commands.title.usage");
         }
         else
         {
@@ -60,12 +55,12 @@ public class CommandTitle extends CommandBase
             {
                 if ("title".equals(args[1]) || "subtitle".equals(args[1]))
                 {
-                    throw new WrongUsageException("commands.title.usage.title", new Object[0]);
+                    throw new WrongUsageException("commands.title.usage.title");
                 }
 
                 if ("times".equals(args[1]))
                 {
-                    throw new WrongUsageException("commands.title.usage.times", new Object[0]);
+                    throw new WrongUsageException("commands.title.usage.times");
                 }
             }
 
@@ -78,7 +73,7 @@ public class CommandTitle extends CommandBase
                 {
                     if (args.length != 5)
                     {
-                        throw new WrongUsageException("commands.title.usage", new Object[0]);
+                        throw new WrongUsageException("commands.title.usage");
                     }
                     else
                     {
@@ -92,7 +87,7 @@ public class CommandTitle extends CommandBase
                 }
                 else if (args.length < 3)
                 {
-                    throw new WrongUsageException("commands.title.usage", new Object[0]);
+                    throw new WrongUsageException("commands.title.usage");
                 }
                 else
                 {
@@ -106,7 +101,7 @@ public class CommandTitle extends CommandBase
                     catch (JsonParseException jsonparseexception)
                     {
                         Throwable throwable = ExceptionUtils.getRootCause(jsonparseexception);
-                        throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {throwable == null ? "" : throwable.getMessage()});
+                        throw new SyntaxErrorException("commands.tellraw.jsonException", throwable == null ? "" : throwable.getMessage());
                     }
 
                     S45PacketTitle s45packettitle1 = new S45PacketTitle(s45packettitle$type, ChatComponentProcessor.processComponent(sender, ichatcomponent, entityplayermp));
@@ -116,7 +111,7 @@ public class CommandTitle extends CommandBase
             }
             else if (args.length != 2)
             {
-                throw new WrongUsageException("commands.title.usage", new Object[0]);
+                throw new WrongUsageException("commands.title.usage");
             }
             else
             {
@@ -129,14 +124,18 @@ public class CommandTitle extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, S45PacketTitle.Type.getNames()) : null);
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+        }
+        else
+        {
+            return args.length == 2 ? getListOfStringsMatchingLastWord(args, S45PacketTitle.Type.getNames()) : null;
+        }
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

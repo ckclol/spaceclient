@@ -1,0 +1,9 @@
+package space.hud;
+
+public interface IRenderConfig {
+
+	public void save(ScreenPos pos);
+	
+	public ScreenPosition load();
+	
+}

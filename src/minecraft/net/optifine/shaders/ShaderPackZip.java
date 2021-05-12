@@ -72,7 +72,7 @@ public class ShaderPackZip implements IShaderPack
 
     private String resolveRelative(String name)
     {
-        Deque<String> deque = new ArrayDeque();
+        Deque<String> deque = new ArrayDeque<>();
         String[] astring = Config.tokenize(name, "/");
 
         for (int i = 0; i < astring.length; ++i)
@@ -109,11 +109,11 @@ public class ShaderPackZip implements IShaderPack
         else
         {
             Pattern pattern = Pattern.compile("([^/]+/)shaders/");
-            Enumeration <? extends ZipEntry > enumeration = zip.entries();
+            Enumeration<? extends ZipEntry> enumeration = zip.entries();
 
             while (enumeration.hasMoreElements())
             {
-                ZipEntry zipentry1 = (ZipEntry)enumeration.nextElement();
+                ZipEntry zipentry1 = enumeration.nextElement();
                 String s = zipentry1.getName();
                 Matcher matcher = pattern.matcher(s);
 

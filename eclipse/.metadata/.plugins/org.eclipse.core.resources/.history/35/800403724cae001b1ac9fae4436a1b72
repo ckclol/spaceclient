@@ -1,0 +1,7 @@
+package space.event.impl;
+
+import space.event.Event;
+
+public class RenderEvent extends Event{
+
+}

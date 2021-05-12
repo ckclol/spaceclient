@@ -128,9 +128,6 @@ public class BlockPosM extends BlockPos
 
     /**
      * Offsets this BlockPos n blocks in the given direction
-     *  
-     * @param facing The direction of the offset
-     * @param n The number of blocks to offset by
      */
     public BlockPos offset(EnumFacing facing, int n)
     {
@@ -181,7 +178,7 @@ public class BlockPosM extends BlockPos
                         }
                         else if (this.theBlockPosM.equals(blockpos1))
                         {
-                            return (BlockPosM)this.endOfData();
+                            return (BlockPosM) this.endOfData();
                         }
                         else
                         {

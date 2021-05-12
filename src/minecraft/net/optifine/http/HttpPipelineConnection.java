@@ -14,22 +14,22 @@ import net.minecraft.src.Config;
 
 public class HttpPipelineConnection
 {
-    private String host;
-    private int port;
-    private Proxy proxy;
-    private List<HttpPipelineRequest> listRequests;
-    private List<HttpPipelineRequest> listRequestsSend;
-    private Socket socket;
-    private InputStream inputStream;
-    private OutputStream outputStream;
-    private HttpPipelineSender httpPipelineSender;
-    private HttpPipelineReceiver httpPipelineReceiver;
-    private int countRequests;
-    private boolean responseReceived;
-    private long keepaliveTimeoutMs;
-    private int keepaliveMaxCount;
-    private long timeLastActivityMs;
-    private boolean terminated;
+    private String host = null;
+    private int port = 0;
+    private Proxy proxy = Proxy.NO_PROXY;
+    private List<HttpPipelineRequest> listRequests = new LinkedList<>();
+    private List<HttpPipelineRequest> listRequestsSend = new LinkedList<>();
+    private Socket socket = null;
+    private InputStream inputStream = null;
+    private OutputStream outputStream = null;
+    private HttpPipelineSender httpPipelineSender = null;
+    private HttpPipelineReceiver httpPipelineReceiver = null;
+    private int countRequests = 0;
+    private boolean responseReceived = false;
+    private long keepaliveTimeoutMs = 5000L;
+    private int keepaliveMaxCount = 1000;
+    private long timeLastActivityMs = System.currentTimeMillis();
+    private boolean terminated = false;
     private static final String LF = "\n";
     public static final int TIMEOUT_CONNECT_MS = 5000;
     public static final int TIMEOUT_READ_MS = 5000;
@@ -42,22 +42,6 @@ public class HttpPipelineConnection
 
     public HttpPipelineConnection(String host, int port, Proxy proxy)
     {
-        this.host = null;
-        this.port = 0;
-        this.proxy = Proxy.NO_PROXY;
-        this.listRequests = new LinkedList();
-        this.listRequestsSend = new LinkedList();
-        this.socket = null;
-        this.inputStream = null;
-        this.outputStream = null;
-        this.httpPipelineSender = null;
-        this.httpPipelineReceiver = null;
-        this.countRequests = 0;
-        this.responseReceived = false;
-        this.keepaliveTimeoutMs = 5000L;
-        this.keepaliveMaxCount = 1000;
-        this.timeLastActivityMs = System.currentTimeMillis();
-        this.terminated = false;
         this.host = host;
         this.port = port;
         this.proxy = proxy;
@@ -154,15 +138,7 @@ public class HttpPipelineConnection
         }
 
         this.onActivity();
-
-        if (remove)
-        {
-            return (HttpPipelineRequest)list.remove(0);
-        }
-        else
-        {
-            return (HttpPipelineRequest)list.get(0);
-        }
+        return remove ? list.remove(0) : list.get(0);
     }
 
     private void checkTimeout()
@@ -386,14 +362,14 @@ public class HttpPipelineConnection
         {
             if (!this.responseReceived)
             {
-                HttpPipelineRequest httppipelinerequest = (HttpPipelineRequest)this.listRequests.remove(0);
+                HttpPipelineRequest httppipelinerequest = this.listRequests.remove(0);
                 httppipelinerequest.getHttpListener().failed(httppipelinerequest.getHttpRequest(), e);
                 httppipelinerequest.setClosed(true);
             }
 
             while (this.listRequests.size() > 0)
             {
-                HttpPipelineRequest httppipelinerequest1 = (HttpPipelineRequest)this.listRequests.remove(0);
+                HttpPipelineRequest httppipelinerequest1 = this.listRequests.remove(0);
                 HttpPipeline.addRequest(httppipelinerequest1);
             }
         }
@@ -401,7 +377,14 @@ public class HttpPipelineConnection
 
     public synchronized boolean isClosed()
     {
-        return this.terminated ? true : this.countRequests >= this.keepaliveMaxCount;
+        if (this.terminated)
+        {
+            return true;
+        }
+        else
+        {
+            return this.countRequests >= this.keepaliveMaxCount;
+        }
     }
 
     public int getCountRequests()

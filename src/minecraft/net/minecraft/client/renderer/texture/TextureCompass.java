@@ -12,12 +12,12 @@ public class TextureCompass extends TextureAtlasSprite
 
     /** Speed and direction of compass rotation */
     public double angleDelta;
-    public static String field_176608_l;
+    public static String locationSprite;
 
     public TextureCompass(String iconName)
     {
         super(iconName);
-        field_176608_l = iconName;
+        locationSprite = iconName;
     }
 
     public void updateAnimation()
@@ -53,7 +53,7 @@ public class TextureCompass extends TextureAtlasSprite
 
                 if (!worldIn.provider.isSurfaceWorld())
                 {
-                    d0 = Math.random() * Math.PI * 2.0D;
+                    d0 = Math.random() * (double)(float)Math.PI * 2.0D;
                 }
             }
 
@@ -91,7 +91,7 @@ public class TextureCompass extends TextureAtlasSprite
             if (i != this.frameCounter)
             {
                 this.frameCounter = i;
-                TextureUtil.uploadTextureMipmap((int[][])this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false);
+                TextureUtil.uploadTextureMipmap(this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false);
             }
         }
     }

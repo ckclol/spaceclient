@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="jars/libraries/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar"/>
 	<classpathentry kind="lib" path="jars/libraries/commons-io/commons-io/2.4/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="jars/libraries/commons-codec/commons-codec/1.9/commons-codec-1.9.jar"/>
-	<classpathentry kind="lib" path="jars/libraries/net/java/jinput/jinput/2.0.5/jinput-2.0.5.jar"/>
 	<classpathentry kind="lib" path="jars/libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"/>
 	<classpathentry kind="lib" path="jars/libraries/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar"/>
 	<classpathentry kind="lib" path="jars/libraries/com/mojang/authlib/1.5.21/authlib-1.5.21.jar"/>
@@ -37,20 +36,21 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/versions/1.8.9/1.8.9-natives"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="jars/libraries/org/lwjgl/lwjgl_util-2.9.2-nightly-20140822.jar">
+	<classpathentry kind="lib" path="jars/libraries/org/lwjgl/jar/jinput.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/versions/1.8.9/1.8.9-natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/org/lwjgl/native/windows"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="jars/libraries/org/lwjgl/lwjgl-2.9.2-nightly-20140822.jar">
+	<classpathentry kind="lib" path="jars/libraries/org/lwjgl/jar/lwjgl_util.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/versions/1.8.9/1.8.9-natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/org/lwjgl/native/windows"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="jars/libraries/org/lwjgl/lwjgl-platform-2.9.2-nightly-20140822-natives-osx.jar">
+	<classpathentry kind="lib" path="jars/libraries/org/lwjgl/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/versions/1.8.9/1.8.9-natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/org/lwjgl/native/windows"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/github/discord-rpc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

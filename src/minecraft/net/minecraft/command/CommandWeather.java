@@ -27,8 +27,6 @@ public class CommandWeather extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -37,9 +35,6 @@ public class CommandWeather extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -77,7 +72,7 @@ public class CommandWeather extends CommandBase
             {
                 if (!"thunder".equalsIgnoreCase(args[0]))
                 {
-                    throw new WrongUsageException("commands.weather.usage", new Object[0]);
+                    throw new WrongUsageException("commands.weather.usage");
                 }
 
                 worldinfo.setCleanWeatherTime(0);
@@ -90,12 +85,12 @@ public class CommandWeather extends CommandBase
         }
         else
         {
-            throw new WrongUsageException("commands.weather.usage", new Object[0]);
+            throw new WrongUsageException("commands.weather.usage");
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"clear", "rain", "thunder"}): null;
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"clear", "rain", "thunder"}) : null;
     }
 }

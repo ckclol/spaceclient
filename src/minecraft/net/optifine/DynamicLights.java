@@ -36,8 +36,8 @@ import net.optifine.util.PropertiesOrdered;
 public class DynamicLights
 {
     private static DynamicLightsMap mapDynamicLights = new DynamicLightsMap();
-    private static Map<Class, Integer> mapEntityLightLevels = new HashMap();
-    private static Map<Item, Integer> mapItemLightLevels = new HashMap();
+    private static Map<Class, Integer> mapEntityLightLevels = new HashMap<>();
+    private static Map<Item, Integer> mapItemLightLevels = new HashMap<>();
     private static long timeUpdateMs = 0L;
     private static final double MAX_DIST = 7.5D;
     private static final double MAX_DIST_SQ = 56.25D;
@@ -90,7 +90,7 @@ public class DynamicLights
 
                     for (int j = 0; j < list.size(); ++j)
                     {
-                        DynamicLight dynamiclight = (DynamicLight)list.get(j);
+                        DynamicLight dynamiclight = list.get(j);
                         dynamiclight.update(renderGlobal);
                     }
                 }
@@ -274,7 +274,7 @@ public class DynamicLights
 
             for (int i = 0; i < list.size(); ++i)
             {
-                DynamicLight dynamiclight = (DynamicLight)list.get(i);
+                DynamicLight dynamiclight = list.get(i);
                 int j = dynamiclight.getLastLightLevel();
 
                 if (j > 0)
@@ -293,7 +293,7 @@ public class DynamicLights
                         d7 *= 2.0D;
                     }
 
-                    if (d7 <= 56.25D)
+                    if (!(d7 > 56.25D))
                     {
                         double d8 = Math.sqrt(d7);
                         double d9 = 1.0D - d8 / 7.5D;
@@ -359,11 +359,11 @@ public class DynamicLights
                 {
                     if (!mapItemLightLevels.isEmpty())
                     {
-                        Integer integer = (Integer)mapItemLightLevels.get(item);
+                        Integer integer = mapItemLightLevels.get(item);
 
                         if (integer != null)
                         {
-                            return integer.intValue();
+                            return integer;
                         }
                     }
 
@@ -403,11 +403,11 @@ public class DynamicLights
             {
                 if (!mapEntityLightLevels.isEmpty())
                 {
-                    Integer integer = (Integer)mapEntityLightLevels.get(entity.getClass());
+                    Integer integer = mapEntityLightLevels.get(entity.getClass());
 
                     if (integer != null)
                     {
-                        return integer.intValue();
+                        return integer;
                     }
                 }
 
@@ -473,7 +473,7 @@ public class DynamicLights
 
             for (int i = 0; i < list.size(); ++i)
             {
-                DynamicLight dynamiclight = (DynamicLight)list.get(i);
+                DynamicLight dynamiclight = list.get(i);
                 dynamiclight.updateLitChunks(renderGlobal);
             }
 

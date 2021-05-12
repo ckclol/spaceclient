@@ -1,0 +1,16 @@
+package space.util;
+
+import net.minecraft.client.Minecraft;
+import space.hud.HUDManager;
+
+public class Working {
+	
+	public HUDManager hudManager;
+	
+	while(true){  
+		hudManager = HUDManager.getInstance();
+		if(Minecraft.getMinecraft().gameSettings.keyBindClientModModule.isPressed()) {
+			HUDManager.openConfigScreen();
+	    }
+	}
+}

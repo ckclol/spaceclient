@@ -1,0 +1,118 @@
+package space.gui;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Optional;
+
+import org.lwjgl.input.Keyboard;
+
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import space.hud.HUDManager;
+import space.hud.IRender;
+import space.hud.ScreenPos;
+
+public class HUDConfigScreen extends GuiScreen {
+
+	private final HashMap<IRender, ScreenPos> renders = new HashMap<IRender, ScreenPos>();
+	private Optional<IRender> selectedRender = Optional.empty();
+	ScaledResolution r = new ScaledResolution(mc);
+	
+	private int prevX, prevY;
+	
+	public HUDConfigScreen(HUDManager api) {
+		Collection<IRender> registeredRenders = api.getRegisteredRenders();
+		
+		for (IRender r : registeredRenders) {
+			if(!r.isEnabled()) {
+				continue;
+			}
+			
+			ScreenPos pos = r.load();
+			
+			if (pos == null) {
+				pos = ScreenPos.fromRelativePosition(0.5, 0.5);
+			}
+			
+			adjustBounds(r, pos);
+			
+			this.renders.put(r,  pos);
+			
+		}		
+	}
+	
+	@Override
+	public void drawScreen(int mx, int my, float pt) {
+		
+		super.drawDefaultBackground();
+		
+		final float zb = this.zLevel;
+		this.zLevel = 200;
+		this.drawHollowRect(0, 0, this.width - 1, this.height - 1, 0xFFFF0000);
+		
+		for(IRender render : renders.keySet()) {
+			ScreenPos pos = renders.get(render);
+			render.renderDummy(pos);
+			this.drawHollowRect(pos.getAbsoluteX(), pos.getAbsoluteY(), render.getWidth(), render.getHeight(), 0xFFFF0000);
+		}
+	}
+		
+	private void drawHollowRect(int ax, int ay, int w, int h, int i) {		
+		this.drawHorizontalLine(ax, ax + w , ay, i);
+		this.drawHorizontalLine(ax, ax + w, ay + h, i);
+		this.drawVerticalLine(ax, ay + h, ay, i);
+		this.drawVerticalLine(ax + w, ay + w, ay, i);
+	}
+
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		if (keyCode == Keyboard.KEY_ESCAPE) {
+			renders.entrySet().forEach((entry) -> {
+				entry.getKey().save(entry.getValue());
+			});
+			
+			this.mc.displayGuiScreen(null);;
+			
+		}
+	}
+	
+	@Override
+	protected void mouseClickMove(int x, int y, int ctb, long time) {
+		if(selectedRender.isPresent()) {
+			moveSelectedRenderBy(x - prevX, y - prevY);
+		}
+		this.prevX = x;
+		this.prevY = y;
+		
+	}
+
+	private void moveSelectedRenderBy(int ox, int oy) {
+		IRender render = selectedRender.get();
+		ScreenPos pos = renders.get(render);
+		
+		pos.setAbsolute(pos.getAbsoluteX() + ox, pos.getAbsoluteY() + oy);
+		
+		adjustBounds(render, pos);
+	}
+	
+	@Override
+	public void onGuiClosed() {
+		for (IRender render : renders.keySet()) {
+			render.save(renders.get(render));
+		}
+	}
+	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return true;
+	}
+	
+	private void adjustBounds(IRender render, ScreenPos pos) {
+		int sw = r.getScaledWidth();
+		int sh = r.getScaledHeight();
+		int ax = Math.max(0, Math.min(pos.getAbsoluteX(), Math.Max(sw - render.getWidth(), 0)));
+		int ay = Math.max0, Math.min(pos.getAbsolute(), Math.Max(sw - render.getWidth(), 0)));
+	}
+	
+}

@@ -29,7 +29,39 @@ public class ModelAdapterChicken extends ModelAdapter
         else
         {
             ModelChicken modelchicken = (ModelChicken)model;
-            return modelPart.equals("head") ? modelchicken.head : (modelPart.equals("body") ? modelchicken.body : (modelPart.equals("right_leg") ? modelchicken.rightLeg : (modelPart.equals("left_leg") ? modelchicken.leftLeg : (modelPart.equals("right_wing") ? modelchicken.rightWing : (modelPart.equals("left_wing") ? modelchicken.leftWing : (modelPart.equals("bill") ? modelchicken.bill : (modelPart.equals("chin") ? modelchicken.chin : null)))))));
+
+            if (modelPart.equals("head"))
+            {
+                return modelchicken.head;
+            }
+            else if (modelPart.equals("body"))
+            {
+                return modelchicken.body;
+            }
+            else if (modelPart.equals("right_leg"))
+            {
+                return modelchicken.rightLeg;
+            }
+            else if (modelPart.equals("left_leg"))
+            {
+                return modelchicken.leftLeg;
+            }
+            else if (modelPart.equals("right_wing"))
+            {
+                return modelchicken.rightWing;
+            }
+            else if (modelPart.equals("left_wing"))
+            {
+                return modelchicken.leftWing;
+            }
+            else if (modelPart.equals("bill"))
+            {
+                return modelchicken.bill;
+            }
+            else
+            {
+                return modelPart.equals("chin") ? modelchicken.chin : null;
+            }
         }
     }
 

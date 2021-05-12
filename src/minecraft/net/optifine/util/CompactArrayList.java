@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class CompactArrayList
 {
-    private ArrayList list;
-    private int initialCapacity;
-    private float loadFactor;
-    private int countValid;
+    private ArrayList list = null;
+    private int initialCapacity = 0;
+    private float loadFactor = 1.0F;
+    private int countValid = 0;
 
     public CompactArrayList()
     {
@@ -21,10 +21,6 @@ public class CompactArrayList
 
     public CompactArrayList(int initialCapacity, float loadFactor)
     {
-        this.list = null;
-        this.initialCapacity = 0;
-        this.loadFactor = 1.0F;
-        this.countValid = 0;
         this.list = new ArrayList(initialCapacity);
         this.initialCapacity = initialCapacity;
         this.loadFactor = loadFactor;
@@ -98,7 +94,7 @@ public class CompactArrayList
         {
             float f = (float)this.countValid * 1.0F / (float)this.list.size();
 
-            if (f <= this.loadFactor)
+            if (!(f > this.loadFactor))
             {
                 int i = 0;
 

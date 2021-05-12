@@ -1,0 +1,33 @@
+package space.mod.impl;
+
+import space.mod.ModDraggable;
+import space.mod.ScreenPosition;
+
+public class ModExample extends ModDraggable{
+
+	@Override
+	public int getWidth() {
+		
+		return 10;
+		
+	}
+
+	@Override
+	public int getHeight() {
+		
+		return 10;
+		
+	}
+
+	@Override
+	public void render(ScreenPosition pos) {
+		
+	}
+
+	@Override
+	public void render(ScreenPosition pos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

@@ -1,0 +1,23 @@
+package space.util;
+
+import java.util.function.Predicate;
+
+import space.hud.IRender;
+import space.hud.ScreenPos;
+
+public class MouseOverFinder implements Predicate<IRender> {
+
+	private int x, y;
+	
+	public MouseOverFinder(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	@Override
+	public boolean test(IRender t) {
+		ScreenPos pos = renders.get(render)
+		return false;
+	}
+	
+}

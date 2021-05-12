@@ -112,7 +112,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         this.prevCameraYaw = this.cameraYaw;
         this.updateArmSwingProgress();
         float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        float f = (float)Math.atan(-this.motionY * 0.20000000298023224D) * 15.0F;
+        float f = (float)Math.atan(-this.motionY * (double)0.2F) * 15.0F;
 
         if (f1 > 0.1F)
         {
@@ -150,8 +150,6 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
 
     /**
      * Send a chat message to the CommandSender
-     *  
-     * @param component The ChatComponent to send
      */
     public void addChatMessage(IChatComponent component)
     {
@@ -160,9 +158,6 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
-     *  
-     * @param permLevel The permission level required to execute the command
-     * @param commandName The name of the command
      */
     public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {

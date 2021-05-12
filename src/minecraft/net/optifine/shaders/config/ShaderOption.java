@@ -131,7 +131,7 @@ public abstract class ShaderOption
 
     public void addPaths(String[] newPaths)
     {
-        List<String> list = Arrays.<String>asList(this.paths);
+        List<String> list = Arrays.asList(this.paths);
 
         for (int i = 0; i < newPaths.length; ++i)
         {
@@ -139,7 +139,7 @@ public abstract class ShaderOption
 
             if (!list.contains(s))
             {
-                this.paths = (String[])((String[])Config.addObjectToArray(this.paths, s));
+                this.paths = (String[])Config.addObjectToArray(this.paths, s);
             }
         }
     }

@@ -20,9 +20,6 @@ public class ItemSnow extends ItemBlock
 
     /**
      * Called when a Block is right-clicked with this Item
-     *  
-     * @param pos The block being right-clicked
-     * @param side The side being right-clicked
      */
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
@@ -49,11 +46,11 @@ public class ItemSnow extends ItemBlock
 
             if (block == this.block)
             {
-                int i = ((Integer)iblockstate.getValue(BlockSnow.LAYERS)).intValue();
+                int i = iblockstate.getValue(BlockSnow.LAYERS);
 
                 if (i <= 7)
                 {
-                    IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, Integer.valueOf(i + 1));
+                    IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, i + 1);
                     AxisAlignedBB axisalignedbb = this.block.getCollisionBoundingBox(worldIn, blockpos, iblockstate1);
 
                     if (axisalignedbb != null && worldIn.checkNoEntityCollision(axisalignedbb) && worldIn.setBlockState(blockpos, iblockstate1, 2))

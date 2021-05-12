@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -32,13 +31,11 @@ public class BlockCauldron extends Block
     public BlockCauldron()
     {
         super(Material.iron, MapColor.stoneColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LEVEL, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(LEVEL, 0));
     }
 
     /**
      * Add all collision boxes of this Block to the list that intersect with the given mask.
-     *  
-     * @param collidingEntity the Entity colliding with this Block
      */
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
@@ -82,7 +79,7 @@ public class BlockCauldron extends Block
      */
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        int i = ((Integer)state.getValue(LEVEL)).intValue();
+        int i = state.getValue(LEVEL);
         float f = (float)pos.getY() + (6.0F + (float)(3 * i)) / 16.0F;
 
         if (!worldIn.isRemote && entityIn.isBurning() && i > 0 && entityIn.getEntityBoundingBox().minY <= (double)f)
@@ -108,7 +105,7 @@ public class BlockCauldron extends Block
             }
             else
             {
-                int i = ((Integer)state.getValue(LEVEL)).intValue();
+                int i = state.getValue(LEVEL);
                 Item item = itemstack.getItem();
 
                 if (item == Items.water_bucket)
@@ -219,7 +216,7 @@ public class BlockCauldron extends Block
 
     public void setWaterLevel(World worldIn, BlockPos pos, IBlockState state, int level)
     {
-        worldIn.setBlockState(pos, state.withProperty(LEVEL, Integer.valueOf(MathHelper.clamp_int(level, 0, 3))), 2);
+        worldIn.setBlockState(pos, state.withProperty(LEVEL, MathHelper.clamp_int(level, 0, 3)), 2);
         worldIn.updateComparatorOutputLevel(pos, this);
     }
 
@@ -232,7 +229,7 @@ public class BlockCauldron extends Block
         {
             IBlockState iblockstate = worldIn.getBlockState(pos);
 
-            if (((Integer)iblockstate.getValue(LEVEL)).intValue() < 3)
+            if (iblockstate.getValue(LEVEL) < 3)
             {
                 worldIn.setBlockState(pos, iblockstate.cycleProperty(LEVEL), 2);
             }
@@ -241,17 +238,12 @@ public class BlockCauldron extends Block
 
     /**
      * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return Items.cauldron;
     }
 
-    /**
-     * Used by pick block on the client to get a block's item form, if it exists.
-     */
     public Item getItem(World worldIn, BlockPos pos)
     {
         return Items.cauldron;
@@ -264,7 +256,7 @@ public class BlockCauldron extends Block
 
     public int getComparatorInputOverride(World worldIn, BlockPos pos)
     {
-        return ((Integer)worldIn.getBlockState(pos).getValue(LEVEL)).intValue();
+        return worldIn.getBlockState(pos).getValue(LEVEL);
     }
 
     /**
@@ -272,7 +264,7 @@ public class BlockCauldron extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(LEVEL, Integer.valueOf(meta));
+        return this.getDefaultState().withProperty(LEVEL, meta);
     }
 
     /**
@@ -280,11 +272,11 @@ public class BlockCauldron extends Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(LEVEL)).intValue();
+        return state.getValue(LEVEL);
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {LEVEL});
+        return new BlockState(this, LEVEL);
     }
 }

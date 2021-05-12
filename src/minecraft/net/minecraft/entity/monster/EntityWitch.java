@@ -50,14 +50,14 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         this.tasks.addTask(2, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(3, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.getDataWatcher().addObject(21, Byte.valueOf((byte)0));
+        this.getDataWatcher().addObject(21, (byte)0);
     }
 
     /**
@@ -184,25 +184,23 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         super.onLivingUpdate();
     }
 
-    public void handleHealthUpdate(byte id)
+    public void handleStatusUpdate(byte id)
     {
         if (id == 15)
         {
             for (int i = 0; i < this.rand.nextInt(35) + 10; ++i)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_WITCH, this.posX + this.rand.nextGaussian() * 0.12999999523162842D, this.getEntityBoundingBox().maxY + 0.5D + this.rand.nextGaussian() * 0.12999999523162842D, this.posZ + this.rand.nextGaussian() * 0.12999999523162842D, 0.0D, 0.0D, 0.0D, new int[0]);
+                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_WITCH, this.posX + this.rand.nextGaussian() * (double)0.13F, this.getEntityBoundingBox().maxY + 0.5D + this.rand.nextGaussian() * (double)0.13F, this.posZ + this.rand.nextGaussian() * (double)0.13F, 0.0D, 0.0D, 0.0D);
             }
         }
         else
         {
-            super.handleHealthUpdate(id);
+            super.handleStatusUpdate(id);
         }
     }
 
     /**
      * Reduces damage, depending on potions
-     *  
-     * @param damage The damage to deal
      */
     protected float applyPotionDamageCalculations(DamageSource source, float damage)
     {
@@ -223,8 +221,12 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 
     /**
      * Drop 0-2 items of this living's type
+     *  
+     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
+     * or tameable)
+     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
     {
         int i = this.rand.nextInt(3) + 1;
 
@@ -233,9 +235,9 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
             int k = this.rand.nextInt(3);
             Item item = witchDrops[this.rand.nextInt(witchDrops.length)];
 
-            if (p_70628_2_ > 0)
+            if (lootingModifier > 0)
             {
-                k += this.rand.nextInt(p_70628_2_ + 1);
+                k += this.rand.nextInt(lootingModifier + 1);
             }
 
             for (int l = 0; l < k; ++l)
@@ -248,27 +250,27 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
     /**
      * Attack the specified entity using a ranged attack.
      */
-    public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_)
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float p_82196_2_)
     {
         if (!this.getAggressive())
         {
             EntityPotion entitypotion = new EntityPotion(this.worldObj, this, 32732);
-            double d0 = p_82196_1_.posY + (double)p_82196_1_.getEyeHeight() - 1.100000023841858D;
+            double d0 = target.posY + (double)target.getEyeHeight() - (double)1.1F;
             entitypotion.rotationPitch -= -20.0F;
-            double d1 = p_82196_1_.posX + p_82196_1_.motionX - this.posX;
+            double d1 = target.posX + target.motionX - this.posX;
             double d2 = d0 - this.posY;
-            double d3 = p_82196_1_.posZ + p_82196_1_.motionZ - this.posZ;
+            double d3 = target.posZ + target.motionZ - this.posZ;
             float f = MathHelper.sqrt_double(d1 * d1 + d3 * d3);
 
-            if (f >= 8.0F && !p_82196_1_.isPotionActive(Potion.moveSlowdown))
+            if (f >= 8.0F && !target.isPotionActive(Potion.moveSlowdown))
             {
                 entitypotion.setPotionDamage(32698);
             }
-            else if (p_82196_1_.getHealth() >= 8.0F && !p_82196_1_.isPotionActive(Potion.poison))
+            else if (target.getHealth() >= 8.0F && !target.isPotionActive(Potion.poison))
             {
                 entitypotion.setPotionDamage(32660);
             }
-            else if (f <= 3.0F && !p_82196_1_.isPotionActive(Potion.weakness) && this.rand.nextFloat() < 0.25F)
+            else if (f <= 3.0F && !target.isPotionActive(Potion.weakness) && this.rand.nextFloat() < 0.25F)
             {
                 entitypotion.setPotionDamage(32696);
             }

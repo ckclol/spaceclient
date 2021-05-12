@@ -34,7 +34,7 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         this.entityID = buf.readVarIntFromBuffer();
-        this.action = (C0BPacketEntityAction.Action)buf.readEnumValue(C0BPacketEntityAction.Action.class);
+        this.action = buf.readEnumValue(C0BPacketEntityAction.Action.class);
         this.auxData = buf.readVarIntFromBuffer();
     }
 

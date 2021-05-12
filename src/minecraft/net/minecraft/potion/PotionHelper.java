@@ -11,7 +11,7 @@ import net.optifine.CustomColors;
 
 public class PotionHelper
 {
-    public static final String field_77924_a = null;
+    public static final String unusedString = null;
     public static final String sugarEffect = "-0+1-2-3&4-4+13";
     public static final String ghastTearEffect = "+0-1-2-3&4-4+13";
     public static final String spiderEyeEffect = "-0-1+2-3&4-4+13";
@@ -25,9 +25,9 @@ public class PotionHelper
     public static final String goldenCarrotEffect = "-0+1+2-3+13&4-4";
     public static final String pufferfishEffect = "+0-1+2+3+13&4-4";
     public static final String rabbitFootEffect = "+0+1-2+3&4-4+13";
-    private static final Map<Integer, String> potionRequirements = Maps.<Integer, String>newHashMap();
-    private static final Map<Integer, String> potionAmplifiers = Maps.<Integer, String>newHashMap();
-    private static final Map<Integer, Integer> DATAVALUE_COLORS = Maps.<Integer, Integer>newHashMap();
+    private static final Map<Integer, String> potionRequirements = Maps.newHashMap();
+    private static final Map<Integer, String> potionAmplifiers = Maps.newHashMap();
+    private static final Map<Integer, Integer> DATAVALUE_COLORS = Maps.newHashMap();
 
     /** An array of possible potion prefix names, as translation IDs. */
     private static final String[] potionPrefixes = new String[] {"potion.prefix.mundane", "potion.prefix.uninteresting", "potion.prefix.bland", "potion.prefix.clear", "potion.prefix.milky", "potion.prefix.diffuse", "potion.prefix.artless", "potion.prefix.thin", "potion.prefix.awkward", "potion.prefix.flat", "potion.prefix.bulky", "potion.prefix.bungling", "potion.prefix.buttered", "potion.prefix.smooth", "potion.prefix.suave", "potion.prefix.debonair", "potion.prefix.thick", "potion.prefix.elegant", "potion.prefix.fancy", "potion.prefix.charming", "potion.prefix.dashing", "potion.prefix.refined", "potion.prefix.cordial", "potion.prefix.sparkling", "potion.prefix.potent", "potion.prefix.foul", "potion.prefix.odorless", "potion.prefix.rank", "potion.prefix.harsh", "potion.prefix.acrid", "potion.prefix.gross", "potion.prefix.stinky"};
@@ -61,7 +61,7 @@ public class PotionHelper
      */
     public static int getPotionPrefixIndex(int dataValue)
     {
-        return func_77908_a(dataValue, 5, 4, 3, 2, 1);
+        return getPotionPrefixIndexFlags(dataValue, 5, 4, 3, 2, 1);
     }
 
     /**
@@ -138,24 +138,24 @@ public class PotionHelper
      */
     public static int getLiquidColor(int dataValue, boolean bypassCache)
     {
-        Integer integer = IntegerCache.func_181756_a(dataValue);
+        Integer integer = IntegerCache.getInteger(dataValue);
 
         if (!bypassCache)
         {
             if (DATAVALUE_COLORS.containsKey(integer))
             {
-                return ((Integer)DATAVALUE_COLORS.get(integer)).intValue();
+                return DATAVALUE_COLORS.get(integer);
             }
             else
             {
-                int i = calcPotionLiquidColor(getPotionEffects(integer.intValue(), false));
-                DATAVALUE_COLORS.put(integer, Integer.valueOf(i));
+                int i = calcPotionLiquidColor(getPotionEffects(integer, false));
+                DATAVALUE_COLORS.put(integer, i);
                 return i;
             }
         }
         else
         {
-            return calcPotionLiquidColor(getPotionEffects(integer.intValue(), true));
+            return calcPotionLiquidColor(getPotionEffects(integer, true));
         }
     }
 
@@ -168,7 +168,7 @@ public class PotionHelper
         return potionPrefixes[i];
     }
 
-    private static int func_77904_a(boolean p_77904_0_, boolean p_77904_1_, boolean p_77904_2_, int p_77904_3_, int p_77904_4_, int p_77904_5_, int p_77904_6_)
+    private static int getPotionEffect(boolean p_77904_0_, boolean p_77904_1_, boolean p_77904_2_, int p_77904_3_, int p_77904_4_, int p_77904_5_, int p_77904_6_)
     {
         int i = 0;
 
@@ -278,7 +278,7 @@ public class PotionHelper
                     {
                         char c0 = p_77912_0_.charAt(k1);
 
-                        if (c0 >= 48 && c0 <= 57)
+                        if (c0 >= '0' && c0 <= '9')
                         {
                             if (flag)
                             {
@@ -292,15 +292,15 @@ public class PotionHelper
                                 flag2 = true;
                             }
                         }
-                        else if (c0 == 42)
+                        else if (c0 == '*')
                         {
                             flag = true;
                         }
-                        else if (c0 == 33)
+                        else if (c0 == '!')
                         {
                             if (flag2)
                             {
-                                j1 += func_77904_a(flag3, flag1, flag4, k, l, i1, p_77912_3_);
+                                j1 += getPotionEffect(flag3, flag1, flag4, k, l, i1, p_77912_3_);
                                 flag3 = false;
                                 flag4 = false;
                                 flag = false;
@@ -313,11 +313,11 @@ public class PotionHelper
 
                             flag3 = true;
                         }
-                        else if (c0 == 45)
+                        else if (c0 == '-')
                         {
                             if (flag2)
                             {
-                                j1 += func_77904_a(flag3, flag1, flag4, k, l, i1, p_77912_3_);
+                                j1 += getPotionEffect(flag3, flag1, flag4, k, l, i1, p_77912_3_);
                                 flag3 = false;
                                 flag4 = false;
                                 flag = false;
@@ -330,11 +330,11 @@ public class PotionHelper
 
                             flag4 = true;
                         }
-                        else if (c0 != 61 && c0 != 60 && c0 != 62)
+                        else if (c0 != '=' && c0 != '<' && c0 != '>')
                         {
-                            if (c0 == 43 && flag2)
+                            if (c0 == '+' && flag2)
                             {
-                                j1 += func_77904_a(flag3, flag1, flag4, k, l, i1, p_77912_3_);
+                                j1 += getPotionEffect(flag3, flag1, flag4, k, l, i1, p_77912_3_);
                                 flag3 = false;
                                 flag4 = false;
                                 flag = false;
@@ -349,7 +349,7 @@ public class PotionHelper
                         {
                             if (flag2)
                             {
-                                j1 += func_77904_a(flag3, flag1, flag4, k, l, i1, p_77912_3_);
+                                j1 += getPotionEffect(flag3, flag1, flag4, k, l, i1, p_77912_3_);
                                 flag3 = false;
                                 flag4 = false;
                                 flag = false;
@@ -360,15 +360,15 @@ public class PotionHelper
                                 k = -1;
                             }
 
-                            if (c0 == 61)
+                            if (c0 == '=')
                             {
                                 k = 0;
                             }
-                            else if (c0 == 60)
+                            else if (c0 == '<')
                             {
                                 k = 2;
                             }
-                            else if (c0 == 62)
+                            else if (c0 == '>')
                             {
                                 k = 1;
                             }
@@ -377,7 +377,7 @@ public class PotionHelper
 
                     if (flag2)
                     {
-                        j1 += func_77904_a(flag3, flag1, flag4, k, l, i1, p_77912_3_);
+                        j1 += getPotionEffect(flag3, flag1, flag4, k, l, i1, p_77912_3_);
                     }
 
                     return j1;
@@ -398,7 +398,7 @@ public class PotionHelper
         {
             if (potion != null && (!potion.isUsable() || p_77917_1_))
             {
-                String s = (String)potionRequirements.get(Integer.valueOf(potion.getId()));
+                String s = potionRequirements.get(potion.getId());
 
                 if (s != null)
                 {
@@ -407,7 +407,7 @@ public class PotionHelper
                     if (i > 0)
                     {
                         int j = 0;
-                        String s1 = (String)potionAmplifiers.get(Integer.valueOf(potion.getId()));
+                        String s1 = potionAmplifiers.get(potion.getId());
 
                         if (s1 != null)
                         {
@@ -437,7 +437,7 @@ public class PotionHelper
 
                         if (list == null)
                         {
-                            list = Lists.<PotionEffect>newArrayList();
+                            list = Lists.newArrayList();
                         }
 
                         PotionEffect potioneffect = new PotionEffect(potion.getId(), i, j);
@@ -508,13 +508,13 @@ public class PotionHelper
         {
             char c0 = p_77913_1_.charAt(l);
 
-            if (c0 >= 48 && c0 <= 57)
+            if (c0 >= '0' && c0 <= '9')
             {
                 k = k * 10;
                 k = k + (c0 - 48);
                 flag = true;
             }
-            else if (c0 == 33)
+            else if (c0 == '!')
             {
                 if (flag)
                 {
@@ -528,7 +528,7 @@ public class PotionHelper
 
                 flag1 = true;
             }
-            else if (c0 == 45)
+            else if (c0 == '-')
             {
                 if (flag)
                 {
@@ -542,7 +542,7 @@ public class PotionHelper
 
                 flag2 = true;
             }
-            else if (c0 == 43)
+            else if (c0 == '+')
             {
                 if (flag)
                 {
@@ -554,7 +554,7 @@ public class PotionHelper
                     k = 0;
                 }
             }
-            else if (c0 == 38)
+            else if (c0 == '&')
             {
                 if (flag)
                 {
@@ -578,34 +578,34 @@ public class PotionHelper
         return p_77913_0_ & 32767;
     }
 
-    public static int func_77908_a(int p_77908_0_, int p_77908_1_, int p_77908_2_, int p_77908_3_, int p_77908_4_, int p_77908_5_)
+    public static int getPotionPrefixIndexFlags(int p_77908_0_, int p_77908_1_, int p_77908_2_, int p_77908_3_, int p_77908_4_, int p_77908_5_)
     {
         return (checkFlag(p_77908_0_, p_77908_1_) ? 16 : 0) | (checkFlag(p_77908_0_, p_77908_2_) ? 8 : 0) | (checkFlag(p_77908_0_, p_77908_3_) ? 4 : 0) | (checkFlag(p_77908_0_, p_77908_4_) ? 2 : 0) | (checkFlag(p_77908_0_, p_77908_5_) ? 1 : 0);
     }
 
     static
     {
-        potionRequirements.put(Integer.valueOf(Potion.regeneration.getId()), "0 & !1 & !2 & !3 & 0+6");
-        potionRequirements.put(Integer.valueOf(Potion.moveSpeed.getId()), "!0 & 1 & !2 & !3 & 1+6");
-        potionRequirements.put(Integer.valueOf(Potion.fireResistance.getId()), "0 & 1 & !2 & !3 & 0+6");
-        potionRequirements.put(Integer.valueOf(Potion.heal.getId()), "0 & !1 & 2 & !3");
-        potionRequirements.put(Integer.valueOf(Potion.poison.getId()), "!0 & !1 & 2 & !3 & 2+6");
-        potionRequirements.put(Integer.valueOf(Potion.weakness.getId()), "!0 & !1 & !2 & 3 & 3+6");
-        potionRequirements.put(Integer.valueOf(Potion.harm.getId()), "!0 & !1 & 2 & 3");
-        potionRequirements.put(Integer.valueOf(Potion.moveSlowdown.getId()), "!0 & 1 & !2 & 3 & 3+6");
-        potionRequirements.put(Integer.valueOf(Potion.damageBoost.getId()), "0 & !1 & !2 & 3 & 3+6");
-        potionRequirements.put(Integer.valueOf(Potion.nightVision.getId()), "!0 & 1 & 2 & !3 & 2+6");
-        potionRequirements.put(Integer.valueOf(Potion.invisibility.getId()), "!0 & 1 & 2 & 3 & 2+6");
-        potionRequirements.put(Integer.valueOf(Potion.waterBreathing.getId()), "0 & !1 & 2 & 3 & 2+6");
-        potionRequirements.put(Integer.valueOf(Potion.jump.getId()), "0 & 1 & !2 & 3 & 3+6");
-        potionAmplifiers.put(Integer.valueOf(Potion.moveSpeed.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.digSpeed.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.damageBoost.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.regeneration.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.harm.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.heal.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.resistance.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.poison.getId()), "5");
-        potionAmplifiers.put(Integer.valueOf(Potion.jump.getId()), "5");
+        potionRequirements.put(Potion.regeneration.getId(), "0 & !1 & !2 & !3 & 0+6");
+        potionRequirements.put(Potion.moveSpeed.getId(), "!0 & 1 & !2 & !3 & 1+6");
+        potionRequirements.put(Potion.fireResistance.getId(), "0 & 1 & !2 & !3 & 0+6");
+        potionRequirements.put(Potion.heal.getId(), "0 & !1 & 2 & !3");
+        potionRequirements.put(Potion.poison.getId(), "!0 & !1 & 2 & !3 & 2+6");
+        potionRequirements.put(Potion.weakness.getId(), "!0 & !1 & !2 & 3 & 3+6");
+        potionRequirements.put(Potion.harm.getId(), "!0 & !1 & 2 & 3");
+        potionRequirements.put(Potion.moveSlowdown.getId(), "!0 & 1 & !2 & 3 & 3+6");
+        potionRequirements.put(Potion.damageBoost.getId(), "0 & !1 & !2 & 3 & 3+6");
+        potionRequirements.put(Potion.nightVision.getId(), "!0 & 1 & 2 & !3 & 2+6");
+        potionRequirements.put(Potion.invisibility.getId(), "!0 & 1 & 2 & 3 & 2+6");
+        potionRequirements.put(Potion.waterBreathing.getId(), "0 & !1 & 2 & 3 & 2+6");
+        potionRequirements.put(Potion.jump.getId(), "0 & 1 & !2 & 3 & 3+6");
+        potionAmplifiers.put(Potion.moveSpeed.getId(), "5");
+        potionAmplifiers.put(Potion.digSpeed.getId(), "5");
+        potionAmplifiers.put(Potion.damageBoost.getId(), "5");
+        potionAmplifiers.put(Potion.regeneration.getId(), "5");
+        potionAmplifiers.put(Potion.harm.getId(), "5");
+        potionAmplifiers.put(Potion.heal.getId(), "5");
+        potionAmplifiers.put(Potion.resistance.getId(), "5");
+        potionAmplifiers.put(Potion.poison.getId(), "5");
+        potionAmplifiers.put(Potion.jump.getId(), "5");
     }
 }

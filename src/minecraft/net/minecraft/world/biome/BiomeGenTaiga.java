@@ -26,9 +26,9 @@ public class BiomeGenTaiga extends BiomeGenBase
     private static final WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(Blocks.mossy_cobblestone, 0);
     private int field_150644_aH;
 
-    public BiomeGenTaiga(int p_i45385_1_, int p_i45385_2_)
+    public BiomeGenTaiga(int id, int p_i45385_2_)
     {
-        super(p_i45385_1_);
+        super(id);
         this.field_150644_aH = p_i45385_2_;
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityWolf.class, 8, 4, 4));
         this.theBiomeDecorator.treesPerChunk = 10;
@@ -48,7 +48,14 @@ public class BiomeGenTaiga extends BiomeGenBase
 
     public WorldGenAbstractTree genBigTreeChance(Random rand)
     {
-        return (WorldGenAbstractTree)((this.field_150644_aH == 1 || this.field_150644_aH == 2) && rand.nextInt(3) == 0 ? (this.field_150644_aH != 2 && rand.nextInt(13) != 0 ? field_150641_aE : field_150642_aF) : (rand.nextInt(3) == 0 ? field_150639_aC : field_150640_aD));
+        if ((this.field_150644_aH == 1 || this.field_150644_aH == 2) && rand.nextInt(3) == 0)
+        {
+            return this.field_150644_aH != 2 && rand.nextInt(13) != 0 ? field_150641_aE : field_150642_aF;
+        }
+        else
+        {
+            return (WorldGenAbstractTree)(rand.nextInt(3) == 0 ? field_150639_aC : field_150640_aD);
+        }
     }
 
     /**
@@ -87,24 +94,24 @@ public class BiomeGenTaiga extends BiomeGenBase
         super.decorate(worldIn, rand, pos);
     }
 
-    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_)
+    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal)
     {
         if (this.field_150644_aH == 1 || this.field_150644_aH == 2)
         {
             this.topBlock = Blocks.grass.getDefaultState();
             this.fillerBlock = Blocks.dirt.getDefaultState();
 
-            if (p_180622_6_ > 1.75D)
+            if (noiseVal > 1.75D)
             {
                 this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT);
             }
-            else if (p_180622_6_ > -0.95D)
+            else if (noiseVal > -0.95D)
             {
                 this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
             }
         }
 
-        this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, p_180622_4_, p_180622_5_, p_180622_6_);
+        this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
     }
 
     protected BiomeGenBase createMutatedBiome(int p_180277_1_)

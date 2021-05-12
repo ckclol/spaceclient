@@ -29,8 +29,6 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -39,9 +37,6 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -55,7 +50,7 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
         {
             if (args.length != 3 || sender.getEntityWorld() == null)
             {
-                throw new WrongUsageException("commands.setworldspawn.usage", new Object[0]);
+                throw new WrongUsageException("commands.setworldspawn.usage");
             }
 
             blockpos = parseBlockPos(sender, args, 0, true);
@@ -63,7 +58,7 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
 
         sender.getEntityWorld().setSpawnPoint(blockpos);
         MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayers(new S05PacketSpawnPosition(blockpos));
-        notifyOperators(sender, this, "commands.setworldspawn.success", new Object[] {Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())});
+        notifyOperators(sender, this, "commands.setworldspawn.success", new Object[] {blockpos.getX(), blockpos.getY(), blockpos.getZ()});
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)

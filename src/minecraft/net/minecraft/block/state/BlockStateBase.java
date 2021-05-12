@@ -24,8 +24,8 @@ public abstract class BlockStateBase implements IBlockState
             }
             else
             {
-                IProperty iproperty = (IProperty)p_apply_1_.getKey();
-                return iproperty.getName() + "=" + iproperty.getName((Comparable)p_apply_1_.getValue());
+                IProperty iproperty = p_apply_1_.getKey();
+                return iproperty.getName() + "=" + iproperty.getName(p_apply_1_.getValue());
             }
         }
     };
@@ -68,20 +68,20 @@ public abstract class BlockStateBase implements IBlockState
     {
         if (this.blockLocation == null)
         {
-            this.blockLocation = (ResourceLocation)Block.blockRegistry.getNameForObject(this.getBlock());
+            this.blockLocation = Block.blockRegistry.getNameForObject(this.getBlock());
         }
 
         return this.blockLocation;
     }
 
-    public ImmutableTable < IProperty<?>, Comparable<?>, IBlockState > getPropertyValueTable()
+    public ImmutableTable<IProperty<?>, Comparable<?>, IBlockState> getPropertyValueTable()
     {
         return null;
     }
 
     public <T extends Comparable<T>> IBlockState cycleProperty(IProperty<T> property)
     {
-        return this.withProperty(property, cyclePropertyValue(property.getAllowedValues(), this.getValue(property)));
+        return this.withProperty(property, (T)(cyclePropertyValue(property.getAllowedValues(), this.getValue(property))));
     }
 
     protected static <T> T cyclePropertyValue(Collection<T> values, T currentValue)
@@ -94,14 +94,14 @@ public abstract class BlockStateBase implements IBlockState
             {
                 if (iterator.hasNext())
                 {
-                    return (T)iterator.next();
+                    return iterator.next();
                 }
 
-                return (T)values.iterator().next();
+                return values.iterator().next();
             }
         }
 
-        return (T)iterator.next();
+        return iterator.next();
     }
 
     public String toString()

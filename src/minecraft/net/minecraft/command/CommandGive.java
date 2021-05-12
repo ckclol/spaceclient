@@ -30,8 +30,6 @@ public class CommandGive extends CommandBase
 
     /**
      * Gets the usage string for the command.
-     *  
-     * @param sender The {@link ICommandSender} who is requesting usage details.
      */
     public String getCommandUsage(ICommandSender sender)
     {
@@ -40,15 +38,12 @@ public class CommandGive extends CommandBase
 
     /**
      * Callback when the command is invoked
-     *  
-     * @param sender The {@link ICommandSender sender} who executed the command
-     * @param args The arguments that were passed with the command
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.give.usage", new Object[0]);
+            throw new WrongUsageException("commands.give.usage");
         }
         else
         {
@@ -68,7 +63,7 @@ public class CommandGive extends CommandBase
                 }
                 catch (NBTException nbtexception)
                 {
-                    throw new CommandException("commands.give.tagError", new Object[] {nbtexception.getMessage()});
+                    throw new CommandException("commands.give.tagError", nbtexception.getMessage());
                 }
             }
 
@@ -99,17 +94,24 @@ public class CommandGive extends CommandBase
                 if (entityitem != null)
                 {
                     entityitem.setNoPickupDelay();
-                    entityitem.setOwner(entityplayer.getCommandSenderName());
+                    entityitem.setOwner(entityplayer.getName());
                 }
             }
 
-            notifyOperators(sender, this, "commands.give.success", new Object[] {itemstack.getChatComponent(), Integer.valueOf(i), entityplayer.getCommandSenderName()});
+            notifyOperators(sender, this, "commands.give.success", new Object[] {itemstack.getChatComponent(), i, entityplayer.getName()});
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : null);
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, this.getPlayers());
+        }
+        else
+        {
+            return args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : null;
+        }
     }
 
     protected String[] getPlayers()
@@ -119,9 +121,6 @@ public class CommandGive extends CommandBase
 
     /**
      * Return whether the specified command parameter index is a username parameter.
-     *  
-     * @param args The arguments that were given
-     * @param index The argument index that we are checking
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

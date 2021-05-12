@@ -36,7 +36,7 @@ public enum EnumFacing implements IStringSerializable
 
     /** All Facings with horizontal axis in order S-W-N-E */
     private static final EnumFacing[] HORIZONTALS = new EnumFacing[4];
-    private static final Map<String, EnumFacing> NAME_LOOKUP = Maps.<String, EnumFacing>newHashMap();
+    private static final Map<String, EnumFacing> NAME_LOOKUP = Maps.newHashMap();
 
     private EnumFacing(int indexIn, int oppositeIn, int horizontalIndexIn, String nameIn, EnumFacing.AxisDirection axisDirectionIn, EnumFacing.Axis axisIn, Vec3i directionVecIn)
     {
@@ -256,7 +256,7 @@ public enum EnumFacing implements IStringSerializable
      */
     public static EnumFacing byName(String name)
     {
-        return name == null ? null : (EnumFacing)NAME_LOOKUP.get(name.toLowerCase());
+        return name == null ? null : NAME_LOOKUP.get(name.toLowerCase());
     }
 
     /**
@@ -320,7 +320,7 @@ public enum EnumFacing implements IStringSerializable
         return this.name;
     }
 
-    public static EnumFacing func_181076_a(EnumFacing.AxisDirection p_181076_0_, EnumFacing.Axis p_181076_1_)
+    public static EnumFacing getFacingFromAxis(EnumFacing.AxisDirection p_181076_0_, EnumFacing.Axis p_181076_1_)
     {
         for (EnumFacing enumfacing : values())
         {
@@ -360,7 +360,7 @@ public enum EnumFacing implements IStringSerializable
         Y("y", EnumFacing.Plane.VERTICAL),
         Z("z", EnumFacing.Plane.HORIZONTAL);
 
-        private static final Map<String, EnumFacing.Axis> NAME_LOOKUP = Maps.<String, EnumFacing.Axis>newHashMap();
+        private static final Map<String, EnumFacing.Axis> NAME_LOOKUP = Maps.newHashMap();
         private final String name;
         private final EnumFacing.Plane plane;
 
@@ -372,7 +372,7 @@ public enum EnumFacing implements IStringSerializable
 
         public static EnumFacing.Axis byName(String name)
         {
-            return name == null ? null : (EnumFacing.Axis)NAME_LOOKUP.get(name.toLowerCase());
+            return name == null ? null : NAME_LOOKUP.get(name.toLowerCase());
         }
 
         public String getName2()
@@ -455,7 +455,7 @@ public enum EnumFacing implements IStringSerializable
                 case VERTICAL:
                     return new EnumFacing[] {EnumFacing.UP, EnumFacing.DOWN};
                 default:
-                    throw new Error("Someone\'s been tampering with the universe!");
+                    throw new Error("Someone's been tampering with the universe!");
             }
         }
 
@@ -472,7 +472,7 @@ public enum EnumFacing implements IStringSerializable
 
         public Iterator<EnumFacing> iterator()
         {
-            return Iterators.<EnumFacing>forArray(this.facings());
+            return Iterators.forArray(this.facings());
         }
     }
 }

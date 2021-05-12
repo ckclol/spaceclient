@@ -1,0 +1,11 @@
+package space.util;
+
+public class Mod {
+	
+	private boolean isEnabled = true;
+	
+	protected final Minecraft mc;
+	protected final FontRenderer font;
+	
+	
+}

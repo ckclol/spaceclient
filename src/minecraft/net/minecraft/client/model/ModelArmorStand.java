@@ -59,9 +59,9 @@ public class ModelArmorStand extends ModelArmorStandArmor
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
-        super.setRotationAngles(p_78087_1_, p_78087_2_, p_78087_3_, p_78087_4_, p_78087_5_, p_78087_6_, entityIn);
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 
         if (entityIn instanceof EntityArmorStand)
         {
@@ -71,20 +71,20 @@ public class ModelArmorStand extends ModelArmorStandArmor
             this.standBase.showModel = !entityarmorstand.hasNoBasePlate();
             this.bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
             this.bipedRightLeg.setRotationPoint(-1.9F, 12.0F, 0.0F);
-            this.standRightSide.rotateAngleX = 0.017453292F * entityarmorstand.getBodyRotation().getX();
-            this.standRightSide.rotateAngleY = 0.017453292F * entityarmorstand.getBodyRotation().getY();
-            this.standRightSide.rotateAngleZ = 0.017453292F * entityarmorstand.getBodyRotation().getZ();
-            this.standLeftSide.rotateAngleX = 0.017453292F * entityarmorstand.getBodyRotation().getX();
-            this.standLeftSide.rotateAngleY = 0.017453292F * entityarmorstand.getBodyRotation().getY();
-            this.standLeftSide.rotateAngleZ = 0.017453292F * entityarmorstand.getBodyRotation().getZ();
-            this.standWaist.rotateAngleX = 0.017453292F * entityarmorstand.getBodyRotation().getX();
-            this.standWaist.rotateAngleY = 0.017453292F * entityarmorstand.getBodyRotation().getY();
-            this.standWaist.rotateAngleZ = 0.017453292F * entityarmorstand.getBodyRotation().getZ();
+            this.standRightSide.rotateAngleX = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getX();
+            this.standRightSide.rotateAngleY = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getY();
+            this.standRightSide.rotateAngleZ = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getZ();
+            this.standLeftSide.rotateAngleX = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getX();
+            this.standLeftSide.rotateAngleY = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getY();
+            this.standLeftSide.rotateAngleZ = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getZ();
+            this.standWaist.rotateAngleX = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getX();
+            this.standWaist.rotateAngleY = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getY();
+            this.standWaist.rotateAngleZ = ((float)Math.PI / 180F) * entityarmorstand.getBodyRotation().getZ();
             float f = (entityarmorstand.getLeftLegRotation().getX() + entityarmorstand.getRightLegRotation().getX()) / 2.0F;
             float f1 = (entityarmorstand.getLeftLegRotation().getY() + entityarmorstand.getRightLegRotation().getY()) / 2.0F;
             float f2 = (entityarmorstand.getLeftLegRotation().getZ() + entityarmorstand.getRightLegRotation().getZ()) / 2.0F;
             this.standBase.rotateAngleX = 0.0F;
-            this.standBase.rotateAngleY = 0.017453292F * -entityIn.rotationYaw;
+            this.standBase.rotateAngleY = ((float)Math.PI / 180F) * -entityIn.rotationYaw;
             this.standBase.rotateAngleZ = 0.0F;
         }
     }

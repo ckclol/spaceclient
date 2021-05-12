@@ -17,7 +17,7 @@ public abstract class Enchantment
 {
     private static final Enchantment[] enchantmentsList = new Enchantment[256];
     public static final Enchantment[] enchantmentsBookList;
-    private static final Map<ResourceLocation, Enchantment> locationEnchantments = Maps.<ResourceLocation, Enchantment>newHashMap();
+    private static final Map<ResourceLocation, Enchantment> locationEnchantments = Maps.newHashMap();
     public static final Enchantment protection = new EnchantmentProtection(0, new ResourceLocation("protection"), 10, 0);
 
     /** Protection against fire */
@@ -92,8 +92,6 @@ public abstract class Enchantment
 
     /**
      * Retrieves an Enchantment from the enchantmentsList
-     *  
-     * @param enchID The numeric ID, used to represent an enchantment.
      */
     public static Enchantment getEnchantmentById(int enchID)
     {
@@ -122,7 +120,7 @@ public abstract class Enchantment
      */
     public static Enchantment getEnchantmentByLocation(String location)
     {
-        return (Enchantment)locationEnchantments.get(new ResourceLocation(location));
+        return locationEnchantments.get(new ResourceLocation(location));
     }
 
     public static Set<ResourceLocation> func_181077_c()
@@ -173,9 +171,6 @@ public abstract class Enchantment
 
     /**
      * Calculates the damage protection of the enchantment based on level and damage source passed.
-     *  
-     * @param level The level of this enchantment.
-     * @param source The source of the damage.
      */
     public int calcModifierDamage(int level, DamageSource source)
     {
@@ -185,10 +180,6 @@ public abstract class Enchantment
     /**
      * Calculates the additional damage that will be dealt by an item with this enchantment. This alternative to
      * calcModifierDamage is sensitive to the targets EnumCreatureAttribute.
-     *  
-     * @param level The level of this specific enchantment.
-     * @param creatureType The EnumCreatureAttribute which represents the target entity. This can be used to have an
-     * effect only apply to a specific group of creatures such as Undead or Arthropods.
      */
     public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType)
     {
@@ -197,8 +188,6 @@ public abstract class Enchantment
 
     /**
      * Determines if the enchantment passed can be applyied together with this enchantment.
-     *  
-     * @param ench A possible enchantment that may be applied along side this enchantment, depending on the results.
      */
     public boolean canApplyTogether(Enchantment ench)
     {
@@ -207,8 +196,6 @@ public abstract class Enchantment
 
     /**
      * Sets the enchantment name
-     *  
-     * @param enchName The simple name for this enchantment.
      */
     public Enchantment setName(String enchName)
     {
@@ -226,9 +213,6 @@ public abstract class Enchantment
 
     /**
      * Returns the correct traslated name of the enchantment and the level in roman numbers.
-     *  
-     * @param level The level of this enchantment, used to create a roman numeral representation of the enchantments
-     * tier.
      */
     public String getTranslatedName(int level)
     {
@@ -238,8 +222,6 @@ public abstract class Enchantment
 
     /**
      * Determines if this enchantment can be applied to a specific ItemStack.
-     *  
-     * @param stack The ItemStack that is attempting to become enchanted with with enchantment.
      */
     public boolean canApply(ItemStack stack)
     {
@@ -248,10 +230,6 @@ public abstract class Enchantment
 
     /**
      * Called whenever a mob is damaged with an item that has this enchantment on it.
-     *  
-     * @param user An instance of the entity which used the enchantment. This is normally an EntityPlayer.
-     * @param target An instance of the damaged entity.
-     * @param level The level of the enchantment used.
      */
     public void onEntityDamaged(EntityLivingBase user, Entity target, int level)
     {
@@ -260,10 +238,6 @@ public abstract class Enchantment
     /**
      * Whenever an entity that has this enchantment on one of its associated items is damaged this method will be
      * called.
-     *  
-     * @param user An instance of the entity that is associated with this enchantment.
-     * @param attacker An instance of the entity that has attacked the using entity.
-     * @param level The level of the enchantment used.
      */
     public void onUserHurt(EntityLivingBase user, Entity attacker, int level)
     {
@@ -271,7 +245,7 @@ public abstract class Enchantment
 
     static
     {
-        List<Enchantment> list = Lists.<Enchantment>newArrayList();
+        List<Enchantment> list = Lists.newArrayList();
 
         for (Enchantment enchantment : enchantmentsList)
         {
@@ -281,6 +255,6 @@ public abstract class Enchantment
             }
         }
 
-        enchantmentsBookList = (Enchantment[])list.toArray(new Enchantment[list.size()]);
+        enchantmentsBookList = list.toArray(new Enchantment[list.size()]);
     }
 }

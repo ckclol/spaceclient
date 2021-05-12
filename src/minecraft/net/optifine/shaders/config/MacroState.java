@@ -21,9 +21,9 @@ import net.optifine.expr.ParseException;
 public class MacroState
 {
     private boolean active = true;
-    private Deque<Boolean> dequeState = new ArrayDeque();
-    private Deque<Boolean> dequeResolved = new ArrayDeque();
-    private Map<String, String> mapMacroValues = new HashMap();
+    private Deque<Boolean> dequeState = new ArrayDeque<>();
+    private Deque<Boolean> dequeResolved = new ArrayDeque<>();
+    private Map<String, String> mapMacroValues = new HashMap<>();
     private static final Pattern PATTERN_DIRECTIVE = Pattern.compile("\\s*#\\s*(\\w+)\\s*(.*)");
     private static final Pattern PATTERN_DEFINED = Pattern.compile("defined\\s+(\\w+)");
     private static final Pattern PATTERN_DEFINED_FUNC = Pattern.compile("defined\\s*\\(\\s*(\\w+)\\s*\\)");
@@ -36,7 +36,7 @@ public class MacroState
     private static final String ELSE = "else";
     private static final String ELIF = "elif";
     private static final String ENDIF = "endif";
-    private static final List<String> MACRO_NAMES = Arrays.<String>asList(new String[] {"define", "undef", "ifdef", "ifndef", "if", "else", "elif", "endif"});
+    private static final List<String> MACRO_NAMES = Arrays.asList("define", "undef", "ifdef", "ifndef", "if", "else", "elif", "endif");
 
     public boolean processLine(String line)
     {
@@ -96,47 +96,47 @@ public class MacroState
         else if (name.equals("ifdef"))
         {
             boolean flag6 = this.mapMacroValues.containsKey(s);
-            this.dequeState.add(Boolean.valueOf(flag6));
-            this.dequeResolved.add(Boolean.valueOf(flag6));
+            this.dequeState.add(flag6);
+            this.dequeResolved.add(flag6);
         }
         else if (name.equals("ifndef"))
         {
             boolean flag5 = !this.mapMacroValues.containsKey(s);
-            this.dequeState.add(Boolean.valueOf(flag5));
-            this.dequeResolved.add(Boolean.valueOf(flag5));
+            this.dequeState.add(flag5);
+            this.dequeResolved.add(flag5);
         }
         else if (name.equals("if"))
         {
             boolean flag4 = this.eval(param);
-            this.dequeState.add(Boolean.valueOf(flag4));
-            this.dequeResolved.add(Boolean.valueOf(flag4));
+            this.dequeState.add(flag4);
+            this.dequeResolved.add(flag4);
         }
         else if (!this.dequeState.isEmpty())
         {
             if (name.equals("elif"))
             {
-                boolean flag3 = ((Boolean)this.dequeState.removeLast()).booleanValue();
-                boolean flag7 = ((Boolean)this.dequeResolved.removeLast()).booleanValue();
+                boolean flag3 = this.dequeState.removeLast();
+                boolean flag7 = this.dequeResolved.removeLast();
 
                 if (flag7)
                 {
-                    this.dequeState.add(Boolean.valueOf(false));
-                    this.dequeResolved.add(Boolean.valueOf(flag7));
+                    this.dequeState.add(false);
+                    this.dequeResolved.add(flag7);
                 }
                 else
                 {
                     boolean flag8 = this.eval(param);
-                    this.dequeState.add(Boolean.valueOf(flag8));
-                    this.dequeResolved.add(Boolean.valueOf(flag8));
+                    this.dequeState.add(flag8);
+                    this.dequeResolved.add(flag8);
                 }
             }
             else if (name.equals("else"))
             {
-                boolean flag = ((Boolean)this.dequeState.removeLast()).booleanValue();
-                boolean flag1 = ((Boolean)this.dequeResolved.removeLast()).booleanValue();
+                boolean flag = this.dequeState.removeLast();
+                boolean flag1 = this.dequeResolved.removeLast();
                 boolean flag2 = !flag1;
-                this.dequeState.add(Boolean.valueOf(flag2));
-                this.dequeResolved.add(Boolean.valueOf(true));
+                this.dequeState.add(flag2);
+                this.dequeResolved.add(true);
             }
             else if (name.equals("endif"))
             {
@@ -168,9 +168,9 @@ public class MacroState
                 {
                     char c0 = s.charAt(0);
 
-                    if ((Character.isLetter(c0) || c0 == 95) && this.mapMacroValues.containsKey(s))
+                    if ((Character.isLetter(c0) || c0 == '_') && this.mapMacroValues.containsKey(s))
                     {
-                        String s1 = (String)this.mapMacroValues.get(s);
+                        String s1 = this.mapMacroValues.get(s);
 
                         if (s1 == null)
                         {

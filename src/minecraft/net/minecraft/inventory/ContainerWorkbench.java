@@ -67,7 +67,7 @@ public class ContainerWorkbench extends Container
         {
             for (int i = 0; i < 9; ++i)
             {
-                ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
+                ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
 
                 if (itemstack != null)
                 {
@@ -79,7 +79,14 @@ public class ContainerWorkbench extends Container
 
     public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return this.worldObj.getBlockState(this.pos).getBlock() != Blocks.crafting_table ? false : playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        if (this.worldObj.getBlockState(this.pos).getBlock() != Blocks.crafting_table)
+        {
+            return false;
+        }
+        else
+        {
+            return !(playerIn.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) > 64.0D);
+        }
     }
 
     /**
@@ -88,7 +95,7 @@ public class ContainerWorkbench extends Container
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
         ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
         {
@@ -147,8 +154,8 @@ public class ContainerWorkbench extends Container
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in
      * is null for the initial slot that was double-clicked.
      */
-    public boolean canMergeSlot(ItemStack stack, Slot p_94530_2_)
+    public boolean canMergeSlot(ItemStack stack, Slot slotIn)
     {
-        return p_94530_2_.inventory != this.craftResult && super.canMergeSlot(stack, p_94530_2_);
+        return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
     }
 }

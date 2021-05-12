@@ -51,7 +51,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ReportedException;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.village.VillageCollection;
@@ -77,9 +76,9 @@ public class WorldServer extends World implements IThreadListener
     private final MinecraftServer mcServer;
     private final EntityTracker theEntityTracker;
     private final PlayerManager thePlayerManager;
-    private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.<NextTickListEntry>newHashSet();
-    private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet();
-    private final Map<UUID, Entity> entitiesByUuid = Maps.<UUID, Entity>newHashMap();
+    private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.newHashSet();
+    private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet<>();
+    private final Map<UUID, Entity> entitiesByUuid = Maps.newHashMap();
     public ChunkProviderServer theChunkProviderServer;
 
     /** Whether level saving is disabled or not */
@@ -95,10 +94,10 @@ public class WorldServer extends World implements IThreadListener
     private final Teleporter worldTeleporter;
     private final SpawnerAnimals mobSpawner = new SpawnerAnimals();
     protected final VillageSiege villageSiege = new VillageSiege(this);
-    private WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList()};
+    private WorldServer.ServerBlockEventList[] blockEventQueue = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList()};
     private int blockEventCacheIndex;
-    private static final List<WeightedRandomChestContent> bonusChestContent = Lists.newArrayList(new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.stick, 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 3, 10), new WeightedRandomChestContent(Items.stone_axe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_axe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.stone_pickaxe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.apple, 0, 2, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 2, 3, 3), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10)});
-    private List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.<NextTickListEntry>newArrayList();
+    private static final List<WeightedRandomChestContent> bonusChestContent = Lists.newArrayList(new WeightedRandomChestContent(Items.stick, 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 3, 10), new WeightedRandomChestContent(Items.stone_axe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_axe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.stone_pickaxe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.apple, 0, 2, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 2, 3, 3), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10));
+    private List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.newArrayList();
 
     public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId, Profiler profilerIn)
     {
@@ -176,7 +175,7 @@ public class WorldServer extends World implements IThreadListener
 
         if (this.areAllPlayersAsleep())
         {
-            if (this.getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
+            if (this.getGameRules().getBoolean("doDaylightCycle"))
             {
                 long i = this.worldInfo.getWorldTime() + 24000L;
                 this.worldInfo.setWorldTime(i - i % 24000L);
@@ -187,7 +186,7 @@ public class WorldServer extends World implements IThreadListener
 
         this.theProfiler.startSection("mobSpawner");
 
-        if (this.getGameRules().getGameRuleBooleanValue("doMobSpawning") && this.worldInfo.getTerrainType() != WorldType.DEBUG_WORLD)
+        if (this.getGameRules().getBoolean("doMobSpawning") && this.worldInfo.getTerrainType() != WorldType.DEBUG_WORLD)
         {
             this.mobSpawner.findChunksForSpawning(this, this.spawnHostileMobs, this.spawnPeacefulMobs, this.worldInfo.getWorldTotalTime() % 400L == 0L);
         }
@@ -203,7 +202,7 @@ public class WorldServer extends World implements IThreadListener
 
         this.worldInfo.setWorldTotalTime(this.worldInfo.getWorldTotalTime() + 1L);
 
-        if (this.getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
+        if (this.getGameRules().getBoolean("doDaylightCycle"))
         {
             this.worldInfo.setWorldTime(this.worldInfo.getWorldTime() + 1L);
         }
@@ -226,7 +225,7 @@ public class WorldServer extends World implements IThreadListener
     public BiomeGenBase.SpawnListEntry getSpawnListEntryForTypeAt(EnumCreatureType creatureType, BlockPos pos)
     {
         List<BiomeGenBase.SpawnListEntry> list = this.getChunkProvider().getPossibleCreatures(creatureType, pos);
-        return list != null && !list.isEmpty() ? (BiomeGenBase.SpawnListEntry)WeightedRandom.getRandomItem(this.rand, list) : null;
+        return list != null && !list.isEmpty() ? WeightedRandom.getRandomItem(this.rand, list) : null;
     }
 
     public boolean canCreatureTypeSpawnHere(EnumCreatureType creatureType, BiomeGenBase.SpawnListEntry spawnListEntry, BlockPos pos)
@@ -313,7 +312,7 @@ public class WorldServer extends World implements IThreadListener
     {
         if (this.worldInfo.getSpawnY() <= 0)
         {
-            this.worldInfo.setSpawnY(this.func_181545_F() + 1);
+            this.worldInfo.setSpawnY(this.getSeaLevel() + 1);
         }
 
         int i = this.worldInfo.getSpawnX();
@@ -369,7 +368,7 @@ public class WorldServer extends World implements IThreadListener
                     int i1 = this.updateLCG >> 2;
                     BlockPos blockpos = this.adjustPosToNearbyEntity(new BlockPos(k + (i1 & 15), 0, l + (i1 >> 8 & 15)));
 
-                    if (this.canLightningStrike(blockpos))
+                    if (this.isRainingAt(blockpos))
                     {
                         this.addWeatherEffect(new EntityLightningBolt(this, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ()));
                     }
@@ -394,7 +393,7 @@ public class WorldServer extends World implements IThreadListener
                         this.setBlockState(blockpos2, Blocks.snow_layer.getDefaultState());
                     }
 
-                    if (this.isRaining() && this.getBiomeGenForCoords(blockpos1).canSpawnLightningBolt())
+                    if (this.isRaining() && this.getBiomeGenForCoords(blockpos1).canRain())
                     {
                         this.getBlockState(blockpos1).getBlock().fillWithRain(this, blockpos1);
                     }
@@ -446,7 +445,7 @@ public class WorldServer extends World implements IThreadListener
                 return p_apply_1_ != null && p_apply_1_.isEntityAlive() && WorldServer.this.canSeeSky(p_apply_1_.getPosition());
             }
         });
-        return !list.isEmpty() ? ((EntityLivingBase)list.get(this.rand.nextInt(list.size()))).getPosition() : blockpos;
+        return !list.isEmpty() ? list.get(this.rand.nextInt(list.size())).getPosition() : blockpos;
     }
 
     public boolean isBlockTickPending(BlockPos pos, Block blockType)
@@ -576,7 +575,7 @@ public class WorldServer extends World implements IThreadListener
 
                 for (int j = 0; j < i; ++j)
                 {
-                    NextTickListEntry nextticklistentry = (NextTickListEntry)this.pendingTickListEntriesTreeSet.first();
+                    NextTickListEntry nextticklistentry = this.pendingTickListEntriesTreeSet.first();
 
                     if (!p_72955_1_ && nextticklistentry.scheduledTime > this.worldInfo.getWorldTotalTime())
                     {
@@ -594,7 +593,7 @@ public class WorldServer extends World implements IThreadListener
 
                 while (iterator.hasNext())
                 {
-                    NextTickListEntry nextticklistentry1 = (NextTickListEntry)iterator.next();
+                    NextTickListEntry nextticklistentry1 = iterator.next();
                     iterator.remove();
                     int k = 0;
 
@@ -659,7 +658,7 @@ public class WorldServer extends World implements IThreadListener
 
             while (iterator.hasNext())
             {
-                NextTickListEntry nextticklistentry = (NextTickListEntry)iterator.next();
+                NextTickListEntry nextticklistentry = iterator.next();
                 BlockPos blockpos = nextticklistentry.position;
 
                 if (blockpos.getX() >= structureBB.minX && blockpos.getX() < structureBB.maxX && blockpos.getZ() >= structureBB.minZ && blockpos.getZ() < structureBB.maxZ)
@@ -672,7 +671,7 @@ public class WorldServer extends World implements IThreadListener
 
                     if (list == null)
                     {
-                        list = Lists.<NextTickListEntry>newArrayList();
+                        list = Lists.newArrayList();
                     }
 
                     list.add(nextticklistentry);
@@ -724,11 +723,11 @@ public class WorldServer extends World implements IThreadListener
 
     public List<TileEntity> getTileEntitiesIn(int minX, int minY, int minZ, int maxX, int maxY, int maxZ)
     {
-        List<TileEntity> list = Lists.<TileEntity>newArrayList();
+        List<TileEntity> list = Lists.newArrayList();
 
         for (int i = 0; i < this.loadedTileEntityList.size(); ++i)
         {
-            TileEntity tileentity = (TileEntity)this.loadedTileEntityList.get(i);
+            TileEntity tileentity = this.loadedTileEntityList.get(i);
             BlockPos blockpos = tileentity.getPos();
 
             if (blockpos.getX() >= minX && blockpos.getY() >= minY && blockpos.getZ() >= minZ && blockpos.getX() < maxX && blockpos.getY() < maxY && blockpos.getZ() < maxZ)
@@ -798,7 +797,7 @@ public class WorldServer extends World implements IThreadListener
     /**
      * creates a spawn position at random within 256 blocks of 0,0
      */
-    private void createSpawnPosition(WorldSettings p_73052_1_)
+    private void createSpawnPosition(WorldSettings settings)
     {
         if (!this.provider.canRespawnHere())
         {
@@ -846,7 +845,7 @@ public class WorldServer extends World implements IThreadListener
             this.worldInfo.setSpawn(new BlockPos(i, j, k));
             this.findingSpawnPoint = false;
 
-            if (p_73052_1_.isBonusChestEnabled())
+            if (settings.isBonusChestEnabled())
             {
                 this.createBonusChest();
             }
@@ -1009,14 +1008,14 @@ public class WorldServer extends World implements IThreadListener
 
         if (!isSmoking)
         {
-            explosion.func_180342_d();
+            explosion.clearAffectedBlockPositions();
         }
 
         for (EntityPlayer entityplayer : this.playerEntities)
         {
             if (entityplayer.getDistanceSq(x, y, z) < 4096.0D)
             {
-                ((EntityPlayerMP)entityplayer).playerNetServerHandler.sendPacket(new S27PacketExplosion(x, y, z, strength, explosion.getAffectedBlockPositions(), (Vec3)explosion.getPlayerKnockbackMap().get(entityplayer)));
+                ((EntityPlayerMP)entityplayer).playerNetServerHandler.sendPacket(new S27PacketExplosion(x, y, z, strength, explosion.getAffectedBlockPositions(), explosion.getPlayerKnockbackMap().get(entityplayer)));
             }
         }
 
@@ -1027,7 +1026,7 @@ public class WorldServer extends World implements IThreadListener
     {
         BlockEventData blockeventdata = new BlockEventData(pos, blockIn, eventID, eventParam);
 
-        for (BlockEventData blockeventdata1 : this.field_147490_S[this.blockEventCacheIndex])
+        for (BlockEventData blockeventdata1 : this.blockEventQueue[this.blockEventCacheIndex])
         {
             if (blockeventdata1.equals(blockeventdata))
             {
@@ -1035,17 +1034,17 @@ public class WorldServer extends World implements IThreadListener
             }
         }
 
-        this.field_147490_S[this.blockEventCacheIndex].add(blockeventdata);
+        this.blockEventQueue[this.blockEventCacheIndex].add(blockeventdata);
     }
 
     private void sendQueuedBlockEvents()
     {
-        while (!this.field_147490_S[this.blockEventCacheIndex].isEmpty())
+        while (!this.blockEventQueue[this.blockEventCacheIndex].isEmpty())
         {
             int i = this.blockEventCacheIndex;
             this.blockEventCacheIndex ^= 1;
 
-            for (BlockEventData blockeventdata : this.field_147490_S[i])
+            for (BlockEventData blockeventdata : this.blockEventQueue[i])
             {
                 if (this.fireBlockEvent(blockeventdata))
                 {
@@ -1053,7 +1052,7 @@ public class WorldServer extends World implements IThreadListener
                 }
             }
 
-            this.field_147490_S[i].clear();
+            this.blockEventQueue[i].clear();
         }
     }
 
@@ -1136,21 +1135,17 @@ public class WorldServer extends World implements IThreadListener
     /**
      * Spawns the desired particle and sends the necessary packets to the relevant connected players.
      */
-    public void spawnParticle(EnumParticleTypes particleType, double xCoord, double yCoord, double zCoord, int numberOfParticles, double p_175739_9_, double p_175739_11_, double p_175739_13_, double p_175739_15_, int... p_175739_17_)
+    public void spawnParticle(EnumParticleTypes particleType, double xCoord, double yCoord, double zCoord, int numberOfParticles, double xOffset, double yOffset, double zOffset, double particleSpeed, int... particleArguments)
     {
-        this.spawnParticle(particleType, false, xCoord, yCoord, zCoord, numberOfParticles, p_175739_9_, p_175739_11_, p_175739_13_, p_175739_15_, p_175739_17_);
+        this.spawnParticle(particleType, false, xCoord, yCoord, zCoord, numberOfParticles, xOffset, yOffset, zOffset, particleSpeed, particleArguments);
     }
 
     /**
      * Spawns the desired particle and sends the necessary packets to the relevant connected players.
-     *  
-     * @param xOffset The offset along the x axis to spread the particle across
-     * @param yOffset The offset along the y axis to spread the particle across
-     * @param zOffset The offset along the z axis to spread the particle across
      */
-    public void spawnParticle(EnumParticleTypes particleType, boolean longDistance, double xCoord, double yCoord, double zCoord, int numberOfParticles, double xOffset, double yOffset, double zOffset, double particleSpeed, int... p_180505_18_)
+    public void spawnParticle(EnumParticleTypes particleType, boolean longDistance, double xCoord, double yCoord, double zCoord, int numberOfParticles, double xOffset, double yOffset, double zOffset, double particleSpeed, int... particleArguments)
     {
-        Packet packet = new S2APacketParticles(particleType, longDistance, (float)xCoord, (float)yCoord, (float)zCoord, (float)xOffset, (float)yOffset, (float)zOffset, (float)particleSpeed, numberOfParticles, p_180505_18_);
+        Packet packet = new S2APacketParticles(particleType, longDistance, (float)xCoord, (float)yCoord, (float)zCoord, (float)xOffset, (float)yOffset, (float)zOffset, (float)particleSpeed, numberOfParticles, particleArguments);
 
         for (int i = 0; i < this.playerEntities.size(); ++i)
         {
@@ -1167,7 +1162,7 @@ public class WorldServer extends World implements IThreadListener
 
     public Entity getEntityFromUuid(UUID uuid)
     {
-        return (Entity)this.entitiesByUuid.get(uuid);
+        return this.entitiesByUuid.get(uuid);
     }
 
     public ListenableFuture<Object> addScheduledTask(Runnable runnableToSchedule)

@@ -55,13 +55,13 @@ public class EntityOcelot extends EntityTameable
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
         this.tasks.addTask(10, new EntityAIWander(this, 0.8D));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed<>(this, EntityChicken.class, false, (Predicate<EntityChicken>)null));
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(18, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(18, (byte)0);
     }
 
     public void updateAITasks()
@@ -105,7 +105,7 @@ public class EntityOcelot extends EntityTameable
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30000001192092896D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue((double)0.3F);
     }
 
     public void fall(float distance, float damageMultiplier)
@@ -135,7 +135,21 @@ public class EntityOcelot extends EntityTameable
      */
     protected String getLivingSound()
     {
-        return this.isTamed() ? (this.isInLove() ? "mob.cat.purr" : (this.rand.nextInt(4) == 0 ? "mob.cat.purreow" : "mob.cat.meow")) : "";
+        if (this.isTamed())
+        {
+            if (this.isInLove())
+            {
+                return "mob.cat.purr";
+            }
+            else
+            {
+                return this.rand.nextInt(4) == 0 ? "mob.cat.purreow" : "mob.cat.meow";
+            }
+        }
+        else
+        {
+            return "";
+        }
     }
 
     /**
@@ -190,8 +204,12 @@ public class EntityOcelot extends EntityTameable
 
     /**
      * Drop 0-2 items of this living's type
+     *  
+     * @param wasRecentlyHit true if this this entity was recently hit by appropriate entity (generally only if player
+     * or tameable)
+     * @param lootingModifier level of enchanment to be applied to this drop
      */
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
     {
     }
 
@@ -288,7 +306,15 @@ public class EntityOcelot extends EntityTameable
         else
         {
             EntityOcelot entityocelot = (EntityOcelot)otherAnimal;
-            return !entityocelot.isTamed() ? false : this.isInLove() && entityocelot.isInLove();
+
+            if (!entityocelot.isTamed())
+            {
+                return false;
+            }
+            else
+            {
+                return this.isInLove() && entityocelot.isInLove();
+            }
         }
     }
 
@@ -299,7 +325,7 @@ public class EntityOcelot extends EntityTameable
 
     public void setTameSkin(int skinId)
     {
-        this.dataWatcher.updateObject(18, Byte.valueOf((byte)skinId));
+        this.dataWatcher.updateObject(18, (byte)skinId);
     }
 
     /**
@@ -319,7 +345,7 @@ public class EntityOcelot extends EntityTameable
         {
             BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
 
-            if (blockpos.getY() < this.worldObj.func_181545_F())
+            if (blockpos.getY() < this.worldObj.getSeaLevel())
             {
                 return false;
             }
@@ -336,11 +362,18 @@ public class EntityOcelot extends EntityTameable
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
-        return this.hasCustomName() ? this.getCustomNameTag() : (this.isTamed() ? StatCollector.translateToLocal("entity.Cat.name") : super.getCommandSenderName());
+        if (this.hasCustomName())
+        {
+            return this.getCustomNameTag();
+        }
+        else
+        {
+            return this.isTamed() ? StatCollector.translateToLocal("entity.Cat.name") : super.getName();
+        }
     }
 
     public void setTamed(boolean tamed)
@@ -352,7 +385,7 @@ public class EntityOcelot extends EntityTameable
     {
         if (this.avoidEntity == null)
         {
-            this.avoidEntity = new EntityAIAvoidEntity(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
+            this.avoidEntity = new EntityAIAvoidEntity<>(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
         }
 
         this.tasks.removeTask(this.avoidEntity);

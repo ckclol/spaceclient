@@ -5,13 +5,13 @@ import java.util.List;
 
 public class ShaderUniforms
 {
-    private final List<ShaderUniformBase> listUniforms = new ArrayList();
+    private final List<ShaderUniformBase> listUniforms = new ArrayList<>();
 
     public void setProgram(int program)
     {
         for (int i = 0; i < this.listUniforms.size(); ++i)
         {
-            ShaderUniformBase shaderuniformbase = (ShaderUniformBase)this.listUniforms.get(i);
+            ShaderUniformBase shaderuniformbase = this.listUniforms.get(i);
             shaderuniformbase.setProgram(program);
         }
     }
@@ -20,7 +20,7 @@ public class ShaderUniforms
     {
         for (int i = 0; i < this.listUniforms.size(); ++i)
         {
-            ShaderUniformBase shaderuniformbase = (ShaderUniformBase)this.listUniforms.get(i);
+            ShaderUniformBase shaderuniformbase = this.listUniforms.get(i);
             shaderuniformbase.reset();
         }
     }

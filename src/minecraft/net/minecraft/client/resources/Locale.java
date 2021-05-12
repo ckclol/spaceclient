@@ -18,19 +18,19 @@ public class Locale
     /** Splits on "=" */
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
-    Map<String, String> properties = Maps.<String, String>newHashMap();
+    Map<String, String> properties = Maps.newHashMap();
     private boolean unicode;
 
     /**
-     * par2 is a list of languages. For each language $L and domain $D, attempts to load the resource $D:lang/$L.lang
+     * For each domain $D and language $L, attempts to load the resource $D:lang/$L.lang
      */
-    public synchronized void loadLocaleDataFiles(IResourceManager resourceManager, List<String> p_135022_2_)
+    public synchronized void loadLocaleDataFiles(IResourceManager resourceManager, List<String> languageList)
     {
         this.properties.clear();
 
-        for (String s : p_135022_2_)
+        for (String s : languageList)
         {
-            String s1 = String.format("lang/%s.lang", new Object[] {s});
+            String s1 = String.format("lang/%s.lang", s);
 
             for (String s2 : resourceManager.getResourceDomains())
             {
@@ -78,11 +78,11 @@ public class Locale
     }
 
     /**
-     * par1 is a list of Resources
+     * Loads the locale data for the list of resources.
      */
-    private void loadLocaleData(List<IResource> p_135028_1_) throws IOException
+    private void loadLocaleData(List<IResource> resourcesList) throws IOException
     {
-        for (IResource iresource : p_135028_1_)
+        for (IResource iresource : resourcesList)
         {
             InputStream inputstream = iresource.getInputStream();
 
@@ -97,13 +97,13 @@ public class Locale
         }
     }
 
-    private void loadLocaleData(InputStream p_135021_1_) throws IOException
+    private void loadLocaleData(InputStream inputStreamIn) throws IOException
     {
-        for (String s : IOUtils.readLines(p_135021_1_, Charsets.UTF_8))
+        for (String s : IOUtils.readLines(inputStreamIn, Charsets.UTF_8))
         {
-            if (!s.isEmpty() && s.charAt(0) != 35)
+            if (!s.isEmpty() && s.charAt(0) != '#')
             {
-                String[] astring = (String[])Iterables.toArray(splitter.split(s), String.class);
+                String[] astring = Iterables.toArray(splitter.split(s), String.class);
 
                 if (astring != null && astring.length == 2)
                 {
@@ -118,10 +118,10 @@ public class Locale
     /**
      * Returns the translation, or the key itself if the key could not be translated.
      */
-    private String translateKeyPrivate(String p_135026_1_)
+    private String translateKeyPrivate(String translateKey)
     {
-        String s = (String)this.properties.get(p_135026_1_);
-        return s == null ? p_135026_1_ : s;
+        String s = this.properties.get(translateKey);
+        return s == null ? translateKey : s;
     }
 
     /**

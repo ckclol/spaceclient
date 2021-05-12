@@ -55,7 +55,7 @@ public class Mipmaps
 
                 if (k <= 0 && l <= 0)
                 {
-                    Dimension[] adimension = (Dimension[])((Dimension[])list.toArray(new Dimension[list.size()]));
+                    Dimension[] adimension = (Dimension[]) list.toArray(new Dimension[list.size()]);
                     return adimension;
                 }
 
@@ -171,11 +171,11 @@ public class Mipmaps
         return k << 24 | j2 << 16 | k2 << 8 | l2;
     }
 
-    private int averageColor(int i, int j)
+    private int averageColor(int i22, int j22)
     {
-        int k = (i & -16777216) >> 24 & 255;
-        int p = (j & -16777216) >> 24 & 255;
-        return (k + j >> 1 << 24) + ((k & 16711422) + (p & 16711422) >> 1);
+        int i = (i22 & -16777216) >> 24 & 255;
+        int j = (j22 & -16777216) >> 24 & 255;
+        return (i + j >> 1 << 24) + ((i22 & 16711422) + (j22 & 16711422) >> 1);
     }
 
     public static IntBuffer[] makeMipmapBuffers(Dimension[] mipmapDimensions, int[][] mipmapDatas)
@@ -214,7 +214,7 @@ public class Mipmaps
             int j = dimension.width;
             int k = dimension.height;
             int l = i + 1;
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, l, GL11.GL_RGBA, j, k, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)((IntBuffer)null));
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, l, GL11.GL_RGBA, j, k, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)null);
         }
     }
 }

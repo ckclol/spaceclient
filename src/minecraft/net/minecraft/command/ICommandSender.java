@@ -9,9 +9,9 @@ import net.minecraft.world.World;
 public interface ICommandSender
 {
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    String getCommandSenderName();
+    String getName();
 
     /**
      * Get the formatted ChatComponent that will be used for the sender's username in chat
@@ -20,16 +20,11 @@ public interface ICommandSender
 
     /**
      * Send a chat message to the CommandSender
-     *  
-     * @param component The ChatComponent to send
      */
     void addChatMessage(IChatComponent component);
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
-     *  
-     * @param permLevel The permission level required to execute the command
-     * @param commandName The name of the command
      */
     boolean canCommandSenderUseCommand(int permLevel, String commandName);
 

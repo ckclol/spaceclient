@@ -38,6 +38,13 @@ public class ShaderParameterIndexed implements IExpressionFloat
 
     public String toString()
     {
-        return this.type.getIndexNames1() == null ? "" + this.type : (this.type.getIndexNames2() == null ? "" + this.type + "." + this.type.getIndexNames1()[this.index1] : "" + this.type + "." + this.type.getIndexNames1()[this.index1] + "." + this.type.getIndexNames2()[this.index2]);
+        if (this.type.getIndexNames1() == null)
+        {
+            return "" + this.type;
+        }
+        else
+        {
+            return this.type.getIndexNames2() == null ? "" + this.type + "." + this.type.getIndexNames1()[this.index1] : "" + this.type + "." + this.type.getIndexNames1()[this.index1] + "." + this.type.getIndexNames2()[this.index2];
+        }
     }
 }

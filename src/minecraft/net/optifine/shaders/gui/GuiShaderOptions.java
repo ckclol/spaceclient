@@ -21,20 +21,16 @@ public class GuiShaderOptions extends GuiScreenOF
     private GuiScreen prevScreen;
     protected String title;
     private GameSettings settings;
-    private TooltipManager tooltipManager;
-    private String screenName;
-    private String screenText;
-    private boolean changed;
+    private TooltipManager tooltipManager = new TooltipManager(this, new TooltipProviderShaderOptions());
+    private String screenName = null;
+    private String screenText = null;
+    private boolean changed = false;
     public static final String OPTION_PROFILE = "<profile>";
     public static final String OPTION_EMPTY = "<empty>";
     public static final String OPTION_REST = "*";
 
     public GuiShaderOptions(GuiScreen guiscreen, GameSettings gamesettings)
     {
-        this.tooltipManager = new TooltipManager(this, new TooltipProviderShaderOptions());
-        this.screenName = null;
-        this.screenText = null;
-        this.changed = false;
         this.title = "Shader Options";
         this.prevScreen = guiscreen;
         this.settings = gamesettings;
@@ -57,7 +53,7 @@ public class GuiShaderOptions extends GuiScreenOF
      */
     public void initGui()
     {
-        this.title = I18n.format("of.options.shaderOptionsTitle", new Object[0]);
+        this.title = I18n.format("of.options.shaderOptionsTitle");
         int i = 100;
         int j = 0;
         int k = 30;
@@ -107,8 +103,8 @@ public class GuiShaderOptions extends GuiScreenOF
             }
         }
 
-        this.buttonList.add(new GuiButton(201, this.width / 2 - i1 - 20, this.height / 6 + 168 + 11, i1, j1, I18n.format("controls.reset", new Object[0])));
-        this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, i1, j1, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(201, this.width / 2 - i1 - 20, this.height / 6 + 168 + 11, i1, j1, I18n.format("controls.reset")));
+        this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, i1, j1, I18n.format("gui.done")));
     }
 
     public static String getButtonText(ShaderOption so, int btnWidth)

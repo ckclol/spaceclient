@@ -379,7 +379,14 @@ public class CustomColormap implements CustomColors.IColorizer
 
     public int getColor(BiomeGenBase biome, BlockPos blockPos)
     {
-        return this.format == 0 ? this.getColorVanilla(biome, blockPos) : (this.format == 1 ? this.getColorGrid(biome, blockPos) : this.color);
+        if (this.format == 0)
+        {
+            return this.getColorVanilla(biome, blockPos);
+        }
+        else
+        {
+            return this.format == 1 ? this.getColorGrid(biome, blockPos) : this.color;
+        }
     }
 
     public int getColorSmooth(IBlockAccess blockAccess, double x, double y, double z, int radius)
@@ -404,7 +411,7 @@ public class CustomColormap implements CustomColors.IColorizer
                 for (int i2 = k - radius; i2 <= k + radius; ++i2)
                 {
                     blockposm.setXyz(l1, j, i2);
-                    int j2 = this.getColor((IBlockAccess)blockAccess, blockposm);
+                    int j2 = this.getColor(blockAccess, blockposm);
                     l += j2 >> 16 & 255;
                     i1 += j2 >> 8 & 255;
                     j1 += j2 & 255;
@@ -487,7 +494,7 @@ public class CustomColormap implements CustomColors.IColorizer
             this.matchBlocks = new MatchBlock[0];
         }
 
-        this.matchBlocks = (MatchBlock[])((MatchBlock[])Config.addObjectToArray(this.matchBlocks, mb));
+        this.matchBlocks = (MatchBlock[])Config.addObjectToArray(this.matchBlocks, mb);
     }
 
     public void addMatchBlock(int blockId, int metadata)
@@ -545,16 +552,16 @@ public class CustomColormap implements CustomColors.IColorizer
 
                 if (matchblock.getBlockId() >= 0)
                 {
-                    set.add(Integer.valueOf(matchblock.getBlockId()));
+                    set.add(matchblock.getBlockId());
                 }
             }
 
-            Integer[] ainteger = (Integer[])((Integer[])set.toArray(new Integer[set.size()]));
+            Integer[] ainteger = (Integer[]) set.toArray(new Integer[set.size()]);
             int[] aint = new int[ainteger.length];
 
             for (int j = 0; j < ainteger.length; ++j)
             {
-                aint[j] = ainteger[j].intValue();
+                aint[j] = ainteger[j];
             }
 
             return aint;

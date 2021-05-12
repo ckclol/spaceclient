@@ -98,9 +98,6 @@ public abstract class CommandBlockLogic implements ICommandSender
 
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
-     *  
-     * @param permLevel The permission level required to execute the command
-     * @param commandName The name of the command
      */
     public boolean canCommandSenderUseCommand(int permLevel, String commandName)
     {
@@ -157,7 +154,7 @@ public abstract class CommandBlockLogic implements ICommandSender
                 {
                     public String call() throws Exception
                     {
-                        return CommandBlockLogic.this.getCommandSenderName();
+                        return CommandBlockLogic.this.getName();
                     }
                 });
                 throw new ReportedException(crashreport);
@@ -170,9 +167,9 @@ public abstract class CommandBlockLogic implements ICommandSender
     }
 
     /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     * Get the name of this object. For players this returns their username
      */
-    public String getCommandSenderName()
+    public String getName()
     {
         return this.customName;
     }
@@ -182,7 +179,7 @@ public abstract class CommandBlockLogic implements ICommandSender
      */
     public IChatComponent getDisplayName()
     {
-        return new ChatComponentText(this.getCommandSenderName());
+        return new ChatComponentText(this.getName());
     }
 
     public void setName(String p_145754_1_)
@@ -192,8 +189,6 @@ public abstract class CommandBlockLogic implements ICommandSender
 
     /**
      * Send a chat message to the CommandSender
-     *  
-     * @param component The ChatComponent to send
      */
     public void addChatMessage(IChatComponent component)
     {
@@ -210,12 +205,12 @@ public abstract class CommandBlockLogic implements ICommandSender
     public boolean sendCommandFeedback()
     {
         MinecraftServer minecraftserver = MinecraftServer.getServer();
-        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
+        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
     }
 
     public void setCommandStat(CommandResultStats.Type type, int amount)
     {
-        this.resultStats.func_179672_a(this, type, amount);
+        this.resultStats.setCommandStatScore(this, type, amount);
     }
 
     public abstract void updateCommand();

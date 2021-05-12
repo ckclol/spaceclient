@@ -7,9 +7,9 @@ public class QuadBounds
     private float minX = Float.MAX_VALUE;
     private float minY = Float.MAX_VALUE;
     private float minZ = Float.MAX_VALUE;
-    private float maxX = -3.4028235E38F;
-    private float maxY = -3.4028235E38F;
-    private float maxZ = -3.4028235E38F;
+    private float maxX = -Float.MAX_VALUE;
+    private float maxY = -Float.MAX_VALUE;
+    private float maxZ = -Float.MAX_VALUE;
 
     public QuadBounds(int[] vertexData)
     {

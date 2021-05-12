@@ -106,8 +106,8 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
                     if (te.signText[j] != null)
                     {
                         IChatComponent ichatcomponent = te.signText[j];
-                        List<IChatComponent> list = GuiUtilRenderComponents.func_178908_a(ichatcomponent, 90, fontrenderer, false, true);
-                        String s = list != null && list.size() > 0 ? ((IChatComponent)list.get(0)).getFormattedText() : "";
+                        List<IChatComponent> list = GuiUtilRenderComponents.splitText(ichatcomponent, 90, fontrenderer, false, true);
+                        String s = list != null && list.size() > 0 ? list.get(0).getFormattedText() : "";
 
                         if (j == te.lineBeingEdited)
                         {

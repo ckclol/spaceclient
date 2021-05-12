@@ -32,17 +32,15 @@ public class EntityPortalFX extends EntityFX
 
     /**
      * Renders the particle
-     *  
-     * @param worldRendererIn The WorldRenderer instance
      */
-    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
+    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
         f = 1.0F - f;
         f = f * f;
         f = 1.0F - f;
         this.particleScale = this.portalParticleScale * f;
-        super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     public int getBrightnessForRender(float partialTicks)
@@ -83,11 +81,11 @@ public class EntityPortalFX extends EntityFX
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         float f = (float)this.particleAge / (float)this.particleMaxAge;
-        f = -f + f * f * 2.0F;
-        f = 1.0F - f;
-        this.posX = this.portalPosX + this.motionX * (double)f;
-        this.posY = this.portalPosY + this.motionY * (double)f + (double)(1.0F - f);
-        this.posZ = this.portalPosZ + this.motionZ * (double)f;
+        float f1 = -f + f * f * 2.0F;
+        float f2 = 1.0F - f1;
+        this.posX = this.portalPosX + this.motionX * (double)f2;
+        this.posY = this.portalPosY + this.motionY * (double)f2 + (double)(1.0F - f);
+        this.posZ = this.portalPosZ + this.motionZ * (double)f2;
 
         if (this.particleAge++ >= this.particleMaxAge)
         {

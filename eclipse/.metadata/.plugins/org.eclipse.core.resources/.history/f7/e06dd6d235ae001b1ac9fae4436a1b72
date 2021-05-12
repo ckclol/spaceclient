@@ -1,0 +1,11 @@
+package space.hud;
+
+public interface IRender extends IRenderConfig {
+	
+	 int getWidth();
+	 int getHeight();
+	 
+	 void render(ScreenPos pos);
+	 
+	
+}

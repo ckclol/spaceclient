@@ -13,7 +13,7 @@ public class CustomModelRegistry
 
     private static Map<String, ModelAdapter> makeMapModelAdapters()
     {
-        Map<String, ModelAdapter> map = new LinkedHashMap();
+        Map<String, ModelAdapter> map = new LinkedHashMap<>();
         addModelAdapter(map, new ModelAdapterArmorStand());
         addModelAdapter(map, new ModelAdapterBat());
         addModelAdapter(map, new ModelAdapterBlaze());
@@ -106,13 +106,13 @@ public class CustomModelRegistry
 
     public static ModelAdapter getModelAdapter(String name)
     {
-        return (ModelAdapter)mapModelAdapters.get(name);
+        return mapModelAdapters.get(name);
     }
 
     public static String[] getModelNames()
     {
         Set<String> set = mapModelAdapters.keySet();
-        String[] astring = (String[])((String[])set.toArray(new String[set.size()]));
+        String[] astring = set.toArray(new String[set.size()]);
         return astring;
     }
 }

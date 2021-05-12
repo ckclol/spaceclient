@@ -4,9 +4,9 @@ import net.minecraft.src.Config;
 
 public class ReflectorClass
 {
-    private String targetClassName;
-    private boolean checked;
-    private Class targetClass;
+    private String targetClassName = null;
+    private boolean checked = false;
+    private Class targetClass = null;
 
     public ReflectorClass(String targetClassName)
     {
@@ -15,9 +15,6 @@ public class ReflectorClass
 
     public ReflectorClass(String targetClassName, boolean lazyResolve)
     {
-        this.targetClassName = null;
-        this.checked = false;
-        this.targetClass = null;
         this.targetClassName = targetClassName;
 
         if (!lazyResolve)
@@ -28,9 +25,6 @@ public class ReflectorClass
 
     public ReflectorClass(Class targetClass)
     {
-        this.targetClassName = null;
-        this.checked = false;
-        this.targetClass = null;
         this.targetClass = targetClass;
         this.targetClassName = targetClass.getName();
         this.checked = true;

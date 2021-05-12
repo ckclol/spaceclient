@@ -12,37 +12,32 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class Scoreboard
 {
-    private final Map<String, ScoreObjective> scoreObjectives = Maps.<String, ScoreObjective>newHashMap();
-    private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = Maps.<IScoreObjectiveCriteria, List<ScoreObjective>>newHashMap();
-    private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = Maps.<String, Map<ScoreObjective, Score>>newHashMap();
+    private final Map<String, ScoreObjective> scoreObjectives = Maps.newHashMap();
+    private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = Maps.newHashMap();
+    private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = Maps.newHashMap();
 
     /** Index 0 is tab menu, 1 is sidebar, and 2 is below name */
     private final ScoreObjective[] objectiveDisplaySlots = new ScoreObjective[19];
-    private final Map<String, ScorePlayerTeam> teams = Maps.<String, ScorePlayerTeam>newHashMap();
-    private final Map<String, ScorePlayerTeam> teamMemberships = Maps.<String, ScorePlayerTeam>newHashMap();
+    private final Map<String, ScorePlayerTeam> teams = Maps.newHashMap();
+    private final Map<String, ScorePlayerTeam> teamMemberships = Maps.newHashMap();
     private static String[] field_178823_g = null;
 
     /**
      * Returns a ScoreObjective for the objective name
-     *  
-     * @param name The objective name
      */
     public ScoreObjective getObjective(String name)
     {
-        return (ScoreObjective)this.scoreObjectives.get(name);
+        return this.scoreObjectives.get(name);
     }
 
     /**
      * Create and returns the score objective for the given name and ScoreCriteria
-     *  
-     * @param name The ScoreObjective Name
-     * @param criteria The ScoreObjective Criteria
      */
     public ScoreObjective addScoreObjective(String name, IScoreObjectiveCriteria criteria)
     {
         if (name.length() > 16)
         {
-            throw new IllegalArgumentException("The objective name \'" + name + "\' is too long!");
+            throw new IllegalArgumentException("The objective name '" + name + "' is too long!");
         }
         else
         {
@@ -50,16 +45,16 @@ public class Scoreboard
 
             if (scoreobjective != null)
             {
-                throw new IllegalArgumentException("An objective with the name \'" + name + "\' already exists!");
+                throw new IllegalArgumentException("An objective with the name '" + name + "' already exists!");
             }
             else
             {
                 scoreobjective = new ScoreObjective(this, name, criteria);
-                List<ScoreObjective> list = (List)this.scoreObjectiveCriterias.get(criteria);
+                List<ScoreObjective> list = this.scoreObjectiveCriterias.get(criteria);
 
                 if (list == null)
                 {
-                    list = Lists.<ScoreObjective>newArrayList();
+                    list = Lists.newArrayList();
                     this.scoreObjectiveCriterias.put(criteria, list);
                 }
 
@@ -73,18 +68,16 @@ public class Scoreboard
 
     public Collection<ScoreObjective> getObjectivesFromCriteria(IScoreObjectiveCriteria criteria)
     {
-        Collection<ScoreObjective> collection = (Collection)this.scoreObjectiveCriterias.get(criteria);
-        return collection == null ? Lists.<ScoreObjective>newArrayList() : Lists.newArrayList(collection);
+        Collection<ScoreObjective> collection = this.scoreObjectiveCriterias.get(criteria);
+        return collection == null ? Lists.newArrayList() : Lists.newArrayList(collection);
     }
 
     /**
      * Returns if the entity has the given ScoreObjective
-     *  
-     * @param name The Entity name
      */
     public boolean entityHasObjective(String name, ScoreObjective p_178819_2_)
     {
-        Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
+        Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.get(name);
 
         if (map == null)
         {
@@ -92,34 +85,31 @@ public class Scoreboard
         }
         else
         {
-            Score score = (Score)map.get(p_178819_2_);
+            Score score = map.get(p_178819_2_);
             return score != null;
         }
     }
 
     /**
      * Returns the value of the given objective for the given entity name
-     *  
-     * @param name The entity name
-     * @param objective The ScoreObjective to get the value from
      */
     public Score getValueFromObjective(String name, ScoreObjective objective)
     {
         if (name.length() > 40)
         {
-            throw new IllegalArgumentException("The player name \'" + name + "\' is too long!");
+            throw new IllegalArgumentException("The player name '" + name + "' is too long!");
         }
         else
         {
-            Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
+            Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.get(name);
 
             if (map == null)
             {
-                map = Maps.<ScoreObjective, Score>newHashMap();
+                map = Maps.newHashMap();
                 this.entitiesScoreObjectives.put(name, map);
             }
 
-            Score score = (Score)map.get(objective);
+            Score score = map.get(objective);
 
             if (score == null)
             {
@@ -133,11 +123,11 @@ public class Scoreboard
 
     public Collection<Score> getSortedScores(ScoreObjective objective)
     {
-        List<Score> list = Lists.<Score>newArrayList();
+        List<Score> list = Lists.newArrayList();
 
         for (Map<ScoreObjective, Score> map : this.entitiesScoreObjectives.values())
         {
-            Score score = (Score)map.get(objective);
+            Score score = map.get(objective);
 
             if (score != null)
             {
@@ -161,15 +151,12 @@ public class Scoreboard
 
     /**
      * Remove the given ScoreObjective for the given Entity name.
-     *  
-     * @param name The entity Name
-     * @param objective The ScoreObjective
      */
     public void removeObjectiveFromEntity(String name, ScoreObjective objective)
     {
         if (objective == null)
         {
-            Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.remove(name);
+            Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.remove(name);
 
             if (map != null)
             {
@@ -178,15 +165,15 @@ public class Scoreboard
         }
         else
         {
-            Map<ScoreObjective, Score> map2 = (Map)this.entitiesScoreObjectives.get(name);
+            Map<ScoreObjective, Score> map2 = this.entitiesScoreObjectives.get(name);
 
             if (map2 != null)
             {
-                Score score = (Score)map2.remove(objective);
+                Score score = map2.remove(objective);
 
                 if (map2.size() < 1)
                 {
-                    Map<ScoreObjective, Score> map1 = (Map)this.entitiesScoreObjectives.remove(name);
+                    Map<ScoreObjective, Score> map1 = this.entitiesScoreObjectives.remove(name);
 
                     if (map1 != null)
                     {
@@ -204,7 +191,7 @@ public class Scoreboard
     public Collection<Score> getScores()
     {
         Collection<Map<ScoreObjective, Score>> collection = this.entitiesScoreObjectives.values();
-        List<Score> list = Lists.<Score>newArrayList();
+        List<Score> list = Lists.newArrayList();
 
         for (Map<ScoreObjective, Score> map : collection)
         {
@@ -216,11 +203,11 @@ public class Scoreboard
 
     public Map<ScoreObjective, Score> getObjectivesForEntity(String name)
     {
-        Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
+        Map<ScoreObjective, Score> map = this.entitiesScoreObjectives.get(name);
 
         if (map == null)
         {
-            map = Maps.<ScoreObjective, Score>newHashMap();
+            map = Maps.newHashMap();
         }
 
         return map;
@@ -238,7 +225,7 @@ public class Scoreboard
             }
         }
 
-        List<ScoreObjective> list = (List)this.scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
+        List<ScoreObjective> list = this.scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
 
         if (list != null)
         {
@@ -250,7 +237,7 @@ public class Scoreboard
             map.remove(p_96519_1_);
         }
 
-        this.func_96533_c(p_96519_1_);
+        this.onScoreObjectiveRemoved(p_96519_1_);
     }
 
     /**
@@ -274,27 +261,27 @@ public class Scoreboard
      */
     public ScorePlayerTeam getTeam(String p_96508_1_)
     {
-        return (ScorePlayerTeam)this.teams.get(p_96508_1_);
+        return this.teams.get(p_96508_1_);
     }
 
-    public ScorePlayerTeam createTeam(String p_96527_1_)
+    public ScorePlayerTeam createTeam(String name)
     {
-        if (p_96527_1_.length() > 16)
+        if (name.length() > 16)
         {
-            throw new IllegalArgumentException("The team name \'" + p_96527_1_ + "\' is too long!");
+            throw new IllegalArgumentException("The team name '" + name + "' is too long!");
         }
         else
         {
-            ScorePlayerTeam scoreplayerteam = this.getTeam(p_96527_1_);
+            ScorePlayerTeam scoreplayerteam = this.getTeam(name);
 
             if (scoreplayerteam != null)
             {
-                throw new IllegalArgumentException("A team with the name \'" + p_96527_1_ + "\' already exists!");
+                throw new IllegalArgumentException("A team with the name '" + name + "' already exists!");
             }
             else
             {
-                scoreplayerteam = new ScorePlayerTeam(this, p_96527_1_);
-                this.teams.put(p_96527_1_, scoreplayerteam);
+                scoreplayerteam = new ScorePlayerTeam(this, name);
+                this.teams.put(name, scoreplayerteam);
                 this.broadcastTeamCreated(scoreplayerteam);
                 return scoreplayerteam;
             }
@@ -318,15 +305,12 @@ public class Scoreboard
 
     /**
      * Adds a player to the given team
-     *  
-     * @param player The name of the player to add
-     * @param newTeam The name of the team
      */
     public boolean addPlayerToTeam(String player, String newTeam)
     {
         if (player.length() > 40)
         {
-            throw new IllegalArgumentException("The player name \'" + player + "\' is too long!");
+            throw new IllegalArgumentException("The player name '" + player + "' is too long!");
         }
         else if (!this.teams.containsKey(newTeam))
         {
@@ -370,7 +354,7 @@ public class Scoreboard
     {
         if (this.getPlayersTeam(p_96512_1_) != p_96512_2_)
         {
-            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + p_96512_2_.getRegisteredName() + "\'.");
+            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team '" + p_96512_2_.getRegisteredName() + "'.");
         }
         else
         {
@@ -394,7 +378,7 @@ public class Scoreboard
      */
     public ScorePlayerTeam getPlayersTeam(String p_96509_1_)
     {
-        return (ScorePlayerTeam)this.teamMemberships.get(p_96509_1_);
+        return this.teamMemberships.get(p_96509_1_);
     }
 
     /**
@@ -404,11 +388,11 @@ public class Scoreboard
     {
     }
 
-    public void func_96532_b(ScoreObjective p_96532_1_)
+    public void onObjectiveDisplayNameChanged(ScoreObjective p_96532_1_)
     {
     }
 
-    public void func_96533_c(ScoreObjective p_96533_1_)
+    public void onScoreObjectiveRemoved(ScoreObjective p_96533_1_)
     {
     }
 

@@ -68,14 +68,21 @@ public class EnchantmentDamage extends Enchantment
     /**
      * Calculates the additional damage that will be dealt by an item with this enchantment. This alternative to
      * calcModifierDamage is sensitive to the targets EnumCreatureAttribute.
-     *  
-     * @param level The level of this specific enchantment.
-     * @param creatureType The EnumCreatureAttribute which represents the target entity. This can be used to have an
-     * effect only apply to a specific group of creatures such as Undead or Arthropods.
      */
     public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType)
     {
-        return this.damageType == 0 ? (float)level * 1.25F : (this.damageType == 1 && creatureType == EnumCreatureAttribute.UNDEAD ? (float)level * 2.5F : (this.damageType == 2 && creatureType == EnumCreatureAttribute.ARTHROPOD ? (float)level * 2.5F : 0.0F));
+        if (this.damageType == 0)
+        {
+            return (float)level * 1.25F;
+        }
+        else if (this.damageType == 1 && creatureType == EnumCreatureAttribute.UNDEAD)
+        {
+            return (float)level * 2.5F;
+        }
+        else
+        {
+            return this.damageType == 2 && creatureType == EnumCreatureAttribute.ARTHROPOD ? (float)level * 2.5F : 0.0F;
+        }
     }
 
     /**
@@ -88,8 +95,6 @@ public class EnchantmentDamage extends Enchantment
 
     /**
      * Determines if the enchantment passed can be applyied together with this enchantment.
-     *  
-     * @param ench A possible enchantment that may be applied along side this enchantment, depending on the results.
      */
     public boolean canApplyTogether(Enchantment ench)
     {
@@ -98,8 +103,6 @@ public class EnchantmentDamage extends Enchantment
 
     /**
      * Determines if this enchantment can be applied to a specific ItemStack.
-     *  
-     * @param stack The ItemStack that is attempting to become enchanted with with enchantment.
      */
     public boolean canApply(ItemStack stack)
     {
@@ -108,10 +111,6 @@ public class EnchantmentDamage extends Enchantment
 
     /**
      * Called whenever a mob is damaged with an item that has this enchantment on it.
-     *  
-     * @param user An instance of the entity which used the enchantment. This is normally an EntityPlayer.
-     * @param target An instance of the damaged entity.
-     * @param level The level of the enchantment used.
      */
     public void onEntityDamaged(EntityLivingBase user, Entity target, int level)
     {

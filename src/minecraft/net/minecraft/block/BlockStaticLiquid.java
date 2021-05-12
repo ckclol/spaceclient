@@ -43,7 +43,7 @@ public class BlockStaticLiquid extends BlockLiquid
     {
         if (this.blockMaterial == Material.lava)
         {
-            if (worldIn.getGameRules().getGameRuleBooleanValue("doFireTick"))
+            if (worldIn.getGameRules().getBoolean("doFireTick"))
             {
                 int i = rand.nextInt(3);
 

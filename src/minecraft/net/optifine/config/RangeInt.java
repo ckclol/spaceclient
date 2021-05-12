@@ -13,7 +13,14 @@ public class RangeInt
 
     public boolean isInRange(int val)
     {
-        return val < this.min ? false : val <= this.max;
+        if (val < this.min)
+        {
+            return false;
+        }
+        else
+        {
+            return val <= this.max;
+        }
     }
 
     public int getMin()

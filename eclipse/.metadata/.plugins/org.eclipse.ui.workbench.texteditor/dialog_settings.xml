@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="ResourceLocation"/>
+		<item key="selection" value="runTick"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="resourcelocation"/>
-			<item value="bg.png"/>
-			<item value="Resource"/>
-			<item value="(Row.si)"/>
-			<item value="(Row,si)"/>
-			<item value="(Row.s),"/>
-			<item value="(Row.t),"/>
-			<item value="(Row.fo),"/>
-			<item value="(Row.f),"/>
-			<item value="(Row.fi),"/>
-			<item value=";"/>
-			<item value=","/>
-			<item value="i"/>
-			<item value="o"/>
-			<item value="t"/>
+			<item value="runtick"/>
+			<item value="run"/>
+			<item value="call"/>
+			<item value="ClientTickEvent"/>
+			<item value="tick"/>
+			<item value="ClientMain"/>
+			<item value="registerrender"/>
+			<item value="Irender"/>
+			<item value="ScreenPosition"/>
+			<item value="renderer"/>
+			<item value="renderers"/>
+			<item value="IRenderer"/>
+			<item value="makeEn"/>
+			<item value="Scale Fact"/>
+			<item value="pendingConnection"/>
 		</list>
 		<list key="replacehistory">
+			<item value="IRender"/>
+			<item value="ScreenPos"/>
+			<item value="render"/>
+			<item value="renders"/>
+			<item value="iRender"/>
+			<item value="password"/>
+			<item value="email"/>
 			<item value="="/>
 			<item value=" "/>
 			<item value=" ="/>
@@ -33,8 +40,8 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item key="DIALOG_X_ORIGIN" value="1478"/>
 		<item key="DIALOG_Y_ORIGIN" value="468"/>
-		<item key="DIALOG_WIDTH" value="294"/>
-		<item key="DIALOG_HEIGHT" value="408"/>
-		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+		<item key="DIALOG_WIDTH" value="327"/>
+		<item key="DIALOG_HEIGHT" value="436"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-30|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 	</section>
 </section>

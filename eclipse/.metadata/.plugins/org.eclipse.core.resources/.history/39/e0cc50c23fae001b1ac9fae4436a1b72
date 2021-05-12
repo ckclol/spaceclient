@@ -1,0 +1,13 @@
+package space.util;
+
+import space.hud.IRender;
+import space.hud.ScreenPos;
+
+public abstract class ModDraggable extends Mod implements IRender {
+	
+	public final int getLineOffset(ScreenPosition pos, int ln) {
+		return pos.getAbsoluteY() + getLineOffset(ln);
+	}
+	
+	
+}

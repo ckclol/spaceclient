@@ -63,7 +63,7 @@ public class MapColor
         }
     }
 
-    public int func_151643_b(int p_151643_1_)
+    public int getMapColor(int p_151643_1_)
     {
         int i = 220;
 
