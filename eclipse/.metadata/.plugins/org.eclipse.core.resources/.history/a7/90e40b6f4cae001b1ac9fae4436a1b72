@@ -1,5 +1,0 @@
-package space.event.impl;
-
-public class ClientTickEvent extends Event {
-
-}

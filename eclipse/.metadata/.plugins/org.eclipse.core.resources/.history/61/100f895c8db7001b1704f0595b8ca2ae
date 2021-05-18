@@ -1,0 +1,21 @@
+package space.purchases;
+
+import com.paypal.core.PayPalEnvironment;
+import com.paypal.core.PayPalHttpClient;
+
+import io.netty.handler.codec.base64.Base64Decoder;
+
+public class PayPalMain {
+	
+	final static Base64Decoder decoder = new Base64Decoder();
+	
+	
+	
+	static String id = decoder.decodeBuffer(clientId);
+    // Creating a sandbox environment
+    private static PayPalEnvironment environment = new PayPalEnvironment.Sandbox(clientId, secret);
+    
+    // Creating a client for the environment
+    static PayPalHttpClient client = new PayPalHttpClient(environment);
+    Pay
+}

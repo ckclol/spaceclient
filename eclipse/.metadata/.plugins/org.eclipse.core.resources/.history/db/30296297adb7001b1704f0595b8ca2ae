@@ -1,0 +1,13 @@
+package space.friend;
+
+public enum Status {
+	
+	PREMIUM,
+	GONE,
+	AWAY,
+	ONLINE,
+	HIDDEN,
+	PLAYING,
+	
+	
+}

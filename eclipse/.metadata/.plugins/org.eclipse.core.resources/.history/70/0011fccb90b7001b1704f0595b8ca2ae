@@ -1,0 +1,7 @@
+package space.mod;
+
+import space.util.ModDraggable;
+
+public class ModSeizure extends ModDraggable {
+
+}

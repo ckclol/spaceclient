@@ -52,5 +52,51 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jars/libraries/com/github/discord-rpc.jar"/>
+	<classpathentry kind="lib" path="jars/libraries/com/paypal/rest-api-sdk-1.14.0.jar"/>
+	<classpathentry kind="lib" path="jars/libraries/com/paypal/slf4j-api-2.0.0-alpha1.jar"/>
+	<classpathentry kind="lib" path="jars/libraries/com/paypal/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="jars/libraries/com/paypal/slf4j-api-1.7.21.jar"/>
+	<classpathentry kind="lib" path="jars/libraries/com/paypal/payouts-sdk-1.1.0.jar"/>
+	<classpathentry kind="lib" path="jars/libraries/com/paypal/paypalhttp-1.0.0.jar"/>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx.base.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx.controls.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx.fxml.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx.graphics.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx.media.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx.swing.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx.web.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/libraries/com/javafx/javafx-swt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Client/jars/libraries/com/javafx/natives"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

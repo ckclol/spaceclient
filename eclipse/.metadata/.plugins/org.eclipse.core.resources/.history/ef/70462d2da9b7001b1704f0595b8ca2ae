@@ -1,0 +1,9 @@
+package space.util;
+
+public class IP {
+	@FunctionalInterface
+	interface Interpolator {
+
+	    double[] interpolate(double from, double to, int max);
+	}
+}

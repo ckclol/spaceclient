@@ -1,5 +1,0 @@
-package space.util;
-
-public abstract class ModDraggable extends Mod implements IRender{
-	
-}

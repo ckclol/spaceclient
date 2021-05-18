@@ -1,8 +1,0 @@
-package space.hud;
-
-public interface IRender extends IRenderConfig {
-	
-	 int getWidth();
-	 
-	
-}

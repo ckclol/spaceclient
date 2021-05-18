@@ -1,0 +1,5 @@
+package space.mod;
+
+public class ModSeizure extends ModDraggable{
+
+}

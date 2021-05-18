@@ -1,0 +1,19 @@
+package space.var;
+
+import java.awt.Color;
+
+public class Varibles {
+	
+	int f = 255;
+	int h = 127;
+	int n = 0;
+	
+	Color r = new Color(f, n, n);
+	Color o = new Color(f, h, n);
+	Color y = new Color(f, f, );
+	Color g = new Color();
+	Color b = new Color();
+	Color v = new Color();
+	Color p = new Color();
+	
+}

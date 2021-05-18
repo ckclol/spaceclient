@@ -1,0 +1,5 @@
+package space.purchases.orders;
+
+public class ExampleOrder {
+	
+}

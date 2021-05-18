@@ -1,0 +1,15 @@
+package space.var;
+
+import java.util.Color;
+
+public class Varibles {
+	
+	Color r = Color(255, 0, 0);
+	Color o = Color(255, 127, 0);
+	Color y = Color();
+	Color g = Color();
+	Color b = Color();
+	Color v = Color();
+	Color p = Color();
+	
+}

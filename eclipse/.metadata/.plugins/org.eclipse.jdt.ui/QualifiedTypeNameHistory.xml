@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="net.minecraft.command.CommandBase"/>
-    <fullyQualifiedTypeName name="client.discord.DiscordRP"/>
-    <fullyQualifiedTypeName name="client.event.events.ClientTickEvent"/>
-    <fullyQualifiedTypeName name="client.cmd.Command"/>
-    <fullyQualifiedTypeName name="client.cmd.CommandManager"/>
-    <fullyQualifiedTypeName name="client.ClientMain"/>
-    <fullyQualifiedTypeName name="client.event.EventManager"/>
-    <fullyQualifiedTypeName name="client.util.FileManager"/>
-    <fullyQualifiedTypeName name="java.io.File"/>
-    <fullyQualifiedTypeName name="com.google.gson.annotations.Expose"/>
-    <fullyQualifiedTypeName name="client.mod.ScreenPosition"/>
-    <fullyQualifiedTypeName name="client.mod.IRenderer"/>
-    <fullyQualifiedTypeName name="client.mod.hud.HUDManager"/>
-    <fullyQualifiedTypeName name="client.mod.ModDraggable"/>
-    <fullyQualifiedTypeName name="java.util.logging.Level"/>
-    <fullyQualifiedTypeName name="org.apache.logging.log4j.core.config.plugins.ResolverUtil.Test"/>
-    <fullyQualifiedTypeName name="net.minecraft.util.Matrix4f"/>
-    <fullyQualifiedTypeName name="net.minecraft.client.renderer.GLAllocation"/>
     <fullyQualifiedTypeName name="net.minecraft.util.ResourceLocation"/>
     <fullyQualifiedTypeName name="net.minecraft.client.gui.Gui"/>
     <fullyQualifiedTypeName name="net.minecraft.client.gui.GuiMainMenu"/>
-    <fullyQualifiedTypeName name="net.minecraft.client.gui.GuiScreen"/>
     <fullyQualifiedTypeName name="space.mod.ModDraggable"/>
     <fullyQualifiedTypeName name="space.discord.DiscordRP"/>
     <fullyQualifiedTypeName name="net.minecraft.util.Session"/>
@@ -38,12 +19,10 @@
     <fullyQualifiedTypeName name="java.util.Collection"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="net.java.games.input.Keyboard"/>
-    <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="net.minecraft.client.gui.ScaledResolution"/>
     <fullyQualifiedTypeName name="net.minecraft.client.gui.FontRenderer"/>
     <fullyQualifiedTypeName name="space.event.EventManager"/>
     <fullyQualifiedTypeName name="space.hud.IRender"/>
-    <fullyQualifiedTypeName name="space.util.ModDraggable"/>
     <fullyQualifiedTypeName name="space.hud.ScreenPos"/>
     <fullyQualifiedTypeName name="space.hud.HUDManager"/>
     <fullyQualifiedTypeName name="space.mod.ModInstances"/>
@@ -60,4 +39,25 @@
     <fullyQualifiedTypeName name="net.arikia.dev.drpc.callbacks.ReadyCallback"/>
     <fullyQualifiedTypeName name="space.event.ClientTickEvent"/>
     <fullyQualifiedTypeName name="net.optifine.player.CapeImageBuffer"/>
+    <fullyQualifiedTypeName name="com.paypal.core.PayPalEnvironment"/>
+    <fullyQualifiedTypeName name="com.paypal.core.PayPalHttpClient"/>
+    <fullyQualifiedTypeName name="java.util.Base64"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Order"/>
+    <fullyQualifiedTypeName name="com.paypal.http.HttpResponse"/>
+    <fullyQualifiedTypeName name="com.paypal.http.exceptions.HttpException"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="space.purchases.PayPal"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="space.util.ModDraggable"/>
+    <fullyQualifiedTypeName name="com.google.common.base.Preconditions"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="org.apache.logging.log4j.core.lookup.Interpolator"/>
+    <fullyQualifiedTypeName name="javafx.animation.Interpolator"/>
+    <fullyQualifiedTypeName name="net.minecraft.client.renderer.chunk.ChunkCompileTaskGenerator.Status"/>
+    <fullyQualifiedTypeName name="java.beans.ConstructorProperties"/>
+    <fullyQualifiedTypeName name="java.awt.Color"/>
+    <fullyQualifiedTypeName name="net.minecraft.util.EnumChatFormatting"/>
+    <fullyQualifiedTypeName name="java.util.Objects"/>
+    <fullyQualifiedTypeName name="net.minecraft.client.gui.GuiScreen"/>
 </qualifiedTypeNameHistroy>
